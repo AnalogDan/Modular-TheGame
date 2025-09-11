@@ -6,7 +6,7 @@ local FALL_SPEED = 100
 
 function PlayerJumpingState:init(player)
     self.player = player
-    self.jumpSpeed = -80
+    self.jumpSpeed = -110
 end
 
 function PlayerJumpingState:enter()

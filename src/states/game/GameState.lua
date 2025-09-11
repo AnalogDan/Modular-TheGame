@@ -9,14 +9,40 @@ function GameState:init()
         self.tileMap[y] = {}
         for x = 1, mapWidth do
             if y >= 7 then
-                self.tileMap[y][x] = 1  -- solid
+                self.tileMap[y][x] = {
+                    type = 'ground',
+                    solid = true,
+                    texture = gTextures['testTile']
+                }
             else
-                self.tileMap[y][x] = 0  -- empty
+                self.tileMap[y][x] = 0
             end
         end
     end
 
-    self.player = Player(100, 50, self.tileMap)
+    self.tileMap[7][16] = {
+        type = 'goal',
+        solid = true,
+        texture = gTextures['testGoal']
+    }
+
+    --Draw falling side movement test
+    for y = 1, 5 do
+        self.tileMap[y][6] = {
+            type = 'ground',
+            solid = true,
+            texture = gTextures['testTile']
+        }
+        self.tileMap[y][8] = {
+            type = 'ground',
+            solid = true,
+            texture = gTextures['testTile']
+        }
+    end
+    
+
+
+    self.player = Player(100, 0, self.tileMap)
 end
 
 function GameState:update(dt)
@@ -28,9 +54,10 @@ function GameState:render()
     
     for y = 1, #self.tileMap do
         for x = 1, #self.tileMap[y] do
-            if self.tileMap[y][x] == 1 then
+            local tile = self.tileMap[y][x]
+            if tile ~= 0 then
                 love.graphics.draw(
-                    gTextures['testTile'],
+                    tile.texture,
                     (x - 1) * TILE_SIZE,
                     (y - 1) * TILE_SIZE
                 )

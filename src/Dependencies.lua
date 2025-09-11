@@ -30,6 +30,7 @@ gSounds = {
 
 gTextures = {
     ['testTile'] = love.graphics.newImage('graphics/test-tile.png'),
+    ['testGoal'] = love.graphics.newImage('graphics/test-goal.png'),
     ['testPlayer'] = love.graphics.newImage('graphics/test-player.png')
 
 }
