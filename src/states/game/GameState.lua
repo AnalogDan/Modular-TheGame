@@ -26,14 +26,14 @@ function GameState:init()
         texture = gTextures['testGoal']
     }
 
-    --Draw falling side movement test
-    for y = 1, 5 do
-        self.tileMap[y][6] = {
+    --Draw walking test
+    for x = 1, 5 do
+        self.tileMap[6][6] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
         }
-        self.tileMap[y][8] = {
+        self.tileMap[6][8] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
@@ -42,7 +42,7 @@ function GameState:init()
     
 
 
-    self.player = Player(100, 0, self.tileMap)
+    self.player = Player(100, 50, self.tileMap)
 end
 
 function GameState:update(dt)

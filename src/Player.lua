@@ -14,6 +14,10 @@ function Player:init(x, y, tileMap)
     self.stateMachine:change('falling')
 end
 
+function Player:reachGoal()
+    gStateMachine:change('game')
+end
+
 function Player:update(dt)
     self.stateMachine:update(dt)
     -- update position based on velocity
