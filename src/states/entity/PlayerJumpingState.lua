@@ -7,6 +7,7 @@ local FALL_SPEED = 100
 function PlayerJumpingState:init(player)
     self.player = player
     self.jumpSpeed = -70
+    self.player.currentTexture = gTextures['testPlayer']
 end
 
 function PlayerJumpingState:enter()
@@ -62,6 +63,7 @@ function PlayerJumpingState:update(dt)
         (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
             self.player.dx = 0
             self.player.x = (topLeftCol) * TILE_SIZE
+            self.player.stateMachine:change('sliding', 'left')
         end
     elseif love.keyboard.isDown('right') then
         self.player.dx = WALK_SPEED
@@ -72,6 +74,7 @@ function PlayerJumpingState:update(dt)
         (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
             self.player.dx = 0
             self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
+            self.player.stateMachine:change('sliding', 'right')
         end
     else
         self.player.dx = 0

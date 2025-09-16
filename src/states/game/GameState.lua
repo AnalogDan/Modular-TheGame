@@ -26,14 +26,14 @@ function GameState:init()
         texture = gTextures['testGoal']
     }
 
-    --Draw walking test
-    for x = 1, 5 do
-        self.tileMap[6][6] = {
+    --Draw sliding test
+    for y = 1, 5 do
+        self.tileMap[y][5] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
         }
-        self.tileMap[6][8] = {
+        self.tileMap[y + 1][8] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']

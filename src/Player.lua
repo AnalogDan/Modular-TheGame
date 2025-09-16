@@ -8,7 +8,9 @@ function Player:init(x, y, tileMap)
         ['idle'] = function() return PlayerIdleState(self) end,
         ['walking'] = function() return PlayerWalkingState(self) end,
         ['falling'] = function() return PlayerFallingState(self) end,
-        ['jumping'] = function() return PlayerJumpingState(self) end
+        ['jumping'] = function() return PlayerJumpingState(self) end,
+        ['sliding'] = function() return PlayerSlidingState(self) end,
+        ['wallJump'] = function() return PlayerWallJumpState(self) end
     }
 
     self.stateMachine:change('falling')
@@ -25,5 +27,6 @@ function Player:update(dt)
 end
 
 function Player:render()
-    Entity.render(self, gTextures['testPlayer'])
+    local tex = self.currentTexture or gTextures['testPlayer']
+    Entity.render(self, tex)
 end

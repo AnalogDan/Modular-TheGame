@@ -15,7 +15,8 @@ require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
 require 'src/states/entity/PlayerWalkingState'
 require 'src/states/entity/PlayerFallingState'
-
+require 'src/states/entity/PlayerWallJumpState'
+require 'src/states/entity/PlayerSlidingState'
 
 gFonts = {
     ['textBig'] = love.graphics.newFont('fonts/text.ttf', 45),
@@ -31,7 +32,9 @@ gSounds = {
 gTextures = {
     ['testTile'] = love.graphics.newImage('graphics/test-tile.png'),
     ['testGoal'] = love.graphics.newImage('graphics/test-goal.png'),
-    ['testPlayer'] = love.graphics.newImage('graphics/test-player.png')
+    ['testPlayer'] = love.graphics.newImage('graphics/test-player.png'),
+    ['testSliding'] = love.graphics.newImage('graphics/test-sliding.png'),
+    ['testSlidingLeft'] = love.graphics.newImage('graphics/test-sliding-left.png'),
 
 }
 

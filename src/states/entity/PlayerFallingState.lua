@@ -44,6 +44,7 @@ function PlayerFallingState:update(dt)
         (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
             self.player.dx = 0
             self.player.x = (topLeftCol) * TILE_SIZE
+            self.player.stateMachine:change('sliding', 'left')
         end
 
     elseif love.keyboard.isDown('right') then
@@ -55,6 +56,7 @@ function PlayerFallingState:update(dt)
         (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
             self.player.dx = 0
             self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
+            self.player.stateMachine:change('sliding', 'right')
         end
 
     else

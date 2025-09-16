@@ -1,16 +1,51 @@
 PlayerSlidingState = Class{__includes = BaseState}
 
+local SLIDE_SPEED = 20
+
 function PlayerSlidingState:init(player)
     self.player = player
 end
 
-function PlayerSlidingState:enter()
-    self.player.dy = self.jumpSpeed
+function PlayerSlidingState:enter(direction)
+    self.direction = direction
+    if self.direction == 'left' then
+        self.player.currentTexture = gTextures['testSlidingLeft']
+    else
+        self.player.currentTexture = gTextures['testSliding']
+    end
+    self.player.dy = SLIDE_SPEED
 end
 
 function PlayerSlidingState:update(dt)
+    if love.keyboard.wasPressed('space') then
+        self.player.stateMachine:change('jumping')
+    end
 
+    -------------Collision wiith floor
+    local bottomLeftX2  = self.player.x
+    local bottomRightX2 = self.player.x + self.player.width - 1
+
+    local bottomY2 = self.player.y + self.player.height + 1
+
+    local bottomLeftCol2  = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
+    local bottomRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
+
+    local bottomLeftTile2  = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomLeftCol2]
+    local bottomRightTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomRightCol2]
+
+    if (bottomLeftTile2  and bottomLeftTile2  ~= 0 and bottomLeftTile2.solid) or
+    (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
+        self.player.dy = 0
+        self.player.y = (bottomRow2 - 1) * TILE_SIZE - self.player.height
+        self.player.currentTexture = gTextures['testPlayer']
+        self.player.stateMachine:change('idle')
+    end
+
+    ----------------When a wall ends 
+    local topLeftX = self.player.x
 end
 
 function PlayerSlidingState:render()
+    
 end
