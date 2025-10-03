@@ -35,6 +35,8 @@ gTextures = {
     ['testPlayer'] = love.graphics.newImage('graphics/test-player.png'),
     ['testSliding'] = love.graphics.newImage('graphics/test-sliding.png'),
     ['testSlidingLeft'] = love.graphics.newImage('graphics/test-sliding-left.png'),
+    ['testWJumpLeft'] = love.graphics.newImage('graphics/test-wJump-right.png'),
+    ['testWJumpRight'] = love.graphics.newImage('graphics/test-wJump-left.png')
 
 }
 

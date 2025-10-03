@@ -29,4 +29,5 @@ end
 function Player:render()
     local tex = self.currentTexture or gTextures['testPlayer']
     Entity.render(self, tex)
+    self.stateMachine.current:render()
 end

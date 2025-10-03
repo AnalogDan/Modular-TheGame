@@ -6,6 +6,7 @@ local WALK_SPEED = 60
 function PlayerFallingState:init(player)
     self.player = player
     self.gravity = 20 
+    self.player.currentTexture = gTextures['testPlayer']
 end
 
 function PlayerFallingState:enter()
@@ -35,33 +36,33 @@ function PlayerFallingState:update(dt)
     local topRow = math.floor(topLeftY / TILE_SIZE) + 1
     local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
 
-    if love.keyboard.isDown('left') then
-        self.player.dx = -WALK_SPEED
-        local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
-        local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
 
-        if (topLeftTile ~= 0 and topLeftTile and topLeftTile.solid) or
-        (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
+    --Move to sides and initiate sliding
+        if love.keyboard.isDown('left') then
+            self.player.dx = -WALK_SPEED
+            local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
+            local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
+
+            if (topLeftTile ~= 0 and topLeftTile and topLeftTile.solid) or
+            (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
+                self.player.dx = 0
+                self.player.x = (topLeftCol) * TILE_SIZE
+                self.player.stateMachine:change('sliding', 'left')
+            end
+        elseif love.keyboard.isDown('right') then
+            self.player.dx = WALK_SPEED
+            local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
+            local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
+
+            if (topRightTile ~= 0 and topRightTile and topRightTile.solid) or
+            (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
+                self.player.dx = 0
+                self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
+                self.player.stateMachine:change('sliding', 'right')
+            end
+        else
             self.player.dx = 0
-            self.player.x = (topLeftCol) * TILE_SIZE
-            self.player.stateMachine:change('sliding', 'left')
         end
-
-    elseif love.keyboard.isDown('right') then
-        self.player.dx = WALK_SPEED
-        local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
-        local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
-
-        if (topRightTile ~= 0 and topRightTile and topRightTile.solid) or
-        (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
-            self.player.dx = 0
-            self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
-            self.player.stateMachine:change('sliding', 'right')
-        end
-
-    else
-        self.player.dx = 0
-    end
 
 
     -----------Check bottom collision

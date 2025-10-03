@@ -43,9 +43,29 @@ function PlayerSlidingState:update(dt)
     end
 
     ----------------When a wall ends 
-    local topLeftX = self.player.x
+    local leftX = math.floor((self.player.x - 1) / TILE_SIZE) + 1
+    local rightX = math.floor((self.player.x + PLAYER_SIZE) / TILE_SIZE) + 1
+    local middleY = math.floor((self.player.y + 5) / TILE_SIZE) + 1
+    local middleRightTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][rightX]
+    local middleLeftTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][leftX]
+    self.debug1 = middleRightTile
+    if self.direction == 'left' and (middleLeftTile == 0) then 
+        self.player.stateMachine:change('falling')
+    elseif self.direction == 'right' and (middleRightTile == 0) then 
+        self.player.stateMachine:change('falling')
+    end
+
+    ----------------Separating from wall
+    if self.direction == 'left' and love.keyboard.isDown('right') then 
+        self.player.stateMachine:change('falling')
+    elseif self.direction == 'right' and love.keyboard.isDown('left') then
+        self.player.stateMachine:change('falling')
+    end
+
 end
 
 function PlayerSlidingState:render()
-    
+    love.graphics.print("MiddleLeftTile" .. tostring(self.debug1), 10, 20)
+    -- love.graphics.print("dfgdfg "..tostring(self.debug2), 10, 30)
+    -- love.graphics.print(tostring(self.debug3), 10, 40)
 end

@@ -33,7 +33,7 @@ function GameState:init()
             solid = true,
             texture = gTextures['testTile']
         }
-        self.tileMap[y + 1][8] = {
+        self.tileMap[y][8] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
