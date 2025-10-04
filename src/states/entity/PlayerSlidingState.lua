@@ -17,9 +17,6 @@ function PlayerSlidingState:enter(direction)
 end
 
 function PlayerSlidingState:update(dt)
-    if love.keyboard.wasPressed('space') then
-        self.player.stateMachine:change('jumping')
-    end
 
     -------------Collision wiith floor
     local bottomLeftX2  = self.player.x
@@ -48,7 +45,6 @@ function PlayerSlidingState:update(dt)
     local middleY = math.floor((self.player.y + 5) / TILE_SIZE) + 1
     local middleRightTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][rightX]
     local middleLeftTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][leftX]
-    self.debug1 = middleRightTile
     if self.direction == 'left' and (middleLeftTile == 0) then 
         self.player.stateMachine:change('falling')
     elseif self.direction == 'right' and (middleRightTile == 0) then 
@@ -62,10 +58,14 @@ function PlayerSlidingState:update(dt)
         self.player.stateMachine:change('falling')
     end
 
+    ----------------Jumping
+    if self.direction == 'left' and love.keyboard.wasPressed('space') then
+        self.player.stateMachine:change('wallJump', 'left')
+    elseif self.direction == 'right' and love.keyboard.wasPressed('space') then
+        self.player.stateMachine:change('wallJump', 'right')
+    end
+
 end
 
 function PlayerSlidingState:render()
-    love.graphics.print("MiddleLeftTile" .. tostring(self.debug1), 10, 20)
-    -- love.graphics.print("dfgdfg "..tostring(self.debug2), 10, 30)
-    -- love.graphics.print(tostring(self.debug3), 10, 40)
 end

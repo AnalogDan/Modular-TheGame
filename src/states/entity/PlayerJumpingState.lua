@@ -1,12 +1,8 @@
 PlayerJumpingState = Class{__includes = BaseState}
 
-local WALK_SPEED = 60
-local FALL_SPEED = 100
-
-
 function PlayerJumpingState:init(player)
     self.player = player
-    self.jumpSpeed = -70
+    self.jumpSpeed = -80
     self.player.currentTexture = gTextures['testPlayer']
 end
 
@@ -15,27 +11,14 @@ function PlayerJumpingState:enter()
 end
 
 function PlayerJumpingState:update(dt)
-    if self.player.dy < 0 then
-        self.player.dy = self.player.dy + FALL_SPEED * dt
+    if love.keyboard.isDown('space') and self.player.dy < 0 then
+        self.player.dy = self.player.dy + GRAVITY * dt
     else
+        self.player.dy = 0
         self.player.stateMachine:change('falling')
     end
 
-    local topLeftX = self.player.x - 1
-    local topLeftY = self.player.y
-    local topRightX = self.player.x + self.player.width + 1
-    local bottomLeftX = self.player.x - 1
-    local bottomLeftY = self.player.y + self.player.height
-    local bottomRightX = self.player.x + self.player.width + 1
-
-    local topLeftCol = math.floor(topLeftX / TILE_SIZE) + 1
-    local bottomLeftCol = math.floor(bottomLeftX / TILE_SIZE) + 1
-    local topRightCol = math.floor(topRightX / TILE_SIZE) + 1
-    local bottomRightCol = math.floor(bottomRightX / TILE_SIZE) + 1
-    
-    local topRow = math.floor(topLeftY / TILE_SIZE) + 1
-    local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
-    ---------------------- check head collisions
+    ---------------------- head collision
     local topLeftX2 = self.player.x
     local topLeftY2 = self.player.y - 1
     local topRightX2 = self.player.x + self.player.width - 1
@@ -53,7 +36,23 @@ function PlayerJumpingState:update(dt)
         self.player.y = topRow2 * TILE_SIZE 
     end
 
-    
+
+    ---------------------- sides collision
+    local topLeftX = self.player.x - 1
+    local topLeftY = self.player.y
+    local topRightX = self.player.x + self.player.width + 1
+    local bottomLeftX = self.player.x - 1
+    local bottomLeftY = self.player.y + self.player.height
+    local bottomRightX = self.player.x + self.player.width + 1
+
+    local topLeftCol = math.floor(topLeftX / TILE_SIZE) + 1
+    local bottomLeftCol = math.floor(bottomLeftX / TILE_SIZE) + 1
+    local topRightCol = math.floor(topRightX / TILE_SIZE) + 1
+    local bottomRightCol = math.floor(bottomRightX / TILE_SIZE) + 1
+
+    local topRow = math.floor(topLeftY / TILE_SIZE) + 1
+    local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
+
     if love.keyboard.isDown('left') then
         self.player.dx = -WALK_SPEED
         local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
@@ -65,6 +64,7 @@ function PlayerJumpingState:update(dt)
             self.player.x = (topLeftCol) * TILE_SIZE
             self.player.stateMachine:change('sliding', 'left')
         end
+
     elseif love.keyboard.isDown('right') then
         self.player.dx = WALK_SPEED
         local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]

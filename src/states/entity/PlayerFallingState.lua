@@ -1,8 +1,5 @@
 PlayerFallingState = Class{__includes = BaseState}
 
-local FALL_SPEED = 40 
-local WALK_SPEED = 60
-
 function PlayerFallingState:init(player)
     self.player = player
     self.gravity = 20 
@@ -19,7 +16,12 @@ local function checkGoalTile(tile)
 end
 
 function PlayerFallingState:update(dt)
-    self.player.dy = FALL_SPEED
+    
+    if self.player.dy < FALL_SPEED then 
+        self.player.dy = self.player.dy + GRAVITY * dt
+    else
+        self.player.dy = FALL_SPEED
+    end
 
     local topLeftX = self.player.x - 1
     local topLeftY = self.player.y

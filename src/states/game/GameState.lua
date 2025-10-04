@@ -42,7 +42,7 @@ function GameState:init()
     
 
 
-    self.player = Player(100, 50, self.tileMap)
+    self.player = Player(100, 10, self.tileMap)
 end
 
 function GameState:update(dt)
