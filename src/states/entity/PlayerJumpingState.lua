@@ -11,7 +11,7 @@ function PlayerJumpingState:enter()
 end
 
 function PlayerJumpingState:update(dt)
-    if love.keyboard.isDown('space') and self.player.dy < 0 then
+    if love.keyboard.isDown('space') and self.player.dy < 10 then
         self.player.dy = self.player.dy + GRAVITY * dt
     else
         self.player.dy = 0
@@ -33,7 +33,8 @@ function PlayerJumpingState:update(dt)
     if (topLeftTile2 ~= 0 and topLeftTile2 and topLeftTile2.solid) or
     (topRightTile2 ~= 0 and topRightTile2 and topRightTile2.solid) then
         self.player.dy = 0        
-        self.player.y = topRow2 * TILE_SIZE 
+        self.player.y = (topRow2 * TILE_SIZE) 
+        self.player.stateMachine:change('falling')
     end
 
 

@@ -28,12 +28,12 @@ function GameState:init()
 
     --Draw sliding test
     for y = 1, 5 do
-        self.tileMap[y][5] = {
+        self.tileMap[y][7] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
         }
-        self.tileMap[y][8] = {
+        self.tileMap[y][10] = {
             type = 'ground',
             solid = true,
             texture = gTextures['testTile']
@@ -42,7 +42,7 @@ function GameState:init()
     
 
 
-    self.player = Player(100, 10, self.tileMap)
+    self.player = Player(120, 10, self.tileMap)
 end
 
 function GameState:update(dt)

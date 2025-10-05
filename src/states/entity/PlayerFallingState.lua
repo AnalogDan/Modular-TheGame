@@ -9,6 +9,7 @@ end
 function PlayerFallingState:enter()
     -- Stop horizontal movement unless keys are pressed
     self.player.dx = 0
+    self.player.dy = 20
 end
 
 local function checkGoalTile(tile)

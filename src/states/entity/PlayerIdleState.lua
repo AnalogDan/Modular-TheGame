@@ -6,6 +6,7 @@ end
 
 function PlayerIdleState:enter()
     self.player.dx = 0 
+    self.player.currentTexture = gTextures['testPlayer']
 end
 
 function PlayerIdleState:update(dt)
