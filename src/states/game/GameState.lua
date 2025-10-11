@@ -27,12 +27,12 @@ function GameState:init()
     }
 
     --Draw sliding test
-    for y = 1, 5 do
-        self.tileMap[y][7] = {
-            type = 'ground',
-            solid = true,
-            texture = gTextures['testTile']
-        }
+    for y = 1, 4 do
+        -- self.tileMap[y][7] = {
+        --     type = 'ground',
+        --     solid = true,
+        --     texture = gTextures['testTile']
+        -- }
         self.tileMap[y][10] = {
             type = 'ground',
             solid = true,
@@ -41,12 +41,20 @@ function GameState:init()
     end
     
 
-
+    
     self.player = Player(120, 10, self.tileMap)
+    self.enemies = {
+        Enemy(100, 80, self.player, "horizontal"),
+        Enemy(120, 80, self.player, "vertical"),
+        Enemy(140, 80, self.player, "still")
+    }
 end
 
 function GameState:update(dt)
     self.player:update(dt)
+    for _, enemy in ipairs(self.enemies) do
+        enemy:update(dt)
+    end
 end
 
 function GameState:render()
@@ -65,5 +73,8 @@ function GameState:render()
         end
     end
     self.player:render()
+    for _, enemy in ipairs(self.enemies) do
+        enemy:render()
+    end
 end
 

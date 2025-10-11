@@ -129,5 +129,4 @@ function PlayerWallJumpState:update(dt)
 end
 
 function PlayerWallJumpState:render()
-    love.graphics.print("Xforce: " .. tostring(self.direction), 10, 20)
 end

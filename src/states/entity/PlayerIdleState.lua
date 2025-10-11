@@ -6,7 +6,7 @@ end
 
 function PlayerIdleState:enter()
     self.player.dx = 0 
-    self.player.currentTexture = gTextures['testPlayer']
+    self.player.currentAnimation = self.player.idleAnimation
 end
 
 function PlayerIdleState:update(dt)
@@ -20,4 +20,5 @@ function PlayerIdleState:update(dt)
 end
 
 function PlayerIdleState:render()
+   
 end
