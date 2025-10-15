@@ -2,6 +2,12 @@ Enemy = Class{__includes = BaseState}
 Enemy = Class{__includes = Entity}
 
 function Enemy:init(x, y, player, direction)
+    self.enemyAnimation = Animation(gFrames['enemySheet'], 0.1)
+    self.animTextures = {
+        [self.enemyAnimation] = gTextures['enemySheet'],
+    }
+    self.currentAnimation = self.enemyAnimation
+
     self.player = player
     self.x = x
     self.y = y
@@ -24,11 +30,24 @@ function Enemy:update(dt)
     Entity.update(self, dt)
     self.hitX = self.x + 1.5
     self.hitY = self.y + 1.5
+    self.currentAnimation:update(dt)
 end
 
 function Enemy:render()
-    local tex = self.currentTexture or gTextures['testEnemy']
-    Entity.render(self, tex)
+    local texture = self.animTextures[self.currentAnimation]
+    local frame = self.currentAnimation:getFrame()
+
+    local scaleX = 1
+    local offsetX = 0
+    love.graphics.draw(
+        texture,
+        frame,
+        self.x + offsetX,
+        self.y,
+        0,        
+        scaleX,    
+        1          
+    )
     self.stateMachine.current:render()
     
     -- ----Draw hitbox 

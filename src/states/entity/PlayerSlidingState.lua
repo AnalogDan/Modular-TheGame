@@ -7,6 +7,7 @@ function PlayerSlidingState:init(player)
 end
 
 function PlayerSlidingState:enter(direction)
+    self.player.currentAnimation = self.player.slideAnimation
     self.direction = direction
     if self.direction == 'left' then
         self.player.currentTexture = gTextures['testSlidingLeft']

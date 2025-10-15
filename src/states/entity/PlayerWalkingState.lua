@@ -6,6 +6,11 @@ function PlayerWalkingState:init(player)
     self.player = player
 end
 
+function PlayerWalkingState:enter()
+    self.player.currentAnimation = self.player.walkAnimation
+    self.player.currentAnimation:reset()
+end
+
 local function checkGoalTile(tile)
     return tile and tile ~= 0 and tile.type == 'goal'
 end

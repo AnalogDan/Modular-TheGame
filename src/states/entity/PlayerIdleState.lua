@@ -6,7 +6,8 @@ end
 
 function PlayerIdleState:enter()
     self.player.dx = 0 
-    self.player.currentAnimation = self.player.idleAnimation
+    self.player.currentAnimation = self.player.rootDeathAnimation
+    self.player.currentAnimation:reset()
 end
 
 function PlayerIdleState:update(dt)

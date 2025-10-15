@@ -7,6 +7,8 @@ function PlayerJumpingState:init(player)
 end
 
 function PlayerJumpingState:enter()
+    self.player.currentAnimation = self.player.jumpAnimation
+    self.player.currentAnimation:reset()
     self.player.dy = self.jumpSpeed
 end
 

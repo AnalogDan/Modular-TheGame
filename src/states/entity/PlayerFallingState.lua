@@ -7,6 +7,8 @@ function PlayerFallingState:init(player)
 end
 
 function PlayerFallingState:enter()
+    self.player.currentAnimation = self.player.fallAnimation
+    self.player.currentAnimation:reset()
     -- Stop horizontal movement unless keys are pressed
     self.player.dx = 0
     self.player.dy = 20

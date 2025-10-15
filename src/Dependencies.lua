@@ -43,9 +43,25 @@ gTextures = {
     ['testWJumpRight'] = love.graphics.newImage('graphics/test-wJump-left.png'),
     ['testEnemy'] = love.graphics.newImage('graphics/test-enemy.png'),
 
-    ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png')
+    ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
+    ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),
+    ['jumpSheet'] = love.graphics.newImage('graphics/jump-sheet.png'),
+    ['fallSheet'] = love.graphics.newImage('graphics/fall-sheet.png'),
+    ['slideSheet'] = love.graphics.newImage('graphics/slide-sheet.png'),
+    ['wJumpSheet'] = love.graphics.newImage('graphics/wJump-sheet.png'),
+    ['rootDeathSheet'] = love.graphics.newImage('graphics/root-death-sheet.png'),
+
+    ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png')
 }
 
 gFrames = {
-    ['idleSheet'] = GenerateQuads(gTextures['idleSheet'], 10, 10)
+    ['idleSheet'] = GenerateQuads(gTextures['idleSheet'], 10, 10),
+    ['walkSheet'] = GenerateQuads(gTextures['walkSheet'], 10, 10),
+    ['jumpSheet'] = GenerateQuads(gTextures['jumpSheet'], 10, 11),
+    ['fallSheet'] = GenerateQuads(gTextures['fallSheet'], 10, 12),
+    ['slideSheet'] = GenerateQuads(gTextures['slideSheet'], 10, 10),
+    ['wJumpSheet'] = GenerateQuads(gTextures['wJumpSheet'], 10, 10),
+    ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
+
+    ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 }

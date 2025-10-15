@@ -27,7 +27,7 @@ function GameState:init()
     }
 
     --Draw sliding test
-    for y = 1, 4 do
+    for y = 1, 5 do
         -- self.tileMap[y][7] = {
         --     type = 'ground',
         --     solid = true,
@@ -44,9 +44,9 @@ function GameState:init()
     
     self.player = Player(120, 10, self.tileMap)
     self.enemies = {
-        Enemy(100, 80, self.player, "horizontal"),
-        Enemy(120, 80, self.player, "vertical"),
-        Enemy(140, 80, self.player, "still")
+        -- Enemy(100, 80, self.player, "horizontal"),
+        -- Enemy(120, 80, self.player, "vertical"),
+        Enemy(140, 80, self.player, "horizontal")
     }
 end
 

@@ -8,12 +8,14 @@ local XFORCE = 70
 local YFORCE = -70
 
 function PlayerWallJumpState:enter(direction)
+    self.player.currentAnimation = self.player.wJumpAnimation
+    self.player.currentAnimation:reset()
     self.direction = direction
     if self.direction == 'left' then
-        self.player.currentTexture = gTextures['testWJumpLeft']
+        self.player.direction = "right"
         self.player.dx = XFORCE
     elseif self.direction == 'right' then
-        self.player.currentTexture = gTextures['testWJumpRight']
+        self.player.direction = "left"
         self.player.dx = -XFORCE
     end
     self.player.dy = -42
