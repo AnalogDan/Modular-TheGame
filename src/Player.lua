@@ -35,8 +35,10 @@ function Player:init(x, y, tileMap)
         ['falling'] = function() return PlayerFallingState(self) end,
         ['jumping'] = function() return PlayerJumpingState(self) end,
         ['sliding'] = function() return PlayerSlidingState(self) end,
-        ['wallJump'] = function() return PlayerWallJumpState(self) end
+        ['wallJump'] = function() return PlayerWallJumpState(self) end,
+        ['dead'] = function() return PlayerDeadState(self) end
     }
+    self.stateString = "alive"
 
     self.stateMachine:change('falling')
 end
@@ -46,8 +48,7 @@ function Player:reachGoal()
 end
 
 function Player:gotHit()
-    self.x = 0
-    self.y = 0
+    self.stateMachine:change('dead')
 end
 
 function Player:update(dt)

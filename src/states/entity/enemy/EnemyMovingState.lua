@@ -41,14 +41,12 @@ function EnemyMovingState:update(dt)
 
     local player = self.enemy.player
     if AABB(self.enemy.hitX, self.enemy.hitY, self.enemy.hitWidth, self.enemy.hitHeight,
-            player.hitX, player.hitY, player.hitWidth, player.hitHeight) then
-        self.debug = "Yes"
+            player.hitX, player.hitY, player.hitWidth, player.hitHeight)
+            and not (player.stateString == "dead") then
         player:gotHit()
     else
-        self.debug = "No"
     end
 end
 
 function EnemyMovingState:render()
-    love.graphics.print("Colliding: " .. tostring(self.debug), 10, 20)
 end

@@ -20,6 +20,7 @@ require 'src/states/entity/PlayerWalkingState'
 require 'src/states/entity/PlayerFallingState'
 require 'src/states/entity/PlayerWallJumpState'
 require 'src/states/entity/PlayerSlidingState'
+require 'src/states/entity/PlayerDeadState'
 require 'src/states/entity/enemy/EnemyMovingState'
 
 gFonts = {
@@ -51,7 +52,10 @@ gTextures = {
     ['wJumpSheet'] = love.graphics.newImage('graphics/wJump-sheet.png'),
     ['rootDeathSheet'] = love.graphics.newImage('graphics/root-death-sheet.png'),
 
-    ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png')
+    ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
+
+    ['backgroundTile1'] = love.graphics.newImage('graphics/background-tile-1.png'),
+    ['stoneEdgeSheet'] = love.graphics.newImage('graphics/stone-edge-sheet.png'),
 }
 
 gFrames = {
@@ -64,4 +68,6 @@ gFrames = {
     ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
 
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
+
+    ['stoneEdgeSheet'] = GenerateQuads(gTextures['stoneEdgeSheet'], 8, 8),
 }

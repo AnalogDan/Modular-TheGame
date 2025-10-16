@@ -1,44 +1,70 @@
 GameState = Class{__includes = BaseState}
 
 function GameState:init()
-    self.tileMap = {}
-
-    local mapWidth = 16
-    local mapHeight = 9  
-    for y = 1, mapHeight do
-        self.tileMap[y] = {}
-        for x = 1, mapWidth do
-            if y >= 7 then
-                self.tileMap[y][x] = {
-                    type = 'ground',
-                    solid = true,
-                    texture = gTextures['testTile']
-                }
-            else
-                self.tileMap[y][x] = 0
-            end
+    self.backgroundTileMap = {}
+    local bgWidth = 26
+    local bgHeight = 15
+    local bgTileSize = 10
+    for y = 1, bgHeight do
+        self.backgroundTileMap[y] = {}
+        for x = 1, bgWidth do
+            self.backgroundTileMap[y][x] = {
+                type = 'background',
+                solid = false,
+                texture = gTextures['backgroundTile1'],
+                x = (x - 1) * bgTileSize,
+                y = (y - 1) * bgTileSize
+            }
         end
     end
 
-    self.tileMap[7][16] = {
-        type = 'goal',
-        solid = true,
-        texture = gTextures['testGoal']
-    }
+    self.tileMap = {}
 
-    --Draw sliding test
-    for y = 1, 5 do
-        -- self.tileMap[y][7] = {
-        --     type = 'ground',
-        --     solid = true,
-        --     texture = gTextures['testTile']
-        -- }
-        self.tileMap[y][10] = {
-            type = 'ground',
-            solid = true,
-            texture = gTextures['testTile']
-        }
+    local mapWidth = 32
+    local mapHeight = 1
+    local tileSize = 8
+
+    for y = 1, mapHeight do
+        self.tileMap[y] = {}
+        for x = 1, mapWidth do
+            local randomQuad = gFrames['stoneEdgeSheet'][math.random(4)]
+
+            self.tileMap[y][x] = {
+                type = 'stone',
+                solid = true,
+                texture = gTextures['stoneEdgeSheet'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = 100, -- adjust this so it’s where you want your ground line
+            }
+        end
     end
+
+    -- self.tileMap = {}
+
+    -- local mapWidth = 16
+    -- local mapHeight = 9
+    -- for y = 1, mapHeight do
+    --     self.tileMap[y] = {}
+    --     for x = 1, mapWidth do
+    --         if y >= 7 then
+    --             self.tileMap[y][x] = {
+    --                 type = 'ground',
+    --                 solid = true,
+    --                 texture = gTextures['testTile']
+    --             }
+    --         else
+    --             self.tileMap[y][x] = 0
+    --         end
+    --     end
+    -- end
+
+    -- self.tileMap[7][16] = {
+    --     type = 'goal',
+    --     solid = true,
+    --     texture = gTextures['testGoal']
+    -- }
+
     
 
     
@@ -59,19 +85,30 @@ end
 
 function GameState:render()
     love.graphics.clear(1, 0.7, 0.5)
-    
-    for y = 1, #self.tileMap do
-        for x = 1, #self.tileMap[y] do
-            local tile = self.tileMap[y][x]
+    --draw bg tileMap
+    for y = 1, #self.backgroundTileMap do
+        for x = 1, #self.backgroundTileMap[y] do
+            local tile = self.backgroundTileMap[y][x]
             if tile ~= 0 then
                 love.graphics.draw(
                     tile.texture,
-                    (x - 1) * TILE_SIZE,
-                    (y - 1) * TILE_SIZE
+                    tile.x,
+                    tile.y
                 )
             end
         end
     end
+    
+    --draw solid tileMap
+    for y = 1, #self.tileMap do
+        for x = 1, #self.tileMap[y] do
+            local tile = self.tileMap[y][x]
+            if tile and tile ~= 0 then
+                love.graphics.draw(tile.texture, tile.quad, tile.x, tile.y)
+            end
+        end
+    end
+
     self.player:render()
     for _, enemy in ipairs(self.enemies) do
         enemy:render()
