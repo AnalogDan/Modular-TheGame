@@ -9,6 +9,8 @@ end
 function PlayerWalkingState:enter()
     self.player.currentAnimation = self.player.walkAnimation
     self.player.currentAnimation:reset()
+
+    self.soundFlag = false
 end
 
 local function checkGoalTile(tile)
@@ -49,28 +51,10 @@ function PlayerWalkingState:update(dt)
             self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width
         end
     else
+        gSounds['step']:stop()
         self.player.stateMachine:change('idle')
         self.player.dx = 0
     end
-
-    -- -----------Check bottom collisions
-    -- local bottomLeftX2 = self.player.x
-    -- local bottomLeftY2 = self.player.y + self.player.height + 1
-    -- local bottomRightX2 = self.player.x + self.player.width
-
-    -- local bottomLeftCol2 = math.floor(bottomLeftX2 / TILE_SIZE) + 1
-    -- local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
-    -- local bottomRow2 = math.floor(bottomLeftY2 / TILE_SIZE) + 1  
-
-    -- local bottomLeftTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomLeftCol2]
-    -- local bottomRightTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomRightCol2]
-
-    -- local leftSolid2 = bottomLeftTile2 and bottomLeftTile2 ~= 0 and bottomLeftTile2.solid
-    -- local rightSolid2 = bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid
-
-    -- if not leftSolid2 and not rightSolid2 then
-    --     self.player.stateMachine:change('falling')
-    -- end
 
     ---------Check bottom collision
     local bottomLeftX2  = self.player.x
@@ -102,11 +86,31 @@ function PlayerWalkingState:update(dt)
     end
 
     if love.keyboard.wasPressed('space') then
+        gSounds['step']:stop()
         self.player.stateMachine:change('jumping')
     end
 
     if checkGoalTile(bottomLeftTile2) or checkGoalTile(bottomRightTile2) then
         self.player:reachGoal()
+    end
+
+    --sound loop
+    if not gSounds['step']:isPlaying() and not self.soundflag then
+        self.soundFlag = true
+    elseif not gSounds['step']:isPlaying() and self.soundflag then
+        self.soundFlag = false
+    end
+    if not self.soundFlag then 
+        local pitch = 0.9 + math.random() * 0.5
+        gSounds['step']:setPitch(pitch)
+        gSounds['step']:setVolume(0.6)
+        gSounds['step']:play()
+    end
+    if self.soundFlag then
+        local pitch = 1 + math.random() * 0.3
+        gSounds['step']:setPitch(pitch)
+        gSounds['step']:setVolume(0.6)
+        gSounds['step']:play()
     end
 end
 

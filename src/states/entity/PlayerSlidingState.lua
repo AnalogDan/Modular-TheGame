@@ -15,6 +15,16 @@ function PlayerSlidingState:enter(direction)
         self.player.currentTexture = gTextures['testSliding']
     end
     self.player.dy = SLIDE_SPEED
+
+    self.soundFlag = false
+    local pitch = 0.9 + math.random() * 0.3
+    gSounds['grab']:stop()
+    gSounds['grab']:setPitch(pitch)
+    gSounds['grab']:setVolume(0.4)
+    gSounds['grab']:play()
+
+    gSounds['slide']:setVolume(0.05)
+    gSounds['slide']:play()
 end
 
 function PlayerSlidingState:update(dt)
@@ -40,21 +50,18 @@ function PlayerSlidingState:update(dt)
         self.player.dy = 0
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         self.player.currentTexture = gTextures['testPlayer']
+        if not self.soundFlag then 
+            local pitch = 0.9 + math.random() * 0.5
+            gSounds['fall']:stop()
+            gSounds['fall']:setPitch(pitch)
+            gSounds['fall']:setVolume(0.3)
+            gSounds['fall']:play()
+        end
+        gSounds['slide']:stop()
         self.player.stateMachine:change('idle')
     end
 
-    -- ----------------When a wall ends 
-    -- local leftX = math.floor((self.player.x - 1) / TILE_SIZE) + 1
-    -- local rightX = math.floor((self.player.x + PLAYER_SIZE) / TILE_SIZE) + 1
-    -- local middleY = math.floor((self.player.y + 5) / TILE_SIZE) + 1
-    -- local middleRightTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][rightX]
-    -- local middleLeftTile = self.player.tileMap[middleY] and self.player.tileMap[middleY][leftX]
-    -- if self.direction == 'left' and (not middleLeftTile.solid) then 
-    --     self.player.stateMachine:change('falling')
-    -- elseif self.direction == 'right' and (not middleRightTile.solid) then 
-    --     self.player.stateMachine:change('falling')
-    -- end
-    --------------When a wall ends reworked
+    --------------When a wall ends 
     local leftX = math.floor((self.player.x - 1) / TILE_SIZE) + 1
     local rightX = math.floor((self.player.x + PLAYER_SIZE) / TILE_SIZE) + 1
     local topY = math.floor((self.player.y) / TILE_SIZE) + 1
@@ -64,22 +71,28 @@ function PlayerSlidingState:update(dt)
     local bottomRightTile = self.player.tileMap[bottomY] and self.player.tileMap[bottomY][rightX]
     local bottomLeftTile = self.player.tileMap[bottomY] and self.player.tileMap[bottomY][leftX]
     if self.direction == 'left' and (not topLeftTile.solid) and (not bottomLeftTile.solid) then 
+        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     elseif self.direction == 'right' and (not topRightTile.solid) and (not bottomRightTile.solid) then 
+        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     end
 
     ----------------Separating from wall
     if self.direction == 'left' and love.keyboard.isDown('right') then 
+        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     elseif self.direction == 'right' and love.keyboard.isDown('left') then
+        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     end
 
     ----------------Jumping
     if self.direction == 'left' and love.keyboard.wasPressed('space') then
+        gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'left')
     elseif self.direction == 'right' and love.keyboard.wasPressed('space') then
+        gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'right')
     end
 

@@ -24,11 +24,12 @@ function PlayerWallJumpState:enter(direction)
     Timer.after(0.2, function()
         self.canMove = true
     end)
-
+    
+    self.soundFlag = false
     local pitch = 1.2 + math.random() * 0.5
     gSounds['jump']:stop()
     gSounds['jump']:setPitch(pitch)
-    gSounds['jump']:setVolume(0.4)
+    gSounds['jump']:setVolume(0.9)
     gSounds['jump']:play()
 end
 
@@ -77,20 +78,6 @@ function PlayerWallJumpState:update(dt)
     end
         
     --------sides collision 
-    -- local topLeftX = self.player.x - 1
-    -- local topLeftY = self.player.y
-    -- local topRightX = self.player.x + self.player.width + 1
-    -- local bottomLeftX = self.player.x - 1
-    -- local bottomLeftY = self.player.y + self.player.height
-    -- local bottomRightX = self.player.x + self.player.width + 1
-
-    -- local topLeftCol = math.floor(topLeftX / TILE_SIZE) + 1
-    -- local bottomLeftCol = math.floor(bottomLeftX / TILE_SIZE) + 1
-    -- local topRightCol = math.floor(topRightX / TILE_SIZE) + 1
-    -- local bottomRightCol = math.floor(bottomRightX / TILE_SIZE) + 1
-
-    -- local topRow = math.floor(topLeftY / TILE_SIZE) + 1
-    -- local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
     local leftX = self.player.x - 1
     local rightX = self.player.x + self.player.width + 1
     local topY = self.player.y
@@ -105,15 +92,6 @@ function PlayerWallJumpState:update(dt)
     local bottomYRow = math.floor(bottomY / TILE_SIZE) + 1
 
     if self.direction == 'right' then
-        -- local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
-        -- local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
-
-        -- if (topLeftTile ~= 0 and topLeftTile and topLeftTile.solid) or
-        -- (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
-        --     self.player.dx = 0
-        --     self.player.x = (topLeftCol) * TILE_SIZE
-        --     self.player.stateMachine:change('sliding', 'left')
-        -- end
         local topLeftTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][leftCol]
         local middleLeftTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][leftCol]
         local bottomLeftTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][leftCol]
@@ -128,15 +106,6 @@ function PlayerWallJumpState:update(dt)
         end
 
     elseif self.direction == 'left' then
-        -- local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
-        -- local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
-
-        -- if (topRightTile ~= 0 and topRightTile and topRightTile.solid) or
-        -- (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
-        --     self.player.dx = 0
-        --     self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
-        --     self.player.stateMachine:change('sliding', 'right')
-        -- end
         local topRightTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][rightCol]
         local middleRightTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][rightCol]
         local bottomRightTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][rightCol]
@@ -172,6 +141,13 @@ function PlayerWallJumpState:update(dt)
        (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
         self.player.dy = 0
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
+        if not self.soundFlag then 
+            local pitch = 0.9 + math.random() * 0.5
+            gSounds['fall']:stop()
+            gSounds['fall']:setPitch(pitch)
+            gSounds['fall']:setVolume(0.3)
+            gSounds['fall']:play()
+        end
         self.player.stateMachine:change('idle')
     end
 end

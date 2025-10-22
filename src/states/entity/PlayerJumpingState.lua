@@ -14,7 +14,7 @@ function PlayerJumpingState:enter()
     local pitch = 0.9 + math.random() * 0.3
     gSounds['jump']:stop()
     gSounds['jump']:setPitch(pitch)
-    gSounds['jump']:setVolume(0.4)
+    gSounds['jump']:setVolume(0.9)
     gSounds['jump']:play()
 end
 

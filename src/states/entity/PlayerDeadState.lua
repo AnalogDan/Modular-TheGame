@@ -11,12 +11,15 @@ function PlayerDeadState:enter()
     self.player.currentAnimation:reset()
     self.player.stateString = "dead"
     self.timer = 0
+
+    gSounds['electric']:setVolume(1)
+    gSounds['electric']:play()
 end
 
 function PlayerDeadState:update(dt)
     self.timer = self.timer + dt
     if self.timer > 2.5 then
-        gStateMachine:change('game')
+        gStateMachine:change('level1')
     end
 
     ---------Check bottom collision

@@ -11,9 +11,10 @@ function love.load()
     })
     gStateMachine = StateMachine {
         ['menu'] = function() return StartMenuState() end,
-        ['game'] = function() return GameState() end
+        ['game'] = function() return GameState() end,
+        ['level1'] = function() return Level1() end,
     }
-    gStateMachine:change('game')
+    gStateMachine:change('level1')
     love.keyboard .keysPressed = {}
 end
 

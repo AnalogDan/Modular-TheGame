@@ -13,6 +13,7 @@ require 'src/Animation'
 
 require 'src/states/game/StartMenuState'
 require 'src/states/game/GameState'
+require 'src/states/game/Level1'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -32,6 +33,14 @@ gFonts = {
 
 gSounds = {
     ['jump'] = love.audio.newSource('sounds/jump.mp3', 'static'),
+    ['grab'] = love.audio.newSource('sounds/grab.mp3', 'static'),
+    ['step'] = love.audio.newSource('sounds/step.mp3', 'static'),
+    ['fall'] = love.audio.newSource('sounds/fall.mp3', 'static'),
+    ['slide'] = love.audio.newSource('sounds/slide.mp3', 'static'),
+    ['electric'] = love.audio.newSource('sounds/electric.mp3', 'static'),
+
+    ['music1'] = love.audio.newSource('sounds/music1.mp3', 'static'),
+    ['ambience1'] = love.audio.newSource('sounds/ambience1.mp3', 'static'),
 }
 
 gTextures = {
@@ -57,7 +66,11 @@ gTextures = {
     ['backgroundTile1'] = love.graphics.newImage('graphics/background-tile-1.png'),
     ['fillTile1'] = love.graphics.newImage('graphics/fill-tile-1.png'),
     ['infillTileSheet1'] = love.graphics.newImage('graphics/infill-tilesheet-1.png'),
+
     ['edgeTileSheet1'] = love.graphics.newImage('graphics/edge-tilesheet-1.png'),
+    ['edgeTileSheet1Down'] = love.graphics.newImage('graphics/edge-tilesheet-1-down.png'),
+    ['edgeTileSheet1Left'] = love.graphics.newImage('graphics/edge-tilesheet-1-left.png'),
+    ['edgeTileSheet1Right'] = love.graphics.newImage('graphics/edge-tilesheet-1-right.png'),
 }
 
 gFrames = {
@@ -72,5 +85,9 @@ gFrames = {
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 
     ['infillTileSheet1'] = GenerateQuads(gTextures['infillTileSheet1'], 8, 8),
+
     ['edgeTileSheet1'] = GenerateQuads(gTextures['edgeTileSheet1'], 8, 8),
+    ['edgeTileSheet1Down'] = GenerateQuads(gTextures['edgeTileSheet1Down'], 8, 8),
+    ['edgeTileSheet1Left'] = GenerateQuads(gTextures['edgeTileSheet1Left'], 8, 8),
+    ['edgeTileSheet1Right'] = GenerateQuads(gTextures['edgeTileSheet1Right'], 8, 8),
 }

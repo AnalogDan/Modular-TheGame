@@ -12,6 +12,7 @@ function PlayerFallingState:enter()
     -- Stop horizontal movement unless keys are pressed
     self.player.dx = 0
     self.player.dy = 20
+    self.soundFlag = false 
 end
 
 local function checkGoalTile(tile)
@@ -95,6 +96,13 @@ function PlayerFallingState:update(dt)
        (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
         self.player.dy = 0
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
+        if not self.soundFlag then 
+            local pitch = 0.9 + math.random() * 0.5
+            gSounds['fall']:stop()
+            gSounds['fall']:setPitch(pitch)
+            gSounds['fall']:setVolume(0.3)
+            gSounds['fall']:play()
+        end
         self.player.stateMachine:change('idle')
     end
 
