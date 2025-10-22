@@ -53,22 +53,51 @@ function PlayerWalkingState:update(dt)
         self.player.dx = 0
     end
 
-    -----------Check bottom collisions
-    local bottomLeftX2 = self.player.x
-    local bottomLeftY2 = self.player.y + self.player.height + 1
-    local bottomRightX2 = self.player.x + self.player.width
+    -- -----------Check bottom collisions
+    -- local bottomLeftX2 = self.player.x
+    -- local bottomLeftY2 = self.player.y + self.player.height + 1
+    -- local bottomRightX2 = self.player.x + self.player.width
 
-    local bottomLeftCol2 = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    -- local bottomLeftCol2 = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    -- local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
+    -- local bottomRow2 = math.floor(bottomLeftY2 / TILE_SIZE) + 1  
+
+    -- local bottomLeftTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomLeftCol2]
+    -- local bottomRightTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomRightCol2]
+
+    -- local leftSolid2 = bottomLeftTile2 and bottomLeftTile2 ~= 0 and bottomLeftTile2.solid
+    -- local rightSolid2 = bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid
+
+    -- if not leftSolid2 and not rightSolid2 then
+    --     self.player.stateMachine:change('falling')
+    -- end
+
+    ---------Check bottom collision
+    local bottomLeftX2  = self.player.x
+    local bottomCenterX2 = self.player.x + (self.player.width/2)
+    local bottomRightX2 = self.player.x + self.player.width - 1
+
+    local bottomY2 = self.player.y + self.player.height + 1
+
+    local bottomLeftCol2  = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    local bottomCenterCol2 = math.floor(bottomCenterX2 / TILE_SIZE) + 1
     local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
-    local bottomRow2 = math.floor(bottomLeftY2 / TILE_SIZE) + 1  
+    local bottomYRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
 
-    local bottomLeftTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomLeftCol2]
-    local bottomRightTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomRightCol2]
+    local bottomLeftTile2  = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomLeftCol2]
+    local bottomCenterTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomCenterCol2]
+    local bottomRightTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomRightCol2]
 
-    local leftSolid2 = bottomLeftTile2 and bottomLeftTile2 ~= 0 and bottomLeftTile2.solid
-    local rightSolid2 = bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid
+    local isOnGround = false
 
-    if not leftSolid2 and not rightSolid2 then
+    for _, tile in ipairs({bottomLeftTile2, bottomCenterTile2, bottomRightTile2}) do
+        if tile and tile ~= 0 and tile.solid then
+            isOnGround = true
+            break
+        end
+    end
+
+    if not isOnGround then
         self.player.stateMachine:change('falling')
     end
 

@@ -10,6 +10,12 @@ function PlayerJumpingState:enter()
     self.player.currentAnimation = self.player.jumpAnimation
     self.player.currentAnimation:reset()
     self.player.dy = self.jumpSpeed
+
+    local pitch = 0.9 + math.random() * 0.3
+    gSounds['jump']:stop()
+    gSounds['jump']:setPitch(pitch)
+    gSounds['jump']:setVolume(0.4)
+    gSounds['jump']:play()
 end
 
 function PlayerJumpingState:update(dt)
@@ -21,19 +27,23 @@ function PlayerJumpingState:update(dt)
     end
 
     ---------------------- head collision
-    local topLeftX2 = self.player.x
-    local topLeftY2 = self.player.y - 1
-    local topRightX2 = self.player.x + self.player.width - 1
+    local leftX = self.player.x
+    local middleX = self.player.x + (self.player.width / 2)
+    local rightX = self.player.x + self.player.width - 1
+    local topY = self.player.y + math.ceil(self.player.dy * dt)
 
-    local topLeftCol2 = math.floor(topLeftX2 / TILE_SIZE) + 1
-    local topRightCol2 = math.floor(topRightX2 / TILE_SIZE) + 1
-    local topRow2 = math.floor(topLeftY2 / TILE_SIZE) + 1
+    local leftCol = math.floor(leftX / TILE_SIZE) + 1
+    local middleCol = math.floor(middleX / TILE_SIZE) + 1
+    local rightCol = math.floor(rightX / TILE_SIZE) + 1
+    local topRow2 = math.floor(topY / TILE_SIZE) + 1
 
-    local topLeftTile2 = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][topLeftCol2]
-    local topRightTile2 = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][topRightCol2]
+    local leftTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][leftCol]
+    local middleTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][middleCol]
+    local rightTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][rightCol]
 
-    if (topLeftTile2 ~= 0 and topLeftTile2 and topLeftTile2.solid) or
-    (topRightTile2 ~= 0 and topRightTile2 and topRightTile2.solid) then
+    if (leftTile ~= 0 and leftTile and leftTile.solid) or
+    (middleTile ~= 0 and middleTile and middleTile.solid) or
+    (rightTile ~= 0 and rightTile and rightTile.solid) then
         self.player.dy = 0        
         self.player.y = (topRow2 * TILE_SIZE) 
         self.player.stateMachine:change('falling')

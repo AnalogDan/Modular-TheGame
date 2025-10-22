@@ -25,6 +25,11 @@ function PlayerWallJumpState:enter(direction)
         self.canMove = true
     end)
 
+    local pitch = 1.2 + math.random() * 0.5
+    gSounds['jump']:stop()
+    gSounds['jump']:setPitch(pitch)
+    gSounds['jump']:setVolume(0.4)
+    gSounds['jump']:play()
 end
 
 function PlayerWallJumpState:update(dt)
@@ -72,60 +77,101 @@ function PlayerWallJumpState:update(dt)
     end
         
     --------sides collision 
-    local topLeftX = self.player.x - 1
-    local topLeftY = self.player.y
-    local topRightX = self.player.x + self.player.width + 1
-    local bottomLeftX = self.player.x - 1
-    local bottomLeftY = self.player.y + self.player.height
-    local bottomRightX = self.player.x + self.player.width + 1
+    -- local topLeftX = self.player.x - 1
+    -- local topLeftY = self.player.y
+    -- local topRightX = self.player.x + self.player.width + 1
+    -- local bottomLeftX = self.player.x - 1
+    -- local bottomLeftY = self.player.y + self.player.height
+    -- local bottomRightX = self.player.x + self.player.width + 1
 
-    local topLeftCol = math.floor(topLeftX / TILE_SIZE) + 1
-    local bottomLeftCol = math.floor(bottomLeftX / TILE_SIZE) + 1
-    local topRightCol = math.floor(topRightX / TILE_SIZE) + 1
-    local bottomRightCol = math.floor(bottomRightX / TILE_SIZE) + 1
+    -- local topLeftCol = math.floor(topLeftX / TILE_SIZE) + 1
+    -- local bottomLeftCol = math.floor(bottomLeftX / TILE_SIZE) + 1
+    -- local topRightCol = math.floor(topRightX / TILE_SIZE) + 1
+    -- local bottomRightCol = math.floor(bottomRightX / TILE_SIZE) + 1
 
-    local topRow = math.floor(topLeftY / TILE_SIZE) + 1
-    local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
+    -- local topRow = math.floor(topLeftY / TILE_SIZE) + 1
+    -- local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
+    local leftX = self.player.x - 1
+    local rightX = self.player.x + self.player.width + 1
+    local topY = self.player.y
+    local middleY = self.player.y + 5
+    local bottomY = self.player.y + self.player.height - 1
+
+    local leftCol = math.floor(leftX / TILE_SIZE) + 1
+    local rightCol = math.floor(rightX / TILE_SIZE) + 1
+
+    local topYRow2 = math.floor(topY / TILE_SIZE) + 1
+    local middleYRow = math.floor(middleY / TILE_SIZE) + 1
+    local bottomYRow = math.floor(bottomY / TILE_SIZE) + 1
 
     if self.direction == 'right' then
-        local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
-        local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
+        -- local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
+        -- local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
 
-        if (topLeftTile ~= 0 and topLeftTile and topLeftTile.solid) or
-        (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
+        -- if (topLeftTile ~= 0 and topLeftTile and topLeftTile.solid) or
+        -- (bottomLeftTile ~= 0 and bottomLeftTile and bottomLeftTile.solid) then
+        --     self.player.dx = 0
+        --     self.player.x = (topLeftCol) * TILE_SIZE
+        --     self.player.stateMachine:change('sliding', 'left')
+        -- end
+        local topLeftTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][leftCol]
+        local middleLeftTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][leftCol]
+        local bottomLeftTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][leftCol]
+
+        if (topLeftTile and topLeftTile ~= 0 and topLeftTile.solid) or
+        (middleLeftTile and middleLeftTile ~= 0 and middleLeftTile.solid) or
+        (bottomLeftTile and bottomLeftTile ~= 0 and bottomLeftTile.solid) then
+        
             self.player.dx = 0
-            self.player.x = (topLeftCol) * TILE_SIZE
+            self.player.x = (leftCol) * TILE_SIZE
             self.player.stateMachine:change('sliding', 'left')
         end
 
     elseif self.direction == 'left' then
-        local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
-        local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
+        -- local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
+        -- local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
 
-        if (topRightTile ~= 0 and topRightTile and topRightTile.solid) or
-        (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
+        -- if (topRightTile ~= 0 and topRightTile and topRightTile.solid) or
+        -- (bottomRightTile ~= 0 and bottomRightTile and bottomRightTile.solid) then
+        --     self.player.dx = 0
+        --     self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
+        --     self.player.stateMachine:change('sliding', 'right')
+        -- end
+        local topRightTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][rightCol]
+        local middleRightTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][rightCol]
+        local bottomRightTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][rightCol]
+
+        if (topRightTile and topRightTile ~= 0 and topRightTile.solid) or
+        (middleRightTile and middleRightTile ~= 0 and middleRightTile.solid) or
+        (bottomRightTile and bottomRightTile ~= 0 and bottomRightTile.solid) then
+
             self.player.dx = 0
-            self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width 
+            self.player.x = (rightCol - 1) * TILE_SIZE - self.player.width
             self.player.stateMachine:change('sliding', 'right')
         end
     end
-    -----------Check bottom collision
+
+    ---------Check bottom collision
     local bottomLeftX2  = self.player.x
+    local bottomCenterX2 = self.player.x + (self.player.width/2)
     local bottomRightX2 = self.player.x + self.player.width - 1
 
-    local bottomY2 = self.player.y + self.player.height + 1
+    local bottomY2 = self.player.y + self.player.height + math.ceil(self.player.dy * dt)
 
     local bottomLeftCol2  = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    local bottomCenterCol2 = math.floor(bottomCenterX2 / TILE_SIZE) + 1
     local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
-    local bottomRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
+    local bottomYRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
 
-    local bottomLeftTile2  = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomLeftCol2]
-    local bottomRightTile2 = self.player.tileMap[bottomRow2] and self.player.tileMap[bottomRow2][bottomRightCol2]
+    local bottomLeftTile2  = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomLeftCol2]
+    local bottomCenterTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomCenterCol2]
+    local bottomRightTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomRightCol2]
 
     if (bottomLeftTile2  and bottomLeftTile2  ~= 0 and bottomLeftTile2.solid) or
-    (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
+       (bottomCenterTile2 and bottomCenterTile2 ~= 0 and bottomCenterTile2.solid) or
+       (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
         self.player.dy = 0
-        self.player.y = (bottomRow2 - 1) * TILE_SIZE - self.player.height
+        self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         self.player.stateMachine:change('idle')
     end
 end

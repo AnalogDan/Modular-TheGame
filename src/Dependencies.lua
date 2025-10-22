@@ -31,7 +31,7 @@ gFonts = {
 }
 
 gSounds = {
-
+    ['jump'] = love.audio.newSource('sounds/jump.mp3', 'static'),
 }
 
 gTextures = {
@@ -55,7 +55,9 @@ gTextures = {
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
     ['backgroundTile1'] = love.graphics.newImage('graphics/background-tile-1.png'),
-    ['stoneEdgeSheet'] = love.graphics.newImage('graphics/stone-edge-sheet.png'),
+    ['fillTile1'] = love.graphics.newImage('graphics/fill-tile-1.png'),
+    ['infillTileSheet1'] = love.graphics.newImage('graphics/infill-tilesheet-1.png'),
+    ['edgeTileSheet1'] = love.graphics.newImage('graphics/edge-tilesheet-1.png'),
 }
 
 gFrames = {
@@ -69,5 +71,6 @@ gFrames = {
 
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 
-    ['stoneEdgeSheet'] = GenerateQuads(gTextures['stoneEdgeSheet'], 8, 8),
+    ['infillTileSheet1'] = GenerateQuads(gTextures['infillTileSheet1'], 8, 8),
+    ['edgeTileSheet1'] = GenerateQuads(gTextures['edgeTileSheet1'], 8, 8),
 }
