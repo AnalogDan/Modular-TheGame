@@ -71,6 +71,10 @@ gTextures = {
     ['edgeTileSheet1Down'] = love.graphics.newImage('graphics/edge-tilesheet-1-down.png'),
     ['edgeTileSheet1Left'] = love.graphics.newImage('graphics/edge-tilesheet-1-left.png'),
     ['edgeTileSheet1Right'] = love.graphics.newImage('graphics/edge-tilesheet-1-right.png'),
+    ['edgeOuterCorner1'] = love.graphics.newImage('graphics/edge-outer-corner1.png'),
+    ['edgeInnerCorner1'] = love.graphics.newImage('graphics/edge-inner-corner1.png'),
+
+    ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
 }
 
 gFrames = {
@@ -90,4 +94,7 @@ gFrames = {
     ['edgeTileSheet1Down'] = GenerateQuads(gTextures['edgeTileSheet1Down'], 8, 8),
     ['edgeTileSheet1Left'] = GenerateQuads(gTextures['edgeTileSheet1Left'], 8, 8),
     ['edgeTileSheet1Right'] = GenerateQuads(gTextures['edgeTileSheet1Right'], 8, 8),
+    ['edgeOuterCorner1'] = GenerateQuads(gTextures['edgeOuterCorner1'], 8, 8),
+    ['edgeInnerCorner1'] = GenerateQuads(gTextures['edgeInnerCorner1'], 8, 8),
+    ['foreProps1'] = GenerateQuads(gTextures['foreProps1'], 8, 8),
 }
