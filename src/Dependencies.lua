@@ -13,6 +13,7 @@ require 'src/Animation'
 
 require 'src/states/game/StartMenuState'
 require 'src/states/game/GameState'
+require 'src/states/game/VideoState'
 require 'src/states/game/Level1'
 
 require 'src/states/entity/PlayerIdleState'
@@ -29,6 +30,26 @@ gFonts = {
     ['textNormal'] = love.graphics.newFont('fonts/text.ttf', 35),
     ['textSmall'] = love.graphics.newFont('fonts/text.ttf', 25),
     ['textTiny'] = love.graphics.newFont('fonts/text.ttf', 18),
+
+    ['dogicapixel'] = love.graphics.newFont('fonts/dogica/dogicapixel.ttf', 8),
+    ['dogicapixelBig'] = love.graphics.newFont('fonts/dogica/dogicapixel.ttf', 64),
+}
+
+gVideos = {
+    ['testVid'] = love.graphics.newVideo('graphics/videos/test-vid1.ogv'),
+    --cinematic 1
+    ['vid1'] = love.graphics.newVideo('graphics/videos/1/vid1.ogv'),
+    ['vid2'] = love.graphics.newVideo('graphics/videos/1/vid2.ogv'),
+    ['vid3'] = love.graphics.newVideo('graphics/videos/1/vid3.ogv'),
+    ['vid4'] = love.graphics.newVideo('graphics/videos/1/vid4.ogv'),
+    ['vid5'] = love.graphics.newVideo('graphics/videos/1/vid5.ogv'),
+    ['vid6'] = love.graphics.newVideo('graphics/videos/1/vid6.ogv'),
+    ['loop1'] = love.graphics.newVideo('graphics/videos/1/loop1.ogv'),
+    ['loop2'] = love.graphics.newVideo('graphics/videos/1/loop2.ogv'),
+    ['loop3'] = love.graphics.newVideo('graphics/videos/1/loop3.ogv'),
+    ['loop4'] = love.graphics.newVideo('graphics/videos/1/loop4.ogv'),
+    ['loop5'] = love.graphics.newVideo('graphics/videos/1/loop5.ogv'),
+    ['loop6'] = love.graphics.newVideo('graphics/videos/1/loop5.ogv'),
 }
 
 gSounds = {
@@ -75,6 +96,15 @@ gTextures = {
     ['edgeInnerCorner1'] = love.graphics.newImage('graphics/edge-inner-corner1.png'),
 
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
+    ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
+
+    --portraits
+    ['caraBig'] = love.graphics.newImage('graphics/portraits/caraBig.png'),
+    ['caraBigEnd'] = love.graphics.newImage('graphics/portraits/caraBig-end.png'),
+    ['profesorBig'] = love.graphics.newImage('graphics/portraits/profesorBig.png'),
+    ['profesorBigEnd'] = love.graphics.newImage('graphics/portraits/profesorBig-end.png'),
+    ['cara'] = love.graphics.newImage('graphics/portraits/cara.png'),
+    ['caraEnd'] = love.graphics.newImage('graphics/portraits/cara-end.png'),
 }
 
 gFrames = {

@@ -13,8 +13,9 @@ function love.load()
         ['menu'] = function() return StartMenuState() end,
         ['game'] = function() return GameState() end,
         ['level1'] = function() return Level1() end,
+        ['video'] = function() return VideoState() end,
     }
-    gStateMachine:change('level1')
+    gStateMachine:change('video')
     love.keyboard .keysPressed = {}
 end
 
@@ -39,7 +40,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    push:start()
-    gStateMachine:render()
-    push:finish()
+    if gStateMachine.current.__index == VideoState then
+        gStateMachine:render()
+    else
+        push:start()
+        gStateMachine:render()
+        push:finish()
+    end
 end

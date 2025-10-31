@@ -4,9 +4,9 @@ function Level1:init()
     -- gSounds['music1']:setVolume(0.2)
     -- gSounds['music1']:setLooping(true)  
     -- gSounds['music1']:play()
-    gSounds['ambience1']:setVolume(0.7)
-    gSounds['ambience1']:setLooping(true)   
-    gSounds['ambience1']:play()
+    -- gSounds['ambience1']:setVolume(0.7)
+    -- gSounds['ambience1']:setLooping(true)   
+    -- gSounds['ambience1']:play()
 
     ----Create background 
     self.backgroundTileMap = {}
@@ -999,6 +999,8 @@ function Level1:render()
             end
         end
     end
+    --draw bg Art
+    love.graphics.draw(gTextures['bgArt1'], 1, 1)
     
     --draw solid tileMap
     for y, row in pairs(self.tileMap) do
@@ -1043,5 +1045,10 @@ function Level1:render()
             end
         end
     end
+
+   love.graphics.setFont(gFonts['dogicapixel'])
+love.graphics.print('Hello world in DogicaPixel!', 50, 50)
+
+
 end
 
