@@ -1,9 +1,10 @@
 Level1 = Class{__includes = BaseState}
 
 function Level1:init()
-    -- gSounds['music1']:setVolume(0.2)
-    -- gSounds['music1']:setLooping(true)  
-    -- gSounds['music1']:play()
+    gSounds['music1']:setVolume(0.2)
+    gSounds['music1']:setLooping(true)  
+    gSounds['music1']:play()
+    -- replace ambience1 with pure birds and wind
     -- gSounds['ambience1']:setVolume(0.7)
     -- gSounds['ambience1']:setLooping(true)   
     -- gSounds['ambience1']:play()
@@ -1046,8 +1047,8 @@ function Level1:render()
         end
     end
 
-   love.graphics.setFont(gFonts['dogicapixel'])
-love.graphics.print('Hello world in DogicaPixel!', 50, 50)
+-- love.graphics.setFont(gFonts['dogicapixel'])
+-- love.graphics.print('Hello world in DogicaPixel!', 50, 50)
 
 
 end

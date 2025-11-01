@@ -1,6 +1,12 @@
 Class = require 'lib/class'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
+utf8 = require("utf8")
+function utf8_sub(str, startChar, numChars)
+    local startByte = utf8.offset(str, startChar)
+    local endByte = utf8.offset(str, startChar + numChars) or (#str + 1)
+    return string.sub(str, startByte, endByte - 1)
+end
 
 require 'src/StateMachine'
 require 'src/constants'
@@ -60,8 +66,22 @@ gSounds = {
     ['slide'] = love.audio.newSource('sounds/slide.mp3', 'static'),
     ['electric'] = love.audio.newSource('sounds/electric.mp3', 'static'),
 
-    ['music1'] = love.audio.newSource('sounds/music1.mp3', 'static'),
+    ['music1'] = love.audio.newSource('sounds/music1_1.mp3', 'static'),
     ['ambience1'] = love.audio.newSource('sounds/ambience1.mp3', 'static'),
+
+    --voices
+    ['teacherBlip'] = {
+        love.audio.newSource('sounds/voices/teacherBlip1.mp3', 'static'),
+        love.audio.newSource('sounds/voices/teacherBlip2.mp3', 'static'),
+        love.audio.newSource('sounds/voices/teacherBlip3.mp3', 'static'),
+        },
+    ['faceBlip'] = {
+        love.audio.newSource('sounds/voices/faceBlip1.mp3', 'static'),
+        love.audio.newSource('sounds/voices/faceBlip2.mp3', 'static'),
+        love.audio.newSource('sounds/voices/faceBlip3.mp3', 'static'),
+        },
+    
+
 }
 
 gTextures = {
