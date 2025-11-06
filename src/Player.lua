@@ -44,7 +44,10 @@ function Player:init(x, y, tileMap)
 end
 
 function Player:reachGoal()
-    gStateMachine:change('game')
+    gStateMachine:change('level2')
+end
+function Player:reachPit()
+    gStateMachine:change('level1')
 end
 
 function Player:gotHit()

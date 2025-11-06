@@ -10,7 +10,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
-            sound = gSounds['music1'],
+            sound = gSounds['vid1'],
             dialogue = {
                 "Hey Teo, ven.",
             }
@@ -19,7 +19,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
-            sound = gSounds['music1'],
+            sound = gSounds['vid2'],
             dialogue = {
                 "Mañana es el examen final.",
                 "¿Eres conciente de que si no lo pasas, repites la materia?",
@@ -29,6 +29,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
+            sound = gSounds['vid3'],
             dialogue = {
                 "Debes estudiar todo lo que vimos en el año...",
                 "Mucha suerte.",
@@ -38,6 +39,8 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
+            sound = gSounds['vid4'],
+            loopSound = gSounds['faceMusic'],
             dialogue = {
                 "¡Hola!",
                 "Yo te puedo aydar a aprobar el examen.",
@@ -47,6 +50,7 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
+            sound = gSounds['vid5'],
             dialogue = {
                 "¿Ves la gráfica sobre mi?",
                 "Sólo tienes que tocarla. Te mostraré algo.",
@@ -56,8 +60,13 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
+            sound = gSounds['vid6'],
+            killSound = true,
             dialogue = {
+                "¡Buen viaje!",
             }
+        }, 
+        {   intro = gVideos['lvl0'], loop = gVideos['blackLoop'], 
         }, 
     }
     self.dialogueIndex = 1
@@ -66,7 +75,11 @@ function VideoState:init()
     self.currentIndex = 1
     self.state = "intro" 
     self.sequence[self.currentIndex].intro:play()
-    gSounds['music1']:play()
+    gSounds['vid1']:play()
+    gSounds['faceMusic']:setVolume(1) 
+    gSounds['children']:setVolume(0.3)
+    gSounds['children']:setLooping(true)
+    gSounds['children']:play()
 
     self.cachedFontSize = nil
     self.dynamicFont = nil
@@ -93,6 +106,14 @@ function VideoState:update(dt)
         if not current.intro:isPlaying() then
             self.state = "loop"
             current.loop:play()
+            if current.killSound then
+                gSounds['children']:stop() 
+                gSounds['faceMusic']:stop() 
+            end
+             if current.loopSound then
+                current.loopSound:play()
+            end
+            
         end
     elseif self.state == "loop" then
         if not current.loop:isPlaying() then
@@ -124,6 +145,11 @@ function VideoState:update(dt)
                     self.showDialogue = false
                     self.dialogueIndex = 1
                     loop:pause()
+
+                    if current.sound then
+                        current.sound:stop()
+                    end
+
                     self.currentIndex = self.currentIndex + 1
 
                     if self.currentIndex <= #self.sequence then
@@ -131,12 +157,17 @@ function VideoState:update(dt)
                         self.sequence[self.currentIndex].intro:play()
                         self.dialogueIndex = 1   
                         self.showDialogue = false
-                        if current.sound then
-                            current.sound:play()
+                        local nextSeq = self.sequence[self.currentIndex]
+                        nextSeq.intro:play()
+
+                        if nextSeq.sound then
+                            nextSeq.sound:play()
                         end
                     else
                         self.state = "done"
                         gStateMachine:change('level1')
+                        gSounds['children']:stop()
+                        gSounds['faceMusic']:stop()
                     end
                 end
             end
@@ -152,6 +183,8 @@ function VideoState:update(dt)
                 else
                     self.state = "done"
                     gStateMachine:change('level1')
+                    gSounds['children']:stop()
+                    gSounds['faceMusic']:stop()
                 end
             end
         end

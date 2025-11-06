@@ -21,6 +21,7 @@ require 'src/states/game/StartMenuState'
 require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
 require 'src/states/game/Level1'
+require 'src/states/game/Level2'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -55,7 +56,11 @@ gVideos = {
     ['loop3'] = love.graphics.newVideo('graphics/videos/1/loop3.ogv'),
     ['loop4'] = love.graphics.newVideo('graphics/videos/1/loop4.ogv'),
     ['loop5'] = love.graphics.newVideo('graphics/videos/1/loop5.ogv'),
-    ['loop6'] = love.graphics.newVideo('graphics/videos/1/loop5.ogv'),
+    ['loop6'] = love.graphics.newVideo('graphics/videos/1/loop6.ogv'),
+    ['blackLoop'] = love.graphics.newVideo('graphics/videos/1/blackLoop.ogv'),
+
+    --level transitions
+    ['lvl0'] = love.graphics.newVideo('graphics/videos/lvl0.ogv'),
 }
 
 gSounds = {
@@ -68,6 +73,16 @@ gSounds = {
 
     ['music1'] = love.audio.newSource('sounds/music1_1.mp3', 'static'),
     ['ambience1'] = love.audio.newSource('sounds/ambience1.mp3', 'static'),
+
+    --vid1
+    ['vid1'] = love.audio.newSource('sounds/vid1/vid1.mp3', 'static'),
+    ['vid2'] = love.audio.newSource('sounds/vid1/vid2.mp3', 'static'),
+    ['vid3'] = love.audio.newSource('sounds/vid1/vid3.mp3', 'static'),
+    ['vid4'] = love.audio.newSource('sounds/vid1/vid4.mp3', 'static'),
+    ['vid5'] = love.audio.newSource('sounds/vid1/vid5.mp3', 'static'),
+    ['vid6'] = love.audio.newSource('sounds/vid1/vid6.mp3', 'static'),
+    ['children'] = love.audio.newSource('sounds/vid1/children.mp3', 'static'),
+    ['faceMusic'] = love.audio.newSource('sounds/vid1/faceMusic.mp3', 'static'),
 
     --voices
     ['teacherBlip'] = {

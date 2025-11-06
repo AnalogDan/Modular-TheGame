@@ -1,9 +1,11 @@
 Level1 = Class{__includes = BaseState}
 
 function Level1:init()
+    love.audio.setVolume(3)
     gSounds['music1']:setVolume(0.2)
     gSounds['music1']:setLooping(true)  
     gSounds['music1']:play()
+
     -- replace ambience1 with pure birds and wind
     -- gSounds['ambience1']:setVolume(0.7)
     -- gSounds['ambience1']:setLooping(true)   
@@ -32,7 +34,7 @@ function Level1:init()
     local mapWidth = 32
     local mapHeight = 19
     local tileSize = 8
-    for y = -10, mapHeight do
+    for y = -10, mapHeight + 4 do
         self.tileMap[y] = {}
         for x = 1, mapWidth do
             self.tileMap[y][x] = {
@@ -47,6 +49,32 @@ function Level1:init()
     end
 
     ----Create grayboxing 
+    --goal
+    for y = -1, -1 do
+        for x = 28,32 do
+            self.tileMap[y][x] = {
+                type = 'goal',
+                solid = false,
+                texture = gTextures['testGoal'],
+                quad = nil,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --pit
+    for y = 20, 22 do
+        for x = 4,9 do
+            self.tileMap[y][x] = {
+                type = 'pit',
+                solid = false,
+                texture = gTextures['testGoal'],
+                quad = nil,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
     --0
     for y = 1, 3 do
         for x = 1, 6 do

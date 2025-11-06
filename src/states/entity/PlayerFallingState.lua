@@ -18,6 +18,9 @@ end
 local function checkGoalTile(tile)
     return tile and tile ~= 0 and tile.type == 'goal'
 end
+local function checkPitTile(tile)
+    return tile and tile ~= 0 and tile.type == 'pit'
+end
 
 function PlayerFallingState:update(dt)
     if self.player.dy < FALL_SPEED then 
@@ -106,6 +109,9 @@ function PlayerFallingState:update(dt)
         self.player.stateMachine:change('idle')
     end
 
+    if checkPitTile(bottomLeftTile2) or checkPitTile(bottomCenterTile2) or checkPitTile(bottomRightTile2) then
+        self.player:reachPit()
+    end
     
 
     if checkGoalTile(bottomLeftTile2) or checkGoalTile(bottomRightTile2) or checkGoalTile(bottomCenterTile2) then

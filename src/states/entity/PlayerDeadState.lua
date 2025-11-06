@@ -19,7 +19,7 @@ end
 function PlayerDeadState:update(dt)
     self.timer = self.timer + dt
     if self.timer > 2.5 then
-        gStateMachine:change('level1')
+        gStateMachine:change('level2')
     end
 
     ---------Check bottom collision

@@ -33,6 +33,13 @@ function PlayerWallJumpState:enter(direction)
     gSounds['jump']:play()
 end
 
+local function checkGoalTile(tile)
+    return tile and tile ~= 0 and tile.type == 'goal'
+end
+local function checkPitTile(tile)
+    return tile and tile ~= 0 and tile.type == 'pit'
+end
+
 function PlayerWallJumpState:update(dt)
     Timer.update(dt)
     
@@ -105,6 +112,10 @@ function PlayerWallJumpState:update(dt)
             self.player.stateMachine:change('sliding', 'left')
         end
 
+        if checkGoalTile(topLeftTile) then
+            self.player:reachGoal()
+        end
+
     elseif self.direction == 'left' then
         local topRightTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][rightCol]
         local middleRightTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][rightCol]
@@ -118,7 +129,13 @@ function PlayerWallJumpState:update(dt)
             self.player.x = (rightCol - 1) * TILE_SIZE - self.player.width
             self.player.stateMachine:change('sliding', 'right')
         end
+
+        if checkGoalTile(topRightTile) then
+            self.player:reachGoal()
+        end
     end
+
+    
 
     ---------Check bottom collision
     local bottomLeftX2  = self.player.x
@@ -149,6 +166,9 @@ function PlayerWallJumpState:update(dt)
             gSounds['fall']:play()
         end
         self.player.stateMachine:change('idle')
+    end
+    if checkPitTile(bottomLeftTile2) or checkPitTile(bottomCenterTile2) or checkPitTile(bottomRightTile2) then
+        self.player:reachPit()
     end
 end
 
