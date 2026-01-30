@@ -1,7 +1,8 @@
 Player = Class{__includes = BaseState}
 Player = Class{__includes = Entity}
 
-function Player:init(x, y, tileMap)
+function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
+    self.introDirection = introDirection or 'right'
     self.idleAnimation = Animation(gFrames['idleSheet'], 0.2)
     self.walkAnimation = Animation(gFrames['walkSheet'], 0.1)
     self.fallAnimation = Animation(gFrames['fallSheet'], 0.05, false)
@@ -19,7 +20,7 @@ function Player:init(x, y, tileMap)
         [self.wJumpAnimation] = gTextures['wJumpSheet'],
         [self.rootDeathAnimation] = gTextures['rootDeathSheet'],
     }
-    self.direction  = "left"
+    self.direction  = "right"
     
     self.tileMap = tileMap
     self.hitWidth = 7
@@ -36,18 +37,21 @@ function Player:init(x, y, tileMap)
         ['jumping'] = function() return PlayerJumpingState(self) end,
         ['sliding'] = function() return PlayerSlidingState(self) end,
         ['wallJump'] = function() return PlayerWallJumpState(self) end,
+        ['introduction'] = function() return PlayerIntroductionState(self) end,
         ['dead'] = function() return PlayerDeadState(self) end
     }
     self.stateString = "alive"
+    self.currentLevel = currentLevel or "game"
+    self.nextLevel = nextLevel or "game"
 
-    self.stateMachine:change('falling')
+    self.stateMachine:change('introduction')
 end
 
 function Player:reachGoal()
-    gStateMachine:change('level2')
+    gStateMachine:change(self.nextLevel)
 end
 function Player:reachPit()
-    gStateMachine:change('level1')
+    gStateMachine:change(self.currentLevel)
 end
 
 function Player:gotHit()

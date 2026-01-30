@@ -1,10 +1,13 @@
 Level1 = Class{__includes = BaseState}
 
 function Level1:init()
+    self.currentLevel = 'level1'
+    self.nextLevel = 'level2'
+    math.randomseed(0)
     love.audio.setVolume(3)
-    gSounds['music1']:setVolume(0.2)
-    gSounds['music1']:setLooping(true)  
-    gSounds['music1']:play()
+    -- gSounds['music1']:setVolume(0.2)
+    -- gSounds['music1']:setLooping(true)  
+    -- gSounds['music1']:play()
 
     -- replace ambience1 with pure birds and wind
     -- gSounds['ambience1']:setVolume(0.7)
@@ -1001,7 +1004,7 @@ function Level1:init()
     
 
     
-    self.player = Player(10, 80, self.tileMap)
+    self.player = Player(-20, 94, self.tileMap, self.currentLevel, self.nextLevel)
     self.enemies = {
         --Enemy(140, 80, self.player, "still")
     }

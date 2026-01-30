@@ -2,6 +2,7 @@ PlayerDeadState = Class{__includes = BaseState}
 
 function PlayerDeadState:init(player)
     self.player = player
+    self.currentLevel = player.currentLevel
 end
 
 function PlayerDeadState:enter()
@@ -19,7 +20,7 @@ end
 function PlayerDeadState:update(dt)
     self.timer = self.timer + dt
     if self.timer > 2.5 then
-        gStateMachine:change('level2')
+        gStateMachine:change(self.currentLevel)
     end
 
     ---------Check bottom collision

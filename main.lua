@@ -15,8 +15,9 @@ function love.load()
         ['level1'] = function() return Level1() end,
         ['video'] = function() return VideoState() end,
         ['level2'] = function() return Level2() end, 
+        ['level3'] = function() return Level3() end, 
     }
-    gStateMachine:change('video')
+    gStateMachine:change('level2')
     love.keyboard .keysPressed = {}
 end
 

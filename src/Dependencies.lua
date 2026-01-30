@@ -22,6 +22,7 @@ require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
 require 'src/states/game/Level1'
 require 'src/states/game/Level2'
+require 'src/states/game/Level3'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -30,6 +31,7 @@ require 'src/states/entity/PlayerFallingState'
 require 'src/states/entity/PlayerWallJumpState'
 require 'src/states/entity/PlayerSlidingState'
 require 'src/states/entity/PlayerDeadState'
+require 'src/states/entity/PlayerIntroductionState'
 require 'src/states/entity/enemy/EnemyMovingState'
 
 gFonts = {

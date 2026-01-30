@@ -1,8 +1,8 @@
-Level2 = Class{__includes = BaseState}
+Level3 = Class{__includes = BaseState}
 
-function Level2:init()
-    self.currentLevel = 'level2'
-    self.nextLevel = 'level3'
+function Level3:init()
+    self.currentLevel = 'level3'
+    self.nextLevel = 'level1'
     love.audio.setVolume(3)
     -- gSounds['music1']:setVolume(0.2)
     -- gSounds['music1']:setLooping(true)  
@@ -281,34 +281,17 @@ function Level2:init()
     self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel)
     self.enemies = {
         Enemy(24, 8, self.player, "vertical"),
-        --2
-        Enemy(84, 36, self.player, "horizontal"),
-        --3
-        Enemy(118, 54, self.player, "still"),
-        Enemy(118, 66, self.player, "still"),
-        Enemy(118, 78, self.player, "still"),
-        --4
-        Enemy(154, 84, self.player, "still"),
-        Enemy(166, 84, self.player, "still"),
-        --5
-        Enemy(118, 120, self.player, "still"),
-        Enemy(130, 120, self.player, "still"),
-        --6
-        Enemy(214, 56, self.player, "vertical"),
-        --7
-        Enemy(150, 46, self.player, "still"),
-        
     }
 end
 
-function Level2:update(dt)
+function Level3:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
     end
 end
 
-function Level2:render()
+function Level3:render()
     --draw bg tileMap
     for y = 1, #self.backgroundTileMap do
         for x = 1, #self.backgroundTileMap[y] do
