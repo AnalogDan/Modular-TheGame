@@ -44,6 +44,7 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
     self.currentLevel = currentLevel or "game"
     self.nextLevel = nextLevel or "game"
 
+    self.pickedApple =
     self.stateMachine:change('introduction')
 end
 
@@ -59,6 +60,7 @@ function Player:gotHit()
 end
 
 function Player:update(dt)
+
     self.stateMachine:update(dt)
     -- update position based on velocity
     Entity.update(self, dt)

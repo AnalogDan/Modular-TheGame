@@ -43,7 +43,7 @@ function VideoState:init()
             loopSound = gSounds['faceMusic'],
             dialogue = {
                 "¡Hola!",
-                "Yo te puedo aydar a aprobar el examen.",
+                "Parece que estás en aprietos.",
             }
         },
         {   intro = gVideos['vid5'], loop = gVideos['loop5'], 
@@ -52,8 +52,8 @@ function VideoState:init()
             blipSet = 'faceBlip',
             sound = gSounds['vid5'],
             dialogue = {
-                "¿Ves la gráfica sobre mi?",
-                "Sólo tienes que tocarla. Te mostraré algo.",
+                "¡Pero no te preocupes!",
+                "Las matemáticas son mas fáciles de lo que crees.",
             }
         },
         {   intro = gVideos['vid6'], loop = gVideos['loop6'], 

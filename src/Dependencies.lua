@@ -14,6 +14,7 @@ require 'src/BaseState'
 require 'src/Entity'
 require 'src/Player'
 require 'src/Enemy'
+require 'src/Item'
 require 'src/Util'
 require 'src/Animation'
 
@@ -33,6 +34,8 @@ require 'src/states/entity/PlayerSlidingState'
 require 'src/states/entity/PlayerDeadState'
 require 'src/states/entity/PlayerIntroductionState'
 require 'src/states/entity/enemy/EnemyMovingState'
+require 'src/states/entity/items/AppleState'
+require 'src/states/entity/items/DoorState'
 
 gFonts = {
     ['textBig'] = love.graphics.newFont('fonts/text.ttf', 45),
@@ -97,8 +100,6 @@ gSounds = {
         love.audio.newSource('sounds/voices/faceBlip2.mp3', 'static'),
         love.audio.newSource('sounds/voices/faceBlip3.mp3', 'static'),
         },
-    
-
 }
 
 gTextures = {
@@ -118,6 +119,8 @@ gTextures = {
     ['slideSheet'] = love.graphics.newImage('graphics/slide-sheet.png'),
     ['wJumpSheet'] = love.graphics.newImage('graphics/wJump-sheet.png'),
     ['rootDeathSheet'] = love.graphics.newImage('graphics/root-death-sheet.png'),
+    ['appleSheet'] = love.graphics.newImage('graphics/apple-sheet.png'),
+    ['doorSheet'] = love.graphics.newImage('graphics/door-sheet.png'),
 
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
@@ -152,6 +155,8 @@ gFrames = {
     ['slideSheet'] = GenerateQuads(gTextures['slideSheet'], 10, 10),
     ['wJumpSheet'] = GenerateQuads(gTextures['wJumpSheet'], 10, 10),
     ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
+    ['appleSheet'] = GenerateQuadsMaxFrames(gTextures['appleSheet'], 5, 6, 10),
+    ['doorSheet'] = GenerateQuadsMaxFrames(gTextures['doorSheet'], 8, 16, 16),
 
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 

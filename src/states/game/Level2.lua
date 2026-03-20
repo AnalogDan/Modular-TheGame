@@ -57,7 +57,7 @@ function Level2:init()
                 solid = false,
                 texture = gTextures['testGoal'],
                 quad = nil,
-                x = (x - 1) * tileSize,
+                x = ((x - 1) * tileSize),
                 y = (y - 1) * tileSize,
             }
         end

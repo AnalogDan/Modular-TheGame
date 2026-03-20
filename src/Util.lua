@@ -16,3 +16,32 @@ function GenerateQuads(atlas, tilewidth, tileheight)
 
     return spritesheet
 end
+
+function GenerateQuadsMaxFrames(atlas, tilewidth, tileheight, maxFrames)
+    local sheetWidth = math.floor(atlas:getWidth() / tilewidth)
+    local sheetHeight = math.floor(atlas:getHeight() / tileheight)
+
+    local sheetCounter = 1
+    local spritesheet = {}
+
+    for y = 0, sheetHeight - 1 do
+        for x = 0, sheetWidth - 1 do
+            if sheetCounter > maxFrames then
+                return spritesheet
+            end
+
+            spritesheet[sheetCounter] =
+                love.graphics.newQuad(
+                    x * tilewidth,
+                    y * tileheight,
+                    tilewidth,
+                    tileheight,
+                    atlas:getDimensions()
+                )
+
+            sheetCounter = sheetCounter + 1
+        end
+    end
+
+    return spritesheet
+end
