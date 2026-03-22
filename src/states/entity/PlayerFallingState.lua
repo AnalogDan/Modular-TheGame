@@ -23,6 +23,9 @@ local function checkPitTile(tile)
 end
 
 function PlayerFallingState:update(dt)
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
+
     if self.player.dy < FALL_SPEED then 
         self.player.dy = self.player.dy + GRAVITY * dt
     else
@@ -43,7 +46,9 @@ function PlayerFallingState:update(dt)
     local middleYRow = math.floor(middleY / TILE_SIZE) + 1
     local bottomYRow = math.floor(bottomY / TILE_SIZE) + 1
 
-    if love.keyboard.isDown('left') then
+    if keyLeft and keyRight then
+        self.player.dx = 0
+    elseif keyLeft then
         self.player.dx = -WALK_SPEED
         local topLeftTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][leftCol]
         local middleLeftTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][leftCol]
@@ -58,7 +63,7 @@ function PlayerFallingState:update(dt)
             self.player.dx = 0
             self.player.x = (leftCol) * TILE_SIZE
         end
-    elseif love.keyboard.isDown('right') then
+    elseif keyRight then
         self.player.dx = WALK_SPEED
         local topRightTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][rightCol]
         local middleRightTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][rightCol]

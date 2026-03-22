@@ -11,6 +11,7 @@ function PlayerWallJumpState:enter(direction)
     self.player.currentAnimation = self.player.wJumpAnimation
     self.player.currentAnimation:reset()
     self.direction = direction
+    self.directionLocked = true
     if self.direction == 'left' then
         self.player.direction = "right"
         self.player.dx = XFORCE
@@ -23,6 +24,7 @@ function PlayerWallJumpState:enter(direction)
     self.canMove = false
     Timer.after(0.2, function()
         self.canMove = true
+        self.directionLocked = false
     end)
     
     self.soundFlag = false
@@ -42,6 +44,8 @@ end
 
 function PlayerWallJumpState:update(dt)
     Timer.update(dt)
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
     
     --------controling jumping and falling
     if love.keyboard.isDown('space') and self.player.dy < 0 then
@@ -58,26 +62,28 @@ function PlayerWallJumpState:update(dt)
     end
 
     --------controling movement
-    if love.keyboard.isDown('left') and self.canMove and self.direction == 'left' then 
+    if keyLeft and keyRight then
+        
+    elseif keyLeft and self.canMove and self.direction == 'left' then 
         self.player.dx = self.player.dx - 300 * dt
         if self.player.dx < 0 then 
             self.player.currentTexture = gTextures['testWJumpRight']
             self.direction = 'right'
         end 
-    elseif love.keyboard.isDown('left') and self.canMove and self.direction == 'right' then 
+    elseif keyLeft and self.canMove and self.direction == 'right' then 
         self.player.dx = self.player.dx - 300 * dt
         if self.player.dx < -XFORCE then 
             self.player.dx = -XFORCE
         end
-    end
+    
 
-    if love.keyboard.isDown('right') and self.canMove and self.direction == 'right' then 
+    elseif keyRight and self.canMove and self.direction == 'right' then 
         self.player.dx = self.player.dx - 300 * dt
         if self.player.dx < 0 then 
             self.player.currentTexture = gTextures['testWJumpLeft']
             self.direction = 'left'
         end 
-    elseif love.keyboard.isDown('right') and self.canMove and self.direction == 'left' then 
+    elseif keyRight and self.canMove and self.direction == 'left' then 
         self.player.dx = self.player.dx + 300 * dt
         if self.player.dx > XFORCE then 
             self.player.dx = XFORCE
@@ -87,7 +93,7 @@ function PlayerWallJumpState:update(dt)
     --------sides collision 
     local leftX = self.player.x - 1
     local rightX = self.player.x + self.player.width + 1
-    local topY = self.player.y
+    local topY = self.player.y + 4
     local middleY = self.player.y + 5
     local bottomY = self.player.y + self.player.height - 1
 
@@ -170,7 +176,69 @@ function PlayerWallJumpState:update(dt)
     if checkPitTile(bottomLeftTile2) or checkPitTile(bottomCenterTile2) or checkPitTile(bottomRightTile2) then
         self.player:reachPit()
     end
+
+
+    -------- Top collision
+    local leftX = self.player.x - 1
+    local rightX = self.player.x + self.player.width + 1
+    local topY = self.player.y + 3
+
+    local leftCol = math.floor(leftX / TILE_SIZE) + 1
+    local rightCol = math.floor(rightX / TILE_SIZE) + 1
+    local topRow = math.floor(topY / TILE_SIZE) + 1
+
+    local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][leftCol]
+    local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][rightCol]
+
+    if (topLeftTile and topLeftTile.solid) or
+    (topRightTile and topRightTile.solid) then
+        -- stop upward movement
+        if self.player.dy < 0 then
+            self.player.dy = 0
+        end   
+    end
 end
 
 function PlayerWallJumpState:render()
+
+    -- love.graphics.setColor(1, 0, 0, 0.3) -- red with transparency
+    -- local leftX = self.player.x - 1
+    -- local rightX = self.player.x + self.player.width + 1
+    -- local topY = self.player.y + 4
+    -- local height = (self.player.y + self.player.height - 1) - topY
+    -- love.graphics.rectangle("fill",
+    --     math.floor(leftX),
+    --     math.floor(topY),
+    --     2,
+    --     math.floor(height)
+    -- )
+    -- love.graphics.rectangle("fill",
+    --     math.floor(rightX),
+    --     math.floor(topY),
+    --     2,
+    --     math.floor(height)
+    -- )
+    -- love.graphics.setColor(1, 1, 1)
+
+    -- --Top hitbox
+    -- love.graphics.setColor(0, 0, 1, 0.3) --Blue with transparency
+    -- local leftX = self.player.x - 1
+    -- local rightX = self.player.x + self.player.width + 1
+    -- local topY = self.player.y + 3
+    -- local height = 1
+    -- love.graphics.rectangle("fill",
+    --     math.floor(leftX),
+    --     math.floor(topY),
+    --     2,
+    --     math.floor(height)
+    -- )
+    -- love.graphics.rectangle("fill",
+    --     math.floor(rightX),
+    --     math.floor(topY),
+    --     2,
+    --     math.floor(height)
+    -- )
+    -- love.graphics.setColor(1, 1, 1)
+
+
 end

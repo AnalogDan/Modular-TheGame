@@ -19,7 +19,11 @@ function PlayerJumpingState:enter()
 end
 
 function PlayerJumpingState:update(dt)
-    if love.keyboard.isDown('space') and self.player.dy < 10 then
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
+    local keySpace = love.keyboard.isDown('space')
+
+    if keySpace and self.player.dy < 10 then
         self.player.dy = self.player.dy + GRAVITY * dt
     else
         self.player.dy = 0
@@ -66,7 +70,9 @@ function PlayerJumpingState:update(dt)
     local topRow = math.floor(topLeftY / TILE_SIZE) + 1
     local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
 
-    if love.keyboard.isDown('left') then
+    if keyLeft and keyRight then 
+        self.player.dx = 0
+    elseif keyLeft then
         self.player.dx = -WALK_SPEED
         local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
         local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
@@ -78,7 +84,7 @@ function PlayerJumpingState:update(dt)
             self.player.stateMachine:change('sliding', 'left')
         end
 
-    elseif love.keyboard.isDown('right') then
+    elseif keyRight then
         self.player.dx = WALK_SPEED
         local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
         local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]

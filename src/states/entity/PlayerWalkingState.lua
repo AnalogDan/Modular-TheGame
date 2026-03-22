@@ -18,6 +18,9 @@ local function checkGoalTile(tile)
 end
 
 function PlayerWalkingState:update(dt)
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
+
     local topLeftX = self.player.x - 1
     local topLeftY = self.player.y
     local bottomLeftY = self.player.y + self.player.height - 1
@@ -29,7 +32,10 @@ function PlayerWalkingState:update(dt)
     local topRow = math.floor(topLeftY / TILE_SIZE) + 1
     local bottomRow = math.floor(bottomLeftY / TILE_SIZE) + 1
 
-    if love.keyboard.isDown('left') then
+    if keyLeft and keyRight then
+        self.player.dx = 0
+        self.player.stateMachine:change('idle')
+    elseif keyLeft then
         self.player.dx = -WALKING_SPEED
 
         local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
@@ -40,7 +46,7 @@ function PlayerWalkingState:update(dt)
             self.player.dx = 0
             self.player.x = (topLeftCol) * TILE_SIZE
         end
-    elseif love.keyboard.isDown('right') then
+    elseif keyRight then
         self.player.dx = WALKING_SPEED
         local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
         local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][topRightCol]

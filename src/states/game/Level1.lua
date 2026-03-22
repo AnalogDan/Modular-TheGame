@@ -5,9 +5,9 @@ function Level1:init()
     self.nextLevel = 'level2'
     math.randomseed(0)
     love.audio.setVolume(3)
-    gSounds['music1']:setVolume(0.2)
-    gSounds['music1']:setLooping(true)  
-    gSounds['music1']:play()
+    -- gSounds['music1']:setVolume(0.2)
+    -- gSounds['music1']:setLooping(true)  
+    -- gSounds['music1']:play()
 
     -- replace ambience1 with pure birds and wind
     -- gSounds['ambience1']:setVolume(0.7)

@@ -21,6 +21,7 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
         [self.rootDeathAnimation] = gTextures['rootDeathSheet'],
     }
     self.direction  = "right"
+    self.directionLocked = false
     
     self.tileMap = tileMap
     self.hitWidth = 7
@@ -38,13 +39,17 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
         ['sliding'] = function() return PlayerSlidingState(self) end,
         ['wallJump'] = function() return PlayerWallJumpState(self) end,
         ['introduction'] = function() return PlayerIntroductionState(self) end,
-        ['dead'] = function() return PlayerDeadState(self) end
+        ['dead'] = function() return PlayerDeadState(self) end,
+        ['dialogue'] = function() return PlayerDialogueState(self) end
     }
     self.stateString = "alive"
     self.currentLevel = currentLevel or "game"
     self.nextLevel = nextLevel or "game"
 
-    self.pickedApple =
+    self.pickedApple = false
+    self.touchedTrigger = false
+    self.prevCanControl = true
+    self.canControl = true
     self.stateMachine:change('introduction')
 end
 
@@ -60,8 +65,12 @@ function Player:gotHit()
 end
 
 function Player:update(dt)
-
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
+    
     self.stateMachine:update(dt)
+    
+
     -- update position based on velocity
     Entity.update(self, dt)
 
@@ -69,11 +78,53 @@ function Player:update(dt)
     self.hitY = self.y + 1.5
     self.currentAnimation:update(dt)
 
-    if love.keyboard.isDown('right') then
+    if keyRight and keyLeft then
+    elseif keyRight and self.canControl and not self.directionLocked then
         self.direction = 'right'
-    elseif love.keyboard.isDown('left') then
+    elseif keyLeft and self.canControl and not self.directionLocked then
         self.direction = 'left'
     end
+
+    --Override controls when on dialogue 
+    if self.canControl ~= self.prevCanControl then
+        if not self.canControl then
+            self.stateMachine:change('dialogue')
+        else
+            self.stateMachine:change('falling') 
+        end
+
+        self.prevCanControl = self.canControl
+    end
+
+    --If collided with trigger
+    if self:collidesWithType('trigger') then
+        self.touchedTrigger = true
+    end
+
+end
+
+--Function to know you collided with certain tile
+function Player:collidesWithType(type)
+    local tileSize = 8
+
+    local leftTile   = math.floor(self.hitX / tileSize) + 1
+    local rightTile  = math.floor((self.hitX + self.hitWidth) / tileSize) + 1
+    local topTile    = math.floor(self.hitY / tileSize) + 1
+    local bottomTile = math.floor((self.hitY + self.hitHeight) / tileSize) + 1
+
+    for y = topTile, bottomTile do
+        if self.tileMap[y] then
+            for x = leftTile, rightTile do
+                local tile = self.tileMap[y][x]
+
+                if tile and tile.type == type then
+                    return true, tile
+                end
+            end
+        end
+    end
+
+    return false
 end
 
 function Player:render()

@@ -1,28 +1,21 @@
-PlayerDeadState = Class{__includes = BaseState}
+PlayerDialogueState = Class{__includes = BaseState}
 
-function PlayerDeadState:init(player)
+function PlayerDialogueState:init(player)
     self.player = player
-    self.currentLevel = player.currentLevel
 end
 
-function PlayerDeadState:enter()
-    self.player.directionLocked = true
+function PlayerDialogueState:enter()
     self.player.dx = 0 
-    self.player.dy = FALL_SPEED - 30
-    self.player.currentAnimation = self.player.rootDeathAnimation
+    self.player.dy = 20
+    self.player.currentAnimation = self.player.fallAnimation
     self.player.currentAnimation:reset()
-    self.player.stateString = "dead"
-    self.timer = 0
-
-    gSounds['electric']:setVolume(1)
-    gSounds['electric']:play()
 end
 
-function PlayerDeadState:update(dt)
-    self.timer = self.timer + dt
-    if self.timer > 2.5 then
-        self.player.directionLocked = false
-        gStateMachine:change(self.currentLevel)
+function PlayerDialogueState:update(dt)
+    if self.player.dy < FALL_SPEED then 
+        self.player.dy = self.player.dy + GRAVITY * dt
+    else
+        self.player.dy = FALL_SPEED
     end
 
     ---------Check bottom collision
@@ -45,10 +38,10 @@ function PlayerDeadState:update(dt)
        (bottomCenterTile2 and bottomCenterTile2 ~= 0 and bottomCenterTile2.solid) or
        (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
         self.player.dy = 0
-        self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
+        self.player.currentAnimation = self.player.idleAnimation
     end
     
 end
 
-function PlayerDeadState:render()
+function PlayerDialogueState:render()
 end

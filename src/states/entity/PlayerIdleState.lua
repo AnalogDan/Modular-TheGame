@@ -11,12 +11,17 @@ function PlayerIdleState:enter()
 end
 
 function PlayerIdleState:update(dt)
-    -- switch to walking if left/right pressed
-    if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
-        self.player.stateMachine:change('walking')
-    -- jump if space pressed
-    elseif love.keyboard.wasPressed('space') then
+    local keyLeft = love.keyboard.isDown('left')
+    local keyRight = love.keyboard.isDown('right')
+    local keySpace = love.keyboard.wasPressed('space')
+
+    -- Movement
+    if keySpace then
         self.player.stateMachine:change('jumping')
+    elseif keyLeft and keyRight then
+        
+    elseif keyLeft or keyRight then
+        self.player.stateMachine:change('walking')
     end
 end
 

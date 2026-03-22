@@ -33,6 +33,7 @@ require 'src/states/entity/PlayerWallJumpState'
 require 'src/states/entity/PlayerSlidingState'
 require 'src/states/entity/PlayerDeadState'
 require 'src/states/entity/PlayerIntroductionState'
+require 'src/states/entity/PlayerDialogueState'
 require 'src/states/entity/enemy/EnemyMovingState'
 require 'src/states/entity/items/AppleState'
 require 'src/states/entity/items/DoorState'
@@ -111,6 +112,7 @@ gTextures = {
     ['testWJumpLeft'] = love.graphics.newImage('graphics/test-wJump-right.png'),
     ['testWJumpRight'] = love.graphics.newImage('graphics/test-wJump-left.png'),
     ['testEnemy'] = love.graphics.newImage('graphics/test-enemy.png'),
+    ['triggerTile'] = love.graphics.newImage('graphics/trigger-tile.png'),
 
     ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
     ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),

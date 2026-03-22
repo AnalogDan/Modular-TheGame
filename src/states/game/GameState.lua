@@ -51,9 +51,9 @@ function GameState:init()
             }
         end
     end
-    ----test columns
-    for y = 8, 11 do
-        for x = 15, 15 do
+    --walljump T
+    for y = 7, 7 do
+        for x = 5, 17 do
             self.tileMap[y][x] = {
                 type = 'stone',
                 solid = true,
@@ -61,22 +61,22 @@ function GameState:init()
                 quad = nil,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
-            }  
+            }
         end
     end
-    for y = 1, 11 do
+    for y = 8, 9 do
         for x = 11, 11 do
             self.tileMap[y][x] = {
-                -- type = 'goal',
                 type = 'stone',
                 solid = true,
                 texture = gTextures['fillTile1'],
                 quad = nil,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
-            }  
+            }
         end
     end
+    
 
     -----Decorate level
     -------Create empty decorative canvas
@@ -122,11 +122,11 @@ function GameState:init()
     
 
     
-    self.player = Player(120, 10, self.tileMap)
+    self.player = Player(-20, 78, self.tileMap)
     self.enemies = {
         -- Enemy(100, 80, self.player, "horizontal"),
         -- Enemy(120, 80, self.player, "vertical"),
-        Enemy(140, 80, self.player, "still")
+        Enemy(190, 80, self.player, "still")
     }
 end
 

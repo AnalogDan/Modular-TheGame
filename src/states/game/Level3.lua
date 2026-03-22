@@ -3,6 +3,7 @@ Level3 = Class{__includes = BaseState}
 function Level3:init()
     self.currentLevel = 'level3'
     self.nextLevel = 'level1'
+    self.triggerRemoved = false
     math.randomseed(0)
 
     ----To create and control dialogue
@@ -10,12 +11,12 @@ function Level3:init()
     self.sequences = {
         intro = {
             {
-                text = "Ah, there you are. I’ve been been been waiting waiting waiting What are we, but waiting people?",
+                text = "¡Bienvenido al pizarrón!",
                 portrait = gTextures.cara,
                 blip = "faceBlip"
             },
             {
-                text = "Eres bien puto.",
+                text = "¿Ves esa manzana? Debes recogerla para abrir el camino.",
                 portrait = gTextures.caraEnd,
                 blip = "faceBlip"
             }
@@ -179,6 +180,21 @@ function Level3:init()
             }
         end
     end
+
+    --trigger
+    for y = 5, 15 do
+        for x = 16,18 do
+            self.tileMap[y][x] = {
+                type = 'trigger',
+                solid = false,
+                --texture = gTextures['triggerTile'],
+                quad = nil,
+                x = ((x - 1) * tileSize),
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+
     --1 (Grayboxing)
     for y = 1, 18 do
         for x = 1, 2 do
@@ -762,6 +778,7 @@ function Level3:startSequence(name)
     self.sequenceIndex = 1
     self.showDialogue = true
     self:loadCurrentLine()
+    self.player.canControl = false
 end
 function Level3:loadCurrentLine()
     local entry = self.activeSequence[self.sequenceIndex]
@@ -785,9 +802,9 @@ end
 
 function Level3:update(dt)
     --To test dialogue
-    if love.keyboard.wasPressed("o") then
-        self:startSequence("warning")
-    end
+    -- if love.keyboard.wasPressed("o") then
+    --     self:startSequence("warning")
+    -- end
 
     self.player:update(dt)
 
@@ -806,9 +823,23 @@ function Level3:update(dt)
         end
     end
 
+    --When touchedTrigger 
+    if self.player.touchedTrigger and not self.triggerRemoved then
+        self.triggerRemoved = true
+        for y, row in pairs(self.tileMap) do
+            for x, tile in pairs(row) do
+                if tile.type == "trigger" then
+                    tile.type = "empty"
+                    tile.texture = nil
+                end
+            end
+        end
+
+        self:startSequence("intro")
+    end
+
     --Show dialogue
     if self.showDialogue and self.currentText then
-        -- Print one letter and make one blip at a time
         if self.visibleChars < #self.currentText then
             self.textTimer = self.textTimer + dt
             if self.textTimer >= self.textSpeed then
@@ -820,7 +851,6 @@ function Level3:update(dt)
             end
         end
 
-        -- Advance dialogue on enter
         if love.keyboard.wasPressed("return") then
             if self.visibleChars < #self.currentText then
                 self.visibleChars = #self.currentText
@@ -830,6 +860,7 @@ function Level3:update(dt)
                 if self.sequenceIndex > #self.activeSequence then
                     self.showDialogue = false
                     self.activeSequence = nil
+                    self.player.canControl = true
                 else
                     self:loadCurrentLine()
                 end
