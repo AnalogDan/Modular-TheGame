@@ -9,6 +9,7 @@ end
 function PlayerSlidingState:enter(direction)
     self.player.currentAnimation = self.player.slideAnimation
     self.direction = direction
+    self.player.slidingDirection = direction
     if self.direction == 'left' then
         self.player.currentTexture = gTextures['testSlidingLeft']
     else
@@ -88,10 +89,12 @@ function PlayerSlidingState:update(dt)
     end
 
     ----------------Jumping
-    if self.direction == 'left' and love.keyboard.wasPressed('space') then
+    if self.direction == 'left' and self.player.jumpBufferTime > 0 then
+        self.player.jumpBufferTime = 0
         gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'left')
-    elseif self.direction == 'right' and love.keyboard.wasPressed('space') then
+    elseif self.direction == 'right' and self.player.jumpBufferTime > 0 then
+        self.player.jumpBufferTime = 0
         gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'right')
     end

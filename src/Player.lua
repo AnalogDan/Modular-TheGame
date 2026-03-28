@@ -46,6 +46,11 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
     self.currentLevel = currentLevel or "game"
     self.nextLevel = nextLevel or "game"
 
+    self.slidingDirection = ""
+    self.coyoteTime = 0
+    self.coyoteMax = 0.15
+    self.jumpBufferTime = 0
+    self.jumpBufferMax = 0.15
     self.pickedApple = false
     self.touchedTrigger = false
     self.prevCanControl = true
@@ -69,7 +74,6 @@ function Player:update(dt)
     local keyRight = love.keyboard.isDown('right')
     
     self.stateMachine:update(dt)
-    
 
     -- update position based on velocity
     Entity.update(self, dt)
@@ -99,6 +103,19 @@ function Player:update(dt)
     --If collided with trigger
     if self:collidesWithType('trigger') then
         self.touchedTrigger = true
+    end
+
+    --Jumping input buffer
+    if love.keyboard.wasPressed('space') then
+        self.jumpBufferTime = self.jumpBufferMax
+    end
+    if self.jumpBufferTime > 0 then
+        self.jumpBufferTime = self.jumpBufferTime - dt
+    end
+
+    --Coyote time
+    if self.coyoteTime > 0 then
+        self.coyoteTime = self.coyoteTime - dt
     end
 
 end
@@ -148,6 +165,11 @@ function Player:render()
         1          
     )
     self.stateMachine.current:render()
+
+    --Debug text
+    -- local debugText = "Debug1: "
+    -- love.graphics.print(debugText .. tostring(self.debug1), 10, 20)
+
 
     -- ----Draw hitbox 
     -- love.graphics.setColor(1, 0, 0)

@@ -52,7 +52,7 @@ function GameState:init()
         end
     end
     --walljump T
-    for y = 7, 7 do
+    for y = 8, 8 do
         for x = 5, 17 do
             self.tileMap[y][x] = {
                 type = 'stone',
@@ -64,7 +64,7 @@ function GameState:init()
             }
         end
     end
-    for y = 8, 9 do
+    for y = 6, 9 do
         for x = 11, 11 do
             self.tileMap[y][x] = {
                 type = 'stone',

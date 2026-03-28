@@ -9,10 +9,20 @@ function StateMachine:init(states)
     }
     self.states = states or {}
     self.current = self.empty
+
+    --To store current and previous states as strings
+    self.currentStateName = nil
+    self.previousStateName = nil
 end
 
 function StateMachine:change(stateName, enterParams)
     assert(self.states[stateName])
+
+    --For state strings
+    self.previousStateName = self.currentStateName
+    self.currentStateName = stateName
+    --.
+
     self.current:exit();
     self.current = self.states[stateName]()
     if self.current.enter then 

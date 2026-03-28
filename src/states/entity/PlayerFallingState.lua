@@ -13,6 +13,7 @@ function PlayerFallingState:enter()
     self.player.dx = 0
     self.player.dy = 20
     self.soundFlag = false 
+    self.player.coyoteTime = self.player.coyoteMax
 end
 
 local function checkGoalTile(tile)
@@ -30,6 +31,32 @@ function PlayerFallingState:update(dt)
         self.player.dy = self.player.dy + GRAVITY * dt
     else
         self.player.dy = FALL_SPEED
+    end
+
+    ----------Coyote time jumping
+    local player = self.player
+    local prev = player.stateMachine.previousStateName
+
+    if player.jumpBufferTime > 0 then
+        if (prev == 'walking' or prev == 'idle') and player.coyoteTime > 0 then
+            player.jumpBufferTime = 0
+            player.coyoteTime = 0
+            player.stateMachine:change('jumping')
+        end
+
+        if prev == 'sliding' and player.coyoteTime > 0 and player.slidingDirection == "left" then
+            player.jumpBufferTime = 0
+            player.coyoteTime = 0
+            player.dx = 70
+            player.stateMachine:change('wallJump', 'left')
+            return
+        elseif prev == 'sliding' and player.coyoteTime > 0 and player.slidingDirection == "right" then
+            player.jumpBufferTime = 0
+            player.coyoteTime = 0
+            player.stateMachine:change('wallJump', 'right')
+            return
+        end
+
     end
 
     ----------Move to sides and initiate sliding  

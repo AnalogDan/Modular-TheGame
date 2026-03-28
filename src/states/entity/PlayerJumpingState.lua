@@ -30,7 +30,7 @@ function PlayerJumpingState:update(dt)
         self.player.stateMachine:change('falling')
     end
 
-    ---------------------- head collision
+    ---------------------- head collision and corner correction
     local leftX = self.player.x
     local middleX = self.player.x + (self.player.width / 2)
     local rightX = self.player.x + self.player.width - 1
@@ -45,12 +45,26 @@ function PlayerJumpingState:update(dt)
     local middleTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][middleCol]
     local rightTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][rightCol]
 
+    local CORNER_PIXELS = 4
+    local leftInsetX = self.player.x + CORNER_PIXELS
+    local rightInsetX = self.player.x + self.player.width - CORNER_PIXELS
+    local leftInsetCol = math.floor(leftInsetX / TILE_SIZE) + 1
+    local rightInsetCol = math.floor(rightInsetX / TILE_SIZE) + 1
+    local leftInsetTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][leftInsetCol] --Tile 2 pixels away from the left edge
+    local rightInsetTile = self.player.tileMap[topRow2] and self.player.tileMap[topRow2][rightInsetCol] --Tile 2 pixels away from the right edge
+
     if (leftTile ~= 0 and leftTile and leftTile.solid) or
     (middleTile ~= 0 and middleTile and middleTile.solid) or
     (rightTile ~= 0 and rightTile and rightTile.solid) then
-        self.player.dy = 0        
-        self.player.y = (topRow2 * TILE_SIZE) 
-        self.player.stateMachine:change('falling')
+        if leftTile and leftTile.solid and (not leftInsetTile or not leftInsetTile.solid) then
+            self.player.x = leftCol * TILE_SIZE
+        elseif rightTile and rightTile.solid and (not rightInsetTile or not rightInsetTile.solid) then
+            self.player.x = (rightCol - 1) * TILE_SIZE - self.player.width
+        else
+            self.player.dy = 0        
+            self.player.y = (topRow2 * TILE_SIZE) 
+            self.player.stateMachine:change('falling')
+        end
     end
 
 

@@ -200,45 +200,8 @@ function PlayerWallJumpState:update(dt)
 end
 
 function PlayerWallJumpState:render()
-
-    -- love.graphics.setColor(1, 0, 0, 0.3) -- red with transparency
-    -- local leftX = self.player.x - 1
-    -- local rightX = self.player.x + self.player.width + 1
-    -- local topY = self.player.y + 4
-    -- local height = (self.player.y + self.player.height - 1) - topY
-    -- love.graphics.rectangle("fill",
-    --     math.floor(leftX),
-    --     math.floor(topY),
-    --     2,
-    --     math.floor(height)
-    -- )
-    -- love.graphics.rectangle("fill",
-    --     math.floor(rightX),
-    --     math.floor(topY),
-    --     2,
-    --     math.floor(height)
-    -- )
-    -- love.graphics.setColor(1, 1, 1)
-
-    -- --Top hitbox
-    -- love.graphics.setColor(0, 0, 1, 0.3) --Blue with transparency
-    -- local leftX = self.player.x - 1
-    -- local rightX = self.player.x + self.player.width + 1
-    -- local topY = self.player.y + 3
-    -- local height = 1
-    -- love.graphics.rectangle("fill",
-    --     math.floor(leftX),
-    --     math.floor(topY),
-    --     2,
-    --     math.floor(height)
-    -- )
-    -- love.graphics.rectangle("fill",
-    --     math.floor(rightX),
-    --     math.floor(topY),
-    --     2,
-    --     math.floor(height)
-    -- )
-    -- love.graphics.setColor(1, 1, 1)
-
+    --Debug text
+    -- local debugText = "dx: "
+    -- love.graphics.print(debugText .. tostring(self.player.dx), 10, 60)
 
 end

@@ -16,7 +16,8 @@ function PlayerIdleState:update(dt)
     local keySpace = love.keyboard.wasPressed('space')
 
     -- Movement
-    if keySpace then
+    if self.player.jumpBufferTime > 0 then
+        self.player.jumpBufferTime = 0
         self.player.stateMachine:change('jumping')
     elseif keyLeft and keyRight then
         
