@@ -18,6 +18,13 @@ function Item:init(x, y, player, type)
             [self.doorAnimation] = gTextures['doorSheet'],
         }
         self.currentAnimation = self.doorAnimation
+    elseif self.type == "tales" then
+        self.useAnimation = true
+        self.talesAnimation = Animation(gFrames['talesIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.talesAnimation] = gTextures['talesIdleSheet'],
+        }
+        self.currentAnimation = self.talesAnimation
     end 
 
     self.player = player
@@ -33,7 +40,8 @@ function Item:init(x, y, player, type)
     Entity.init(self, x, y, self.width, self.height)
     self.stateMachine = StateMachine {
         ['apple'] = function() return AppleState(self) end,
-        ['door'] = function() return DoorState(self) end
+        ['door'] = function() return DoorState(self) end,
+        ['tales'] = function() return TalesState(self) end,
     }
 
     self.stateMachine:change(self.type)
@@ -46,6 +54,11 @@ function Item:update(dt)
 end
 
 function Item:render()
+    if self.type == 'tales' then
+        self.stateMachine.current:render()
+        return
+    end
+
     local texture = self.animTextures[self.currentAnimation]
     local frame
 

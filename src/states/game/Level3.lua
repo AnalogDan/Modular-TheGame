@@ -2,7 +2,7 @@ Level3 = Class{__includes = BaseState}
 
 function Level3:init()
     self.currentLevel = 'level3'
-    self.nextLevel = 'level1'
+    self.nextLevel = 'level4'
     self.triggerRemoved = false
     math.randomseed(0)
 
