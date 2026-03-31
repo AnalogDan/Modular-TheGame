@@ -78,7 +78,7 @@ function PlayerWallJumpState:update(dt)
     
 
     elseif keyRight and self.canMove and self.direction == 'right' then 
-        self.player.dx = self.player.dx - 300 * dt
+        self.player.dx = self.player.dx + 300 * dt
         if self.player.dx < 0 then 
             self.player.currentTexture = gTextures['testWJumpLeft']
             self.direction = 'left'
@@ -93,6 +93,7 @@ function PlayerWallJumpState:update(dt)
     --------sides collision 
     local leftX = self.player.x - 1
     local rightX = self.player.x + self.player.width + 1
+
     local topY = self.player.y + 4
     local middleY = self.player.y + 5
     local bottomY = self.player.y + self.player.height - 1
@@ -100,47 +101,47 @@ function PlayerWallJumpState:update(dt)
     local leftCol = math.floor(leftX / TILE_SIZE) + 1
     local rightCol = math.floor(rightX / TILE_SIZE) + 1
 
-    local topYRow2 = math.floor(topY / TILE_SIZE) + 1
-    local middleYRow = math.floor(middleY / TILE_SIZE) + 1
-    local bottomYRow = math.floor(bottomY / TILE_SIZE) + 1
+    local topRow = math.floor(topY / TILE_SIZE) + 1
+    local midRow = math.floor(middleY / TILE_SIZE) + 1
+    local botRow = math.floor(bottomY / TILE_SIZE) + 1
 
-    if self.direction == 'right' then
-        local topLeftTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][leftCol]
-        local middleLeftTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][leftCol]
-        local bottomLeftTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][leftCol]
+    if self.player.dx > 0 then -- moving RIGHT → check RIGHT wall
+        local topTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][rightCol]
+        local midTile = self.player.tileMap[midRow] and self.player.tileMap[midRow][rightCol]
+        local botTile = self.player.tileMap[botRow] and self.player.tileMap[botRow][rightCol]
 
-        if (topLeftTile and topLeftTile ~= 0 and topLeftTile.solid) or
-        (middleLeftTile and middleLeftTile ~= 0 and middleLeftTile.solid) or
-        (bottomLeftTile and bottomLeftTile ~= 0 and bottomLeftTile.solid) then
-        
-            self.player.dx = 0
-            self.player.x = (leftCol) * TILE_SIZE
-            self.player.stateMachine:change('sliding', 'left')
-        end
-
-        if checkGoalTile(topLeftTile) then
-            self.player:reachGoal()
-        end
-
-    elseif self.direction == 'left' then
-        local topRightTile = self.player.tileMap[topYRow2] and self.player.tileMap[topYRow2][rightCol]
-        local middleRightTile = self.player.tileMap[middleYRow] and self.player.tileMap[middleYRow][rightCol]
-        local bottomRightTile = self.player.tileMap[bottomYRow] and self.player.tileMap[bottomYRow][rightCol]
-
-        if (topRightTile and topRightTile ~= 0 and topRightTile.solid) or
-        (middleRightTile and middleRightTile ~= 0 and middleRightTile.solid) or
-        (bottomRightTile and bottomRightTile ~= 0 and bottomRightTile.solid) then
+        if (topTile and topTile ~= 0 and topTile.solid) or
+        (midTile and midTile ~= 0 and midTile.solid) or
+        (botTile and botTile ~= 0 and botTile.solid) then
 
             self.player.dx = 0
             self.player.x = (rightCol - 1) * TILE_SIZE - self.player.width
+            if self.player.direction == 'left' then
+                self.player.direction = 'right'
+            end
             self.player.stateMachine:change('sliding', 'right')
-        end
-
-        if checkGoalTile(topRightTile) then
-            self.player:reachGoal()
+            return
         end
     end
 
+    if self.player.dx < 0 then -- moving LEFT → check LEFT wall
+        local topTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][leftCol]
+        local midTile = self.player.tileMap[midRow] and self.player.tileMap[midRow][leftCol]
+        local botTile = self.player.tileMap[botRow] and self.player.tileMap[botRow][leftCol]
+
+        if (topTile and topTile ~= 0 and topTile.solid) or
+        (midTile and midTile ~= 0 and midTile.solid) or
+        (botTile and botTile ~= 0 and botTile.solid) then
+
+            self.player.dx = 0
+            self.player.x = (leftCol) * TILE_SIZE
+            if self.player.direction == 'right' then
+                self.player.direction = 'left'
+            end
+            self.player.stateMachine:change('sliding', 'left')
+            return
+        end
+    end
     
 
     ---------Check bottom collision

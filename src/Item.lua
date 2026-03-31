@@ -18,6 +18,14 @@ function Item:init(x, y, player, type)
             [self.doorAnimation] = gTextures['doorSheet'],
         }
         self.currentAnimation = self.doorAnimation
+    elseif self.type == "entrance" then
+        self.useAnimation = false
+        self.entranceAnimation = Animation(gFrames['doorSheet'], 0.07, false)
+        self.animTextures = {
+            [self.entranceAnimation] = gTextures['doorSheet'],
+        }
+        self.currentAnimation = self.entranceAnimation
+        self.entranceAnimation:setToLastFrame()
     elseif self.type == "tales" then
         self.useAnimation = true
         self.talesAnimation = Animation(gFrames['talesIdleSheet'], 0.2)
@@ -41,6 +49,7 @@ function Item:init(x, y, player, type)
     self.stateMachine = StateMachine {
         ['apple'] = function() return AppleState(self) end,
         ['door'] = function() return DoorState(self) end,
+        ['entrance'] = function() return EntranceState(self) end,
         ['tales'] = function() return TalesState(self) end,
     }
 
@@ -50,11 +59,13 @@ end
 function Item:update(dt)
     self.stateMachine:update(dt)
     Entity.update(self, dt)
-    self.currentAnimation:update(dt)
+    if self.useAnimation then
+        self.currentAnimation:update(dt)
+    end
 end
 
 function Item:render()
-    if self.type == 'tales' then
+    if self.type == 'tales' or self.type == 'entrance' then
         self.stateMachine.current:render()
         return
     end
@@ -62,11 +73,7 @@ function Item:render()
     local texture = self.animTextures[self.currentAnimation]
     local frame
 
-    if self.useAnimation then
-        frame = self.currentAnimation:getFrame()
-    else
-        frame = self.currentAnimation.frames[1] -- first quad
-    end
+    frame = self.currentAnimation:getFrame()
 
     local scaleX = 1
     local offsetX = 0

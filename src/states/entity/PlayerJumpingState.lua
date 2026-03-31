@@ -18,6 +18,10 @@ function PlayerJumpingState:enter()
     gSounds['jump']:play()
 end
 
+local function checkGoalTile(tile)
+    return tile and tile ~= 0 and tile.type == 'goal'
+end
+
 function PlayerJumpingState:update(dt)
     local keyLeft = love.keyboard.isDown('left')
     local keyRight = love.keyboard.isDown('right')
@@ -111,6 +115,16 @@ function PlayerJumpingState:update(dt)
         end
     else
         self.player.dx = 0
+    end
+
+    -- Check Goal
+    local topLeftTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
+    local bottomLeftTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomLeftCol]
+    local topRightTile = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
+    local bottomRightTile = self.player.tileMap[bottomRow] and self.player.tileMap[bottomRow][bottomRightCol]
+    if checkGoalTile(topLeftTile) or checkGoalTile(topRightTile) or
+       checkGoalTile(bottomLeftTile) or checkGoalTile(bottomRightTile)  then
+        self.player:reachGoal()
     end
 end
 

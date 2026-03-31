@@ -307,6 +307,17 @@ function Level4:init()
             }
         end
     end
+    --entrance
+    for y = 16, 17 do
+        for x = 1, 1 do
+            self.tileMap[y][x] = {
+                type = 'entrance',
+                solid = true,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
 
 
     -----Decorate level
@@ -417,6 +428,7 @@ function Level4:init()
     }
     self.items = {
         Item(144, 80, self.player, "tales"),
+        Item(0, 120, self.player, "entrance"),
         -- Item(152, 88, self.player, "apple"),
     }
 end
@@ -535,7 +547,7 @@ function Level4:update(dt)
             end
         end
 
-        if love.keyboard.wasPressed('return') then
+        if love.keyboard.wasPressed('return') and trim(self.playerInput) ~= "" then
             local entry = self.activeSequence[self.sequenceIndex]
             if trim(self.playerInput) == trim(entry.answer) then
                 self:startSequence(entry.successSequence)
@@ -652,22 +664,18 @@ function Level4:render()
 
     --Draw questions input
     if self.isAnswering then
-        -- dark overlay (fake blur)
         love.graphics.setColor(0, 0, 0, 0.6)
         love.graphics.rectangle("fill", 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
         local font = love.graphics.getFont()
 
-        -- center based ONLY on input text
         local textWidth = font:getWidth(self.playerInput)
         local centerX = VIRTUAL_WIDTH / 2
         local x = centerX - (textWidth / 2)
 
-        -- draw text
         love.graphics.setColor(1, 1, 1)
         love.graphics.print(self.playerInput, x, 80)
 
-        -- draw cursor separately
         if self.cursorVisible then
             local cursorX = x + textWidth
             love.graphics.print("_", cursorX, 80)

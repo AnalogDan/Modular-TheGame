@@ -78,6 +78,9 @@ function PlayerWalkingState:update(dt)
     local bottomCenterTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomCenterCol2]
     local bottomRightTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomRightCol2]
 
+    local topLeftTile2 = self.player.tileMap[topRow] and self.player.tileMap[topRow][topLeftCol]
+    local topRightTile2 = self.player.tileMap[topRow] and self.player.tileMap[topRow][topRightCol]
+
     local isOnGround = false
 
     for _, tile in ipairs({bottomLeftTile2, bottomCenterTile2, bottomRightTile2}) do
@@ -96,14 +99,15 @@ function PlayerWalkingState:update(dt)
         self.player.stateMachine:change('jumping')
     end
 
-    if checkGoalTile(bottomLeftTile2) or checkGoalTile(bottomRightTile2) then
+    if checkGoalTile(bottomLeftTile2) or checkGoalTile(bottomRightTile2) or
+       checkGoalTile(topLeftTile2) or checkGoalTile(topRightTile2)  then
         self.player:reachGoal()
     end
 
     --sound loop
-    if not gSounds['step']:isPlaying() and not self.soundflag then
+    if not gSounds['step']:isPlaying() and not self.soundFlag then
         self.soundFlag = true
-    elseif not gSounds['step']:isPlaying() and self.soundflag then
+    elseif not gSounds['step']:isPlaying() and self.soundFlag then
         self.soundFlag = false
     end
     if not self.soundFlag then 

@@ -55,6 +55,7 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
     self.touchedTrigger = false
     self.prevCanControl = true
     self.canControl = true
+    self.enteredRoom = false
     self.stateMachine:change('introduction')
 end
 

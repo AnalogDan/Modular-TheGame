@@ -39,6 +39,7 @@ require 'src/states/entity/enemy/EnemyMovingState'
 
 require 'src/states/entity/items/AppleState'
 require 'src/states/entity/items/DoorState'
+require 'src/states/entity/items/EntranceState'
 require 'src/states/entity/items/TalesState'
 
 gFonts = {

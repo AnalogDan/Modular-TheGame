@@ -24,11 +24,11 @@ function DoorState:update(dt)
         self.door.currentAnimation:reset()
         -- Make grayboxing door not solid
         for y, row in pairs(player.tileMap) do
-        for x, tile in pairs(row) do
-            if tile.type == "door" then
-                tile.solid = false
+            for x, tile in pairs(row) do
+                if tile.type == "door" then
+                    tile.solid = false
+                end
             end
         end
-    end
     end
 end

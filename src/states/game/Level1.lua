@@ -4,7 +4,7 @@ function Level1:init()
     self.currentLevel = 'level1'
     self.nextLevel = 'level2'
     math.randomseed(0)
-    love.audio.setVolume(3)
+    -- love.audio.setVolume(3)
     -- gSounds['music1']:setVolume(0.2)
     -- gSounds['music1']:setLooping(true)  
     -- gSounds['music1']:play()
@@ -241,6 +241,18 @@ function Level1:init()
             }
         end
     end
+    --entrance
+    for y = 12, 13 do
+        for x = 1, 1 do
+            self.tileMap[y][x] = {
+                type = 'entrance',
+                solid = true,
+                --texture = gTextures['fillTile1'],
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
 
 
     -----Decorate level
@@ -466,11 +478,31 @@ function Level1:init()
         end
     end
     --18
-    for y = 6, 13 do
+    for y = 6, 10 do
         for x = 1, 1 do
             local randomQuad = (gFrames['edgeTileSheet1Right'][math.random(#gFrames['edgeTileSheet1Right'])])
             self.decorativeTiles[y][x] = {
                 texture = gTextures['edgeTileSheet1Right'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --Patch for entrance 
+    local y = 11
+    local x = 1
+    self.decorativeTiles[y][x] = {
+        texture = gTextures['edgeOuterCorner1'],
+        quad = (gFrames['edgeOuterCorner1'][4]),
+        x = (x - 1) * tileSize,
+        y = (y - 1) * tileSize,
+    }
+    for y = 14, 14 do
+        for x = 1, 1 do
+            local randomQuad = (gFrames['edgeTileSheet1'][math.random(#gFrames['edgeTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['edgeTileSheet1'],
                 quad = randomQuad,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
@@ -515,14 +547,7 @@ function Level1:init()
     end
     ------Edge Corners
     --1
-    local y = 14
-    local x = 1
-    self.decorativeTiles[y][x] = {
-        texture = gTextures['edgeInnerCorner1'],
-        quad = (gFrames['edgeInnerCorner1'][2]),
-        x = (x - 1) * tileSize,
-        y = (y - 1) * tileSize,
-    }
+    
     --2
     local y = 14
     local x = 4
@@ -1008,16 +1033,33 @@ function Level1:init()
     self.enemies = {
         --Enemy(140, 80, self.player, "still")
     }
+    self.items = {
+        Item(0, 88, self.player, "entrance"),
+        --Item(152, 88, self.player, "apple"),
+    }
 end
 
 function Level1:update(dt)
     self.player:update(dt)
+
+    --Update enemies and items unless they're removed
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
+    end
+
+    for _, item in ipairs(self.items) do
+        item:update(dt)
+        
+    end
+    for i = #self.items, 1, -1 do
+        if self.items[i].removed then
+            table.remove(self.items, i)
+        end
     end
 end
 
 function Level1:render()
+
     --draw bg tileMap
     for y = 1, #self.backgroundTileMap do
         for x = 1, #self.backgroundTileMap[y] do
@@ -1076,6 +1118,14 @@ function Level1:render()
                 end
             end
         end
+    end
+
+    --Render enemies and items
+    for _, enemy in ipairs(self.enemies) do
+        enemy:render()
+    end
+    for _, items in ipairs(self.items) do
+        items:render()
     end
 
 -- love.graphics.setFont(gFonts['dogicapixel'])

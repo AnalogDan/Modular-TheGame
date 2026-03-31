@@ -312,6 +312,17 @@ function Level3:init()
             }
         end
     end
+    --entrance
+    for y = 1, 1 do
+        for x = 3, 6 do
+            self.tileMap[y][x] = {
+                type = 'entrance',
+                solid = true,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
 
     -----Decorate level
     -------Create empty decorative canvas
@@ -765,6 +776,10 @@ function Level3:init()
         --Enemy(24, 8, self.player, "vertical"),
     }
     self.items = {
+        Item(16, -1, self.player, "entrance"),
+        Item(24, -5, self.player, "entrance"),
+        Item(32, 0, self.player, "entrance"),
+        Item(40, -7, self.player, "entrance"),
         Item(240, 104, self.player, "door"),
         Item(152, 88, self.player, "apple"),
     }
