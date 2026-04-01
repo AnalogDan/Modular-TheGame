@@ -146,6 +146,18 @@ gTextures = {
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
     ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
 
+    --Level2
+    ['treeThing'] = love.graphics.newImage('graphics/levels/level2/treeThing.png'),
+    ['log'] = love.graphics.newImage('graphics/levels/level2/log.png'),
+    ['smallLog'] = love.graphics.newImage('graphics/levels/level2/smallLog.png'),
+    ['bgArt2'] = love.graphics.newImage('graphics/levels/level2/bg-art2.png'),
+
+    --Level3
+    ['bgArt3'] = love.graphics.newImage('graphics/levels/level3/bg-art3.png'),
+
+    --Level4
+    ['bgArt4'] = love.graphics.newImage('graphics/levels/level4/bg-art4.png'),
+
     --portraits
     ['caraBig'] = love.graphics.newImage('graphics/portraits/caraBig.png'),
     ['caraBigEnd'] = love.graphics.newImage('graphics/portraits/caraBig-end.png'),

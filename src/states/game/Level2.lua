@@ -3,6 +3,7 @@ Level2 = Class{__includes = BaseState}
 function Level2:init()
     self.currentLevel = 'level2'
     self.nextLevel = 'level3'
+    math.randomseed(0)
     love.audio.setVolume(3)
     -- gSounds['music1']:setVolume(0.2)
     -- gSounds['music1']:setLooping(true)  
@@ -56,6 +57,19 @@ function Level2:init()
                 type = 'goal',
                 solid = false,
                 texture = gTextures['testGoal'],
+                quad = nil,
+                x = ((x - 1) * tileSize),
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --door
+    for y = 4, 5 do
+        for x = 32, 32 do
+            self.tileMap[y][x] = {
+                type = 'door',
+                solid = true,
+                --texture = gTextures['testGoal'],
                 quad = nil,
                 x = ((x - 1) * tileSize),
                 y = (y - 1) * tileSize,
@@ -166,11 +180,24 @@ function Level2:init()
     end
     --7
     for y = 7, 7 do
-        for x = 10, 19 do
+        for x = 10, 15 do
             self.tileMap[y][x] = {
                 type = 'stone',
                 solid = true,
                 texture = gTextures['fillTile1'],
+                quad = nil,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --7 patch
+    for y = 7, 7 do
+        for x = 16, 19 do
+            self.tileMap[y][x] = {
+                type = 'stone',
+                solid = true,
+                --texture = gTextures['fillTile1'],
                 quad = nil,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
@@ -209,7 +236,7 @@ function Level2:init()
             self.tileMap[y][x] = {
                 type = 'stone',
                 solid = true,
-                texture = gTextures['fillTile1'],
+                --texture = gTextures['fillTile1'],
                 quad = nil,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
@@ -331,8 +358,8 @@ function Level2:init()
     local y = 7
     local x = 18
     self.decorativeTiles[y][x] = {
-        texture = gTextures['edgeInnerCorner1'],
-        quad = (gFrames['edgeInnerCorner1'][1]),
+        -- texture = gTextures['edgeInnerCorner1'],
+        -- quad = (gFrames['edgeInnerCorner1'][1]),
         x = (x - 1) * tileSize,
         y = (y - 1) * tileSize,
     }
@@ -450,8 +477,8 @@ function Level2:init()
     local y = 5
     local x = 18
     self.decorativeTiles[y][x] = {
-        texture = gTextures['edgeOuterCorner1'],
-        quad = (gFrames['edgeOuterCorner1'][1]),
+        -- texture = gTextures['edgeOuterCorner1'],
+        -- quad = (gFrames['edgeOuterCorner1'][1]),
         x = (x - 1) * tileSize,
         y = (y - 1) * tileSize,
     }
@@ -459,8 +486,8 @@ function Level2:init()
     local y = 5
     local x = 19
     self.decorativeTiles[y][x] = {
-        texture = gTextures['edgeOuterCorner1'],
-        quad = (gFrames['edgeOuterCorner1'][2]),
+        -- texture = gTextures['edgeOuterCorner1'],
+        -- quad = (gFrames['edgeOuterCorner1'][2]),
         x = (x - 1) * tileSize,
         y = (y - 1) * tileSize,
     }
@@ -468,8 +495,8 @@ function Level2:init()
     local y = 7
     local x = 19
     self.decorativeTiles[y][x] = {
-        texture = gTextures['edgeOuterCorner1'],
-        quad = (gFrames['edgeOuterCorner1'][4]),
+        -- texture = gTextures['edgeOuterCorner1'],
+        -- quad = (gFrames['edgeOuterCorner1'][4]),
         x = (x - 1) * tileSize,
         y = (y - 1) * tileSize,
     }
@@ -621,7 +648,7 @@ function Level2:init()
     end
     --7
     for y = 7, 7 do
-        for x = 12, 17 do
+        for x = 12, 15 do
             local randomQuad = (gFrames['edgeTileSheet1'][math.random(#gFrames['edgeTileSheet1'])])
             self.decorativeTiles[y][x] = {
                 texture = gTextures['edgeTileSheet1'],
@@ -636,8 +663,8 @@ function Level2:init()
         for x = 18, 18 do
             local randomQuad = (gFrames['edgeTileSheet1Left'][math.random(#gFrames['edgeTileSheet1Left'])])
             self.decorativeTiles[y][x] = {
-                texture = gTextures['edgeTileSheet1Left'],
-                quad = randomQuad,
+                --texture = gTextures['edgeTileSheet1Left'],
+                --quad = randomQuad,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
             }
@@ -648,8 +675,8 @@ function Level2:init()
         for x = 19, 19 do
             local randomQuad = (gFrames['edgeTileSheet1Right'][math.random(#gFrames['edgeTileSheet1Right'])])
             self.decorativeTiles[y][x] = {
-                texture = gTextures['edgeTileSheet1Right'],
-                quad = randomQuad,
+                --texture = gTextures['edgeTileSheet1Right'],
+                --quad = randomQuad,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
             }
@@ -861,18 +888,114 @@ function Level2:init()
     end
 
     ------Infill tiles
-    -- --1
-    -- for y = 1, 17 do
-    --     for x = 1, 1 do
-    --         local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
-    --         self.decorativeTiles[y][x] = {
-    --             texture = gTextures['infillTileSheet1'],
-    --             quad = randomQuad,
-    --             x = (x - 1) * tileSize,
-    --             y = (y - 1) * tileSize,
-    --         }
-    --     end
-    -- end
+    --1
+    for y = 9, 18 do
+        for x = 9, 9 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --2
+    for y = 9, 9 do
+        for x = 10, 11 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --3
+    for y = 8, 8 do
+        for x = 11, 13 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --4
+    for y = 8, 18 do
+        for x = 14, 14 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --5
+    for y = 16, 18 do
+        for x = 31, 31 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --6
+    for y = 7, 16 do
+        for x = 32, 32 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --7
+    for y = 1, 9 do
+        for x = 1, 1 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --8
+    for y = 1, 14 do
+        for x = 24, 24 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --9
+    for y = 1, 2 do
+        for x = 32, 32 do
+            local randomQuad = (gFrames['infillTileSheet1'][math.random(#gFrames['infillTileSheet1'])])
+            self.decorativeTiles[y][x] = {
+                texture = gTextures['infillTileSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
 
     --Foreground decoration
     ------Create empty fore-decorative canvas
@@ -891,7 +1014,123 @@ function Level2:init()
             }
         end
     end
-    
+    --Patch tile-logs
+    for y = 5, 5 do
+        for x = 15, 15 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['treeThing'],
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    for y = 5, 5 do
+        for x = 8, 8 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['log'],
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    for y = 15, 15 do
+        for x = 29, 29 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['smallLog'],
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --grass n rocks
+    --1
+    for y = 17, 17 do
+        for x = 2, 3 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --1
+    for y = 17, 17 do
+        for x = 6, 7 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --2
+    for y =7, 7 do
+        for x = 9, 9 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --3
+    for y = 6, 6 do
+        for x = 12, 15 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --4
+    for y = 17, 17 do
+        for x = 16, 17 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --4
+    for y = 17, 17 do
+        for x = 19, 22 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --4
+    for y = 17, 17 do
+        for x = 24, 27 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --5
+    for y = 13, 13 do
+        for x =  3, 4 do
+            self.foreDecorativeTiles[y][x] = {
+                texture = gTextures['foreProps1'],
+                quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
 
     
     self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel)
@@ -912,11 +1151,15 @@ function Level2:init()
         --6
         Enemy(214, 56, self.player, "vertical"),
         --7
-        Enemy(150, 46, self.player, "still"),   
+        Enemy(150, 46, self.player, "still"),  
+        --8
+        Enemy(190, 7, self.player, "horizontal"),
     }
     self.items = {
         Item(0, 120, self.player, "entrance"),
-        -- Item(152, 88, self.player, "apple"),
+        Item(121, 105, self.player, "apple"),
+        -- Item(40, 105, self.player, "apple"),
+        Item(248, 24, self.player, "door"),
     }
 end
 
@@ -952,6 +1195,8 @@ function Level2:render()
             end
         end
     end
+    --draw bg Art
+    love.graphics.draw(gTextures['bgArt2'], 0, 0)
      
     --draw graybox tileMap
     for y, row in pairs(self.tileMap) do
@@ -965,6 +1210,7 @@ function Level2:render()
             end
         end
     end
+    self.player:render()
 
     ----draw decorative tiles
     for y, row in ipairs(self.decorativeTiles) do
@@ -992,7 +1238,7 @@ function Level2:render()
         end
     end
 
-    self.player:render()
+    
     for _, enemy in ipairs(self.enemies) do
         enemy:render()
     end

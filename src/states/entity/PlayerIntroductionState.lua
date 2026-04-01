@@ -42,22 +42,24 @@ function PlayerIntroductionState:update(dt)
     end
 
     --sound loop
-    if not gSounds['step']:isPlaying() and not self.soundFlag and self.introDirection ~= "down" then
-        self.soundFlag = true
-    elseif not gSounds['step']:isPlaying() and self.soundFlag then
-        self.soundFlag = false
-    end
-    if not self.soundFlag then 
-        local pitch = 0.9 + math.random() * 0.5
-        gSounds['step']:setPitch(pitch)
-        gSounds['step']:setVolume(0.6)
-        gSounds['step']:play()
-    end
-    if self.soundFlag then
-        local pitch = 1 + math.random() * 0.3
-        gSounds['step']:setPitch(pitch)
-        gSounds['step']:setVolume(0.6)
-        gSounds['step']:play()
+    if self.introDirection ~= "down" then
+        if not gSounds['step']:isPlaying() and not self.soundFlag and self.introDirection ~= "down" then
+            self.soundFlag = true
+        elseif not gSounds['step']:isPlaying() and self.soundFlag then
+            self.soundFlag = false
+        end
+        if not self.soundFlag then 
+            local pitch = 0.9 + math.random() * 0.5
+            gSounds['step']:setPitch(pitch)
+            gSounds['step']:setVolume(0.6)
+            gSounds['step']:play()
+        end
+        if self.soundFlag then
+            local pitch = 1 + math.random() * 0.3
+            gSounds['step']:setPitch(pitch)
+            gSounds['step']:setVolume(0.6)
+            gSounds['step']:play()
+        end
     end
 end
 

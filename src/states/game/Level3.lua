@@ -898,6 +898,8 @@ function Level3:render()
             end
         end
     end
+    --draw bg Art
+    love.graphics.draw(gTextures['bgArt3'], 0, 0)
      
     --draw graybox tileMap
     for y, row in pairs(self.tileMap) do

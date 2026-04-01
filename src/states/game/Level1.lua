@@ -1074,7 +1074,7 @@ function Level1:render()
         end
     end
     --draw bg Art
-    love.graphics.draw(gTextures['bgArt1'], 1, 1)
+    love.graphics.draw(gTextures['bgArt1'], 0, 0)
     
     --draw solid tileMap
     for y, row in pairs(self.tileMap) do

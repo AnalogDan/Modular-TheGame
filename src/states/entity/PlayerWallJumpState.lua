@@ -122,6 +122,10 @@ function PlayerWallJumpState:update(dt)
             self.player.stateMachine:change('sliding', 'right')
             return
         end
+
+        if checkGoalTile(topTile) or checkGoalTile(midTile) or checkGoalTile(botTile) then
+            self.player:reachGoal()
+        end
     end
 
     if self.player.dx < 0 then -- moving LEFT → check LEFT wall
@@ -140,6 +144,10 @@ function PlayerWallJumpState:update(dt)
             end
             self.player.stateMachine:change('sliding', 'left')
             return
+        end
+
+        if checkGoalTile(topTile) or checkGoalTile(midTile) or checkGoalTile(botTile) then
+            self.player:reachGoal()
         end
     end
     
