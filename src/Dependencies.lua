@@ -26,6 +26,11 @@ require 'src/states/game/Level2'
 require 'src/states/game/Level3'
 require 'src/states/game/Level4'
 
+require 'src/states/game/partsOfLevels/SystemLeaves'
+require 'src/states/game/partsOfLevels/SystemDialogue'
+require 'src/states/game/partsOfLevels/Level4Dialogue'
+require 'src/states/game/partsOfLevels/Level4Map'
+
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
 require 'src/states/entity/PlayerWalkingState'
@@ -117,6 +122,7 @@ gTextures = {
     ['testWJumpRight'] = love.graphics.newImage('graphics/test-wJump-left.png'),
     ['testEnemy'] = love.graphics.newImage('graphics/test-enemy.png'),
     ['triggerTile'] = love.graphics.newImage('graphics/trigger-tile.png'),
+    ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
 
     ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
     ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),
@@ -177,6 +183,7 @@ gFrames = {
     ['slideSheet'] = GenerateQuads(gTextures['slideSheet'], 10, 10),
     ['wJumpSheet'] = GenerateQuads(gTextures['wJumpSheet'], 10, 10),
     ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
+    ['leaves'] = GenerateQuads(gTextures['leaves'], 7, 7),
 
     ['appleSheet'] = GenerateQuadsMaxFrames(gTextures['appleSheet'], 5, 6, 10),
     ['doorSheet'] = GenerateQuadsMaxFrames(gTextures['doorSheet'], 8, 16, 16),
