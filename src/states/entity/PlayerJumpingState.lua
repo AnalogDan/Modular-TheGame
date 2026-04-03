@@ -10,6 +10,7 @@ function PlayerJumpingState:enter()
     self.player.currentAnimation = self.player.jumpAnimation
     self.player.currentAnimation:reset()
     self.player.dy = self.jumpSpeed
+    self.player.jumpBufferTime = 0
 
     local pitch = 0.9 + math.random() * 0.3
     gSounds['jump']:stop()

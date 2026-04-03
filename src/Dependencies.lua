@@ -26,8 +26,10 @@ require 'src/states/game/Level2'
 require 'src/states/game/Level3'
 require 'src/states/game/Level4'
 
+require 'src/states/game/partsOfLevels/Camera'
 require 'src/states/game/partsOfLevels/SystemLeaves'
 require 'src/states/game/partsOfLevels/SystemDialogue'
+require 'src/states/game/partsOfLevels/Level0Map'
 require 'src/states/game/partsOfLevels/Level4Dialogue'
 require 'src/states/game/partsOfLevels/Level4Map'
 
