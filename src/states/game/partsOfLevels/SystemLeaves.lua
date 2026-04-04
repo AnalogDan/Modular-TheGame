@@ -2,7 +2,8 @@ SystemLeaves = {}
 
 function SystemLeaves.init(self)
     self.leaves = {}
-    self.maxLeaves = 40
+    self.completeMapWidth = self.totalMapWidth * 8
+    self.maxLeaves = 40 * (self.completeMapWidth / VIRTUAL_WIDTH)
     for i = 1, self.maxLeaves do
         SystemLeaves.spawnLeaf(self)
     end
@@ -16,7 +17,7 @@ function SystemLeaves.spawnLeaf(self)
         texture = gTextures['leaves'],
         quad = randomQuad,
 
-        x = math.random(0, VIRTUAL_WIDTH),
+        x = math.random(0, self.completeMapWidth),
         y = math.random(-50, VIRTUAL_HEIGHT),
 
         speedY = math.random(20, 40),   -- falling speed
@@ -40,7 +41,7 @@ function SystemLeaves.update(self, dt)
         -- reset when off screen
         if leaf.y > VIRTUAL_HEIGHT + 5 then
             leaf.y = math.random(-50, -10)
-            leaf.x = math.random(0, VIRTUAL_WIDTH)
+            leaf.x = math.random(0, self.completeMapWidth)
         end
     end
 end

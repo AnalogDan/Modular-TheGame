@@ -7,6 +7,7 @@ function Animation:init(frames, interval, looping)
     self.timer = 0
     self.currentFrame = 1
     self.direction = 1 -- 1 = forward, -1 = backward
+    self.finished = false
 end
 
 function Animation:update(dt)
@@ -24,6 +25,7 @@ function Animation:update(dt)
                     self.currentFrame = 1
                 else
                     self.currentFrame = #self.frames
+                    self.finished = true
                 end
             end
 
@@ -34,6 +36,7 @@ function Animation:update(dt)
                     self.currentFrame = #self.frames
                 else
                     self.currentFrame = 1
+                    self.finished = true
                 end
             end
         end
@@ -44,6 +47,7 @@ end
 function Animation:reset()
     self.timer = 0
     self.currentFrame = 1
+    self.finished = false
 end
 function Animation:playForward()
     self.direction = 1

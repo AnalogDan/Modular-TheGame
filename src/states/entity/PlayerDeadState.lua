@@ -13,6 +13,7 @@ function PlayerDeadState:enter()
     self.player.currentAnimation:reset()
     self.player.stateString = "dead"
     self.timer = 0
+    self.transitionStarted = false
 
     gSounds['electric']:setVolume(1)
     gSounds['electric']:play()
@@ -20,9 +21,14 @@ end
 
 function PlayerDeadState:update(dt)
     self.timer = self.timer + dt
-    if self.timer > 2.5 then
+    if self.timer > 2.5 and not self.transitionStarted then
+        self.transitionStarted = true 
         self.player.directionLocked = false
-        gStateMachine:change(self.currentLevel)
+
+        SystemTransition.start('cover', function()
+            gStateMachine:change(self.currentLevel)
+        end)
+        return
     end
 
     ---------Check bottom collision

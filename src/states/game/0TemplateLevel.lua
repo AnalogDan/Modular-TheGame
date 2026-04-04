@@ -1,34 +1,33 @@
-Level4 = Class{__includes = BaseState}
-local utf8 = require("utf8")
+LevelTemplate = Class{__includes = BaseState}
 
-function Level4:init()
-    self.currentLevel = 'level4'
+function LevelTemplate:init()
+    self.currentLevel = 'level1'
     self.nextLevel = 'level1'
     self.triggerRemoved = false
-    self.transitionFlag = false
 
-    Level4Map.generate(self)
-    SystemDialogue.init(self, Level4Dialogue.get())
+    Level0Map.generate(self)
+    SystemDialogue.init(self, Level1Dialogue.get())
     SystemLeaves.init(self)
-    SystemTransition.init()
-    --SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel, 'right')
+    self.player = Player(-20, 78, self.tileMap)
     self.enemies = {
-        --Enemy(24, 8, self.player, "vertical"),
+        -- Enemy(100, 80, self.player, "horizontal"),
+        -- Enemy(120, 80, self.player, "vertical"),
+        -- Enemy(190, 80, self.player, "still")
     }
     self.items = {
-        Item(144, 80, self.player, "tales"),
-        Item(0, 120, self.player, "entrance"),
-        -- Item(152, 88, self.player, "apple"),
+        -- Item(144, 80, self.player, "tales"),
     }
 end
 
-function Level4:textinput(text)
+function LevelTemplate:textinput(text)
     SystemDialogue.textinput(self, text)
 end
 
-function Level4:handleTrigger()
+function LevelTemplate:handleTrigger()
+    -- if love.keyboard.wasPressed('o') then
+    --     SystemDialogue.startSequence(self, "sequence")
+    -- end
     if self.player.touchedTrigger and not self.triggerRemoved then
         self.triggerRemoved = true
 
@@ -45,26 +44,11 @@ function Level4:handleTrigger()
     end
 end
 
-function Level4:update(dt)
-    if love.keyboard.wasPressed('1') then
-        SystemTransition.start('cover', function() end)
-    end
-    if love.keyboard.wasPressed('2') then
-        SystemTransition.start('uncover', function() end)
-    end
-
-    if not self.transitionFlag then
-        self.transitionFlag = true
-        SystemTransition.start('uncover', function() end)
-    end
-
+function LevelTemplate:update(dt)
     self.player:update(dt)
-
-    --Update enemies and items unless they're removed
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
     end
-
     for _, item in ipairs(self.items) do
         item:update(dt)
         
@@ -74,18 +58,19 @@ function Level4:update(dt)
             table.remove(self.items, i)
         end
     end
-
+    Level0Map.update(self, dt)
     self:handleTrigger()
-
     SystemLeaves.update(self, dt)
-    SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 
-function Level4:render()
-    Level4Map.render(self)
+function LevelTemplate:render()
+    self.camera:apply()
+    Level0Map.render(self)
 
     self.player:render()
+
+    Level0Map.renderAfterPlayer(self)
 
     for _, enemy in ipairs(self.enemies) do
         enemy:render()
@@ -94,10 +79,9 @@ function Level4:render()
         items:render()
     end
 
-    Level4Map.renderAfterPlayer(self)
     SystemLeaves.render(self)
+    self.camera:clear()
 
     SystemDialogue.render(self)
-    SystemTransition.render()
 end
 

@@ -29,7 +29,14 @@ require 'src/states/game/Level4'
 require 'src/states/game/partsOfLevels/Camera'
 require 'src/states/game/partsOfLevels/SystemLeaves'
 require 'src/states/game/partsOfLevels/SystemDialogue'
+require 'src/states/game/partsOfLevels/SystemTransition'
 require 'src/states/game/partsOfLevels/Level0Map'
+require 'src/states/game/partsOfLevels/Level1Dialogue'
+require 'src/states/game/partsOfLevels/Level1Map'
+require 'src/states/game/partsOfLevels/Level2Dialogue'
+require 'src/states/game/partsOfLevels/Level2Map'
+require 'src/states/game/partsOfLevels/Level3Dialogue'
+require 'src/states/game/partsOfLevels/Level3Map'
 require 'src/states/game/partsOfLevels/Level4Dialogue'
 require 'src/states/game/partsOfLevels/Level4Map'
 
@@ -125,6 +132,9 @@ gTextures = {
     ['testEnemy'] = love.graphics.newImage('graphics/test-enemy.png'),
     ['triggerTile'] = love.graphics.newImage('graphics/trigger-tile.png'),
     ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
+    ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
+    ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
+
 
     ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
     ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),
@@ -186,6 +196,8 @@ gFrames = {
     ['wJumpSheet'] = GenerateQuads(gTextures['wJumpSheet'], 10, 10),
     ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
     ['leaves'] = GenerateQuads(gTextures['leaves'], 7, 7),
+    ['coverSheet'] = GenerateQuadsMaxFrames(gTextures['coverSheet'], 256, 144, 22),
+    ['uncoverSheet'] = GenerateQuadsMaxFrames(gTextures['uncoverSheet'], 256, 144, 25),
 
     ['appleSheet'] = GenerateQuadsMaxFrames(gTextures['appleSheet'], 5, 6, 10),
     ['doorSheet'] = GenerateQuadsMaxFrames(gTextures['doorSheet'], 8, 16, 16),

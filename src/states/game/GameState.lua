@@ -6,6 +6,8 @@ function GameState:init()
     self.triggerRemoved = false
 
     Level0Map.generate(self)
+    SystemDialogue.init(self, Level4Dialogue.get())
+    SystemLeaves.init(self)
 
     self.player = Player(-20, 78, self.tileMap)
     self.enemies = {
@@ -16,6 +18,17 @@ function GameState:init()
     self.items = {
         -- Item(144, 80, self.player, "tales"),
     }
+end
+
+function GameState:textinput(text)
+    SystemDialogue.textinput(self, text)
+end
+
+function GameState:handleTrigger()
+    if love.keyboard.wasPressed('o') then
+
+        SystemDialogue.startSequence(self, "sequence")
+    end
 end
 
 function GameState:update(dt)
@@ -33,6 +46,9 @@ function GameState:update(dt)
         end
     end
     Level0Map.update(self, dt)
+    self:handleTrigger()
+    SystemLeaves.update(self, dt)
+    SystemDialogue.update(self, dt)
 end
 
 function GameState:render()
@@ -49,6 +65,10 @@ function GameState:render()
     end
 
     Level0Map.renderAfterPlayer(self)
+
+    SystemLeaves.render(self)
     self.camera:clear()
+
+    SystemDialogue.render(self)
 end
 

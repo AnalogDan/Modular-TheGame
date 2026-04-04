@@ -60,10 +60,14 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, introDirection)
 end
 
 function Player:reachGoal()
-    gStateMachine:change(self.nextLevel)
+    SystemTransition.start('cover', function()
+        gStateMachine:change(self.nextLevel)
+    end)
 end
 function Player:reachPit()
-    gStateMachine:change(self.currentLevel)
+    SystemTransition.start('cover', function()
+        gStateMachine:change(self.nextLevel)
+    end)
 end
 
 function Player:gotHit()
@@ -71,6 +75,13 @@ function Player:gotHit()
 end
 
 function Player:update(dt)
+    --freeze when on transitions
+    if SystemTransition.active then
+        self.dx = 0
+        self.dy = 0
+        return
+    end
+
     local keyLeft = love.keyboard.isDown('left')
     local keyRight = love.keyboard.isDown('right')
     
