@@ -33,10 +33,13 @@ function SystemTransition.update(dt)
     SystemTransition.currentAnimation:update(dt)
 
     if SystemTransition.currentAnimation.finished then
-        if SystemTransition.onFinish then
-            SystemTransition.onFinish()
-        end
         SystemTransition.active = false
+
+        if SystemTransition.onFinish then
+            local callback = SystemTransition.onFinish
+            SystemTransition.onFinish = nil
+            callback()
+        end
     end
 end
 

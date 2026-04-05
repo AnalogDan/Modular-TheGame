@@ -55,6 +55,19 @@ function Level0Map.generate(self)
             }
         end
     end
+    --goal
+    for y = 3, 16 do
+        for x = 58, 60 do
+            self.tileMap[y][x] = {
+                type = 'goal',
+                solid = false,
+                texture = gTextures['testGoal'],
+                quad = nil,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
     --walljump T
     for y = 8, 8 do
         for x = 5, 17 do

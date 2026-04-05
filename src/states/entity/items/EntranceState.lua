@@ -17,6 +17,9 @@ local function AABB(aX, aY, aW, aH, bX, bY, bW, bH)
 end
 
 function EntranceState:update(dt)
+    if SystemTransition.active then
+        return
+    end
     local player = self.entrance.player
     if player.enteredRoom and not self.closed then
         -- play animation

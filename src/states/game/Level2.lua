@@ -3,13 +3,15 @@ Level2 = Class{__includes = BaseState}
 function Level2:init()
     self.currentLevel = 'level2'
     self.nextLevel = 'level3'
+    self.nextTransition = {state = 'transition', params = {transNumber = 2, nextLevel = self.nextLevel}}
     self.triggerRemoved = false
 
     Level2Map.generate(self)
     SystemDialogue.init(self, Level2Dialogue.get())
     SystemLeaves.init(self)
+    SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel)
+    self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition)
     self.enemies = {
         Enemy(24, 8, self.player, "vertical"),
         --2
@@ -80,6 +82,7 @@ function Level2:update(dt)
     Level2Map.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
+    SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 
@@ -102,5 +105,6 @@ function Level2:render()
     self.camera:clear()
 
     SystemDialogue.render(self)
+    SystemTransition.render()
 end
 

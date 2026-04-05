@@ -1,15 +1,17 @@
 GameState = Class{__includes = BaseState}
 
 function GameState:init()
-    self.currentLevel = 'level3'
-    self.nextLevel = 'level1'
+    self.currentLevel = 'game'
+    self.nextLevel = 'game'
+    self.nextTransition = nil
     self.triggerRemoved = false
 
     Level0Map.generate(self)
     SystemDialogue.init(self, Level4Dialogue.get())
     SystemLeaves.init(self)
+    SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 78, self.tileMap)
+    self.player = Player(-20, 78, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, 'right')
     self.enemies = {
         -- Enemy(100, 80, self.player, "horizontal"),
         -- Enemy(120, 80, self.player, "vertical"),
@@ -48,6 +50,7 @@ function GameState:update(dt)
     Level0Map.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
+    SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 
@@ -70,5 +73,6 @@ function GameState:render()
     self.camera:clear()
 
     SystemDialogue.render(self)
+    SystemTransition.render()
 end
 

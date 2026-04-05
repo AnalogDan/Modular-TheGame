@@ -21,6 +21,7 @@ require 'src/Animation'
 require 'src/states/game/StartMenuState'
 require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
+require 'src/states/game/TransitionState'
 require 'src/states/game/Level1'
 require 'src/states/game/Level2'
 require 'src/states/game/Level3'
@@ -175,6 +176,20 @@ gTextures = {
 
     --Level4
     ['bgArt4'] = love.graphics.newImage('graphics/levels/level4/bg-art4.png'),
+
+    --Transitions
+    ['trans1'] = love.graphics.newImage('graphics/transitions/1-trans.png'),
+    ['trans2'] = love.graphics.newImage('graphics/transitions/2-trans.png'),
+    ['trans3'] = love.graphics.newImage('graphics/transitions/3-trans.png'),
+    ['trans4'] = love.graphics.newImage('graphics/transitions/4-trans.png'),
+    ['trans5'] = love.graphics.newImage('graphics/transitions/5-trans.png'),
+    ['trans6'] = love.graphics.newImage('graphics/transitions/6-trans.png'),
+    ['dot1'] = love.graphics.newImage('graphics/transitions/1-dot.png'),
+    ['dot2'] = love.graphics.newImage('graphics/transitions/2-dot.png'),
+    ['dot3'] = love.graphics.newImage('graphics/transitions/3-dot.png'),
+    ['dot4'] = love.graphics.newImage('graphics/transitions/4-dot.png'),
+    ['dot5'] = love.graphics.newImage('graphics/transitions/5-dot.png'),
+    ['dot6'] = love.graphics.newImage('graphics/transitions/6-dot.png'),
 
     --portraits
     ['caraBig'] = love.graphics.newImage('graphics/portraits/caraBig.png'),

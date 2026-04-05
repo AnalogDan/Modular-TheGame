@@ -16,6 +16,9 @@ end
 
 function AppleState:update(dt)
     local player = self.apple.player
+    if not player then
+        return
+    end
     if AABB(self.apple.hitX, self.apple.hitY, self.apple.hitWidth, self.apple.hitHeight,
             player.hitX, player.hitY, player.hitWidth, player.hitHeight) then
         self.apple.removed = true

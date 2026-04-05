@@ -4,16 +4,15 @@ local utf8 = require("utf8")
 function Level4:init()
     self.currentLevel = 'level4'
     self.nextLevel = 'level1'
+    self.nextTransition = {state = 'transition', params = {transNumber = 4, nextLevel = self.nextLevel}}
     self.triggerRemoved = false
-    self.transitionFlag = false
 
     Level4Map.generate(self)
     SystemDialogue.init(self, Level4Dialogue.get())
     SystemLeaves.init(self)
-    SystemTransition.init()
-    --SystemTransition.start('uncover', function() end)
+    SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel, 'right')
+    self.player = Player(-20, 126, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, 'right')
     self.enemies = {
         --Enemy(24, 8, self.player, "vertical"),
     }
@@ -46,18 +45,6 @@ function Level4:handleTrigger()
 end
 
 function Level4:update(dt)
-    if love.keyboard.wasPressed('1') then
-        SystemTransition.start('cover', function() end)
-    end
-    if love.keyboard.wasPressed('2') then
-        SystemTransition.start('uncover', function() end)
-    end
-
-    if not self.transitionFlag then
-        self.transitionFlag = true
-        SystemTransition.start('uncover', function() end)
-    end
-
     self.player:update(dt)
 
     --Update enemies and items unless they're removed
