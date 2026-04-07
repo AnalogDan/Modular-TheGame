@@ -4,7 +4,7 @@ require 'src/Dependencies'
 function love.load()
     love.window.setTitle('Jueguito v0.0')
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
-        fullscreen = true,
+        fullscreen = false,
         vsync = true,
         resizable = true,
         canvas = false
@@ -12,6 +12,7 @@ function love.load()
     SystemTransition.init()
     gStateMachine = StateMachine {
         ['menu'] = function() return StartMenuState() end,
+        ['menuChapters'] = function() return ChaptersMenuState() end,
         ['game'] = function() return GameState() end,
         ['transition'] = function() return TransitionState() end,
         ['level1'] = function() return Level1() end,
@@ -20,7 +21,7 @@ function love.load()
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
     }
-    gStateMachine:change('menu')
+    gStateMachine:change('menuChapters')
     love.keyboard .keysPressed = {}
 end
 
@@ -45,9 +46,19 @@ function love.textinput(text)
     end
 end
 
+--Mouse input
+love.mouse.buttonsPressed = {}
+function love.mousepressed(x, y, button)
+    love.mouse.buttonsPressed[button] = true
+end
+function love.mouse.wasPressed(button)
+    return love.mouse.buttonsPressed[button]
+end
+
 function love.update(dt)
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
+    love.mouse.buttonsPressed = {}
 end
 
 function love.draw()

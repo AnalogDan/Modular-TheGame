@@ -1,6 +1,7 @@
 SystemTransition = {}
 
 function SystemTransition.init()
+    SystemTransition.drawAt1080p = false
     SystemTransition.active = false
 
     SystemTransition.coverAnimation = Animation(gFrames['coverSheet'], 0.02, false)
@@ -47,10 +48,24 @@ function SystemTransition.render()
     if not SystemTransition.active then return end
     local frame = SystemTransition.currentAnimation:getFrame()
 
-    love.graphics.draw(
-        SystemTransition.currentTexture,
-        frame,
-        0,
-        0
-    )
+    if not SystemTransition.drawAt1080p then
+        love.graphics.draw(
+            SystemTransition.currentTexture,
+            frame,
+            0,
+            0
+        )
+    end
+
+    if SystemTransition.drawAt1080p then
+        love.graphics.draw(
+            SystemTransition.currentTexture,
+            frame,
+            0,
+            0,
+            0,
+            7.5,
+            7.5
+        )
+    end
 end

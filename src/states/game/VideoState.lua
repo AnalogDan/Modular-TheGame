@@ -1,6 +1,9 @@
 VideoState = Class{__includes = BaseState}
 
 function VideoState:init()
+    SystemTransition.drawAt1080p = true
+    SystemTransition.start('uncover', function() end)
+
     --example of the max width of a message. 
     --"Ah, there you are. I’ve been been been waiting waiting waiting What are we, but waiting people? What do we all do, but...",
     self.sequence = {
@@ -53,7 +56,7 @@ function VideoState:init()
             sound = gSounds['vid5'],
             dialogue = {
                 "¡Pero no te preocupes!",
-                "Las matemáticas son mas fáciles de lo que crees.",
+                "Las matemáticas son más fáciles de lo que crees.",
             }
         },
         {   intro = gVideos['vid6'], loop = gVideos['loop6'], 
@@ -99,6 +102,14 @@ local function playBlip(blipSetName)
 end
 
 function VideoState:update(dt)
+    SystemTransition.update(dt)
+    --freeze when on transitions
+    if SystemTransition.active then
+        self.dx = 0
+        self.dy = 0
+        return
+    end
+
      local current = self.sequence[self.currentIndex]
      local loop = current.loop
 
@@ -165,7 +176,7 @@ function VideoState:update(dt)
                         end
                     else
                         self.state = "done"
-                        gStateMachine:change('level1')
+                        gStateMachine:change('level3')
                         gSounds['children']:stop()
                         gSounds['faceMusic']:stop()
                     end
@@ -182,9 +193,12 @@ function VideoState:update(dt)
                     self.sequence[self.currentIndex].intro:play()
                 else
                     self.state = "done"
-                    gStateMachine:change('level1')
                     gSounds['children']:stop()
                     gSounds['faceMusic']:stop()
+                    SystemTransition.start('cover', function() 
+                        gStateMachine:change('level3') 
+                        SystemTransition.drawAt1080p = false
+                        end)
                 end
             end
         end
@@ -252,4 +266,6 @@ function VideoState:render()
             love.graphics.setColor(1, 1, 1)
         end
     end
+
+    SystemTransition.render()
 end

@@ -18,7 +18,10 @@ require 'src/Item'
 require 'src/Util'
 require 'src/Animation'
 
-require 'src/states/game/StartMenuState'
+--menus
+require 'src/states/menus/StartMenuState'
+require 'src/states/menus/ChaptersMenuState'
+
 require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
 require 'src/states/game/TransitionState'
@@ -136,7 +139,6 @@ gTextures = {
     ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
     ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
 
-
     ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
     ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),
     ['jumpSheet'] = love.graphics.newImage('graphics/jump-sheet.png'),
@@ -164,6 +166,38 @@ gTextures = {
 
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
     ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
+
+    --Menus
+    ['main1'] = love.graphics.newImage('graphics/menus/mainMenu/main1.png'),
+    ['main1.1'] = love.graphics.newImage('graphics/menus/mainMenu/main1.1.png'),
+    ['main2'] = love.graphics.newImage('graphics/menus/mainMenu/main2.png'),
+    ['main3'] = love.graphics.newImage('graphics/menus/mainMenu/main3.png'),
+    ['main4'] = love.graphics.newImage('graphics/menus/mainMenu/main4.png'),
+    ['mainBg'] = love.graphics.newImage('graphics/menus/mainMenu/mainBg.png'),
+    ['mainTitle'] = love.graphics.newImage('graphics/menus/mainMenu/mainTitle.png'),
+    ['mainOp1'] = love.graphics.newImage('graphics/menus/mainMenu/mainOp1.png'),
+    ['mainOp2'] = love.graphics.newImage('graphics/menus/mainMenu/mainOp2.png'),
+    ['mainOp3'] = love.graphics.newImage('graphics/menus/mainMenu/mainOp3.png'),
+    ['mainOp4'] = love.graphics.newImage('graphics/menus/mainMenu/mainOp4.png'),
+    ['optionsBack'] = love.graphics.newImage('graphics/menus/mainMenu/optionsBack.png'),
+    ['optionsCheck'] = love.graphics.newImage('graphics/menus/mainMenu/optionsCheck.png'),
+    ['optionsKnob1'] = love.graphics.newImage('graphics/menus/mainMenu/optionsKnob1.png'),
+    ['optionsKnob2'] = love.graphics.newImage('graphics/menus/mainMenu/optionsKnob2.png'),
+    ['optionsOps'] = love.graphics.newImage('graphics/menus/mainMenu/optionsOps.png'),
+    ['selectBack'] = love.graphics.newImage('graphics/menus/mainMenu/selectBack.png'),
+    ['selectNext'] = love.graphics.newImage('graphics/menus/mainMenu/selectNext.png'),
+    ['selectPrev'] = love.graphics.newImage('graphics/menus/mainMenu/selectPrev.png'),
+    ['selectPlay'] = love.graphics.newImage('graphics/menus/mainMenu/selectPlay.png'),
+    ['selectTitle'] = love.graphics.newImage('graphics/menus/mainMenu/selectTitle.png'),
+    --pause
+    ['pause1'] = love.graphics.newImage('graphics/menus/pauseMenu/pause1.png'),
+    ['pause2'] = love.graphics.newImage('graphics/menus/pauseMenu/pause2.png'),
+    ['pause3'] = love.graphics.newImage('graphics/menus/pauseMenu/pause3.png'),
+    ['pauseBg'] = love.graphics.newImage('graphics/menus/pauseMenu/pauseBg.png'),
+    ['pauseOpsBg'] = love.graphics.newImage('graphics/menus/pauseMenu/pauseOpsBg.png'),
+
+
+
 
     --Level2
     ['treeThing'] = love.graphics.newImage('graphics/levels/level2/treeThing.png'),
