@@ -27,6 +27,19 @@ function OptionsMenuState:init()
     self.musicSlider = { minX = -58, maxX = 0, y = 0 }
     self.draggingSFX = false
     self.draggingMusic = false
+
+    --For numbers fade out
+    self.sfxDisplayTimer = 0
+    self.musicDisplayTimer = 0
+    self.displayDuration = 1       
+    self.fadeDuration = 0.5  
+
+    --For keyboard holding/sliding 
+    self.keyHoldTime = 0
+    self.keyRepeatDelay = 0.3
+    self.keyRepeatRate = 0.05
+    self.keyRepeatTimer = 0
+    self.holdingKey = nil
 end
 
 --Function to toggle fullscreen
@@ -45,6 +58,20 @@ function OptionsMenuState:applyFullscreen()
     )
 end
 
+--Function to slide with keyboard 
+function OptionsMenuState:adjustSlider(direction)
+    local step = 0.02
+    if self.selected == 2 then
+        self.sfxVolume = math.max(0, math.min(1, self.sfxVolume + step * direction))
+        Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
+        self.sfxDisplayTimer = self.displayDuration + self.fadeDuration
+    elseif self.selected == 3 then
+        self.musicVolume = math.max(0, math.min(1, self.musicVolume + step * direction))
+        Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
+        self.musicDisplayTimer = self.displayDuration + self.fadeDuration
+    end
+end
+
 function OptionsMenuState:update(dt)
     SystemTransition.update(dt)
     --freeze when on transitions
@@ -53,6 +80,10 @@ function OptionsMenuState:update(dt)
         self.dy = 0
         return
     end
+
+    --number% timers
+    self.sfxDisplayTimer = math.max(0, self.sfxDisplayTimer - dt)
+    self.musicDisplayTimer = math.max(0, self.musicDisplayTimer - dt)
 
     --Mouse detection
     local mx, my = love.mouse.getPosition()
@@ -101,23 +132,33 @@ function OptionsMenuState:update(dt)
 
     --Keyboard functions
     if love.keyboard.wasPressed('left') then
-        if self.selected == 2 then
-            self.sfxVolume = math.max(0, self.sfxVolume - 0.1)
-            Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
-        elseif self.selected == 3 then
-            self.musicVolume = math.max(0, self.musicVolume - 0.1)
-            Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
-        end
+        self.holdingKey = 'left'
+        self.keyHoldTime = 0
+        self.keyRepeatTimer = 0
+        self:adjustSlider(-1)
     end
-
     if love.keyboard.wasPressed('right') then
-        if self.selected == 2 then
-            self.sfxVolume = math.min(1, self.sfxVolume + 0.1)
-            Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
-        elseif self.selected == 3 then
-            self.musicVolume = math.min(1, self.musicVolume + 0.1)
-            Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
+        self.holdingKey = 'right'
+        self.keyHoldTime = 0
+        self.keyRepeatTimer = 0
+        self:adjustSlider(1)
+    end
+    if self.holdingKey and love.keyboard.isDown(self.holdingKey) then
+        self.keyHoldTime = self.keyHoldTime + dt
+        if self.keyHoldTime > self.keyRepeatDelay then
+            self.keyRepeatTimer = self.keyRepeatTimer + dt
+            if self.keyRepeatTimer > self.keyRepeatRate then
+                self.keyRepeatTimer = 0
+                if self.holdingKey == 'left' then
+                    self:adjustSlider(-1)
+                elseif self.holdingKey == 'right' then
+                    self:adjustSlider(1)
+                    
+                end
+            end
         end
+    else
+        self.holdingKey = nil
     end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('space') then
@@ -136,11 +177,13 @@ function OptionsMenuState:update(dt)
         self.sfxVolume = self.sfxVolume + dx / self.options[2].w
         self.sfxVolume = math.max(0, math.min(1, self.sfxVolume))
         Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
+        self.sfxDisplayTimer = self.displayDuration + self.fadeDuration
     end
     if self.draggingMusic then
         self.musicVolume = self.musicVolume + dx / self.options[3].w
         self.musicVolume = math.max(0, math.min(1, self.musicVolume))
         Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
+        self.musicDisplayTimer = self.displayDuration + self.fadeDuration
     end
 
     --Trigger mouse
@@ -216,12 +259,20 @@ function OptionsMenuState:render()
         love.graphics.draw(gTextures['optionsCheck'], 0, 0)
     end
 
-    --Debug text
+    --Numbers for sliders
     love.graphics.setFont(gFonts['dogicapixel'])
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.print("SFX: " .. string.format("%.1f", self.sfxVolume), 10, 10)
-    love.graphics.print("Music: " .. string.format("%.1f", self.musicVolume), 10, 20)
-    love.graphics.print("Fullscreen: " .. tostring(self.fullscreen), 10, 30)
+    local function drawFadingText(value, x, y, timer)
+        if timer <= 0 then return end
+        local alpha = 1
+        if timer < self.fadeDuration then
+            alpha = timer / self.fadeDuration
+        end
+        love.graphics.setColor(0, 0, 0, alpha)
+        local percent = math.floor(value * 100 + 0.5)
+        love.graphics.print(percent .. '%', x, y)
+    end
+    drawFadingText(self.sfxVolume, 205, 34, self.sfxDisplayTimer)
+    drawFadingText(self.musicVolume, 205, 64, self.musicDisplayTimer)
     love.graphics.setColor(1, 1, 1, 1)
 
     -- --Debug hitboxes

@@ -19,6 +19,7 @@ require 'src/Util'
 require 'src/Animation'
 require 'src/Save'
 require 'src/Config'
+require 'src/Sound'
 require 'src/LevelList'
 
 
