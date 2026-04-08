@@ -17,8 +17,13 @@ require 'src/Enemy'
 require 'src/Item'
 require 'src/Util'
 require 'src/Animation'
+require 'src/Save'
+require 'src/Config'
+require 'src/LevelList'
+
 
 --menus
+require 'src/states/menus/OptionsMenuState'
 require 'src/states/menus/StartMenuState'
 require 'src/states/menus/ChaptersMenuState'
 
@@ -59,6 +64,8 @@ require 'src/states/entity/items/AppleState'
 require 'src/states/entity/items/DoorState'
 require 'src/states/entity/items/EntranceState'
 require 'src/states/entity/items/TalesState'
+
+gConfig = Config.load()
 
 gFonts = {
     ['textBig'] = love.graphics.newFont('fonts/text.ttf', 45),
@@ -184,10 +191,14 @@ gTextures = {
     ['optionsKnob1'] = love.graphics.newImage('graphics/menus/mainMenu/optionsKnob1.png'),
     ['optionsKnob2'] = love.graphics.newImage('graphics/menus/mainMenu/optionsKnob2.png'),
     ['optionsOps'] = love.graphics.newImage('graphics/menus/mainMenu/optionsOps.png'),
+    ['optionsOp1'] = love.graphics.newImage('graphics/menus/mainMenu/optionsOp1.png'),
+    ['optionsOp2'] = love.graphics.newImage('graphics/menus/mainMenu/optionsOp2.png'),
+    ['optionsOp3'] = love.graphics.newImage('graphics/menus/mainMenu/optionsOp3.png'),
     ['selectBack'] = love.graphics.newImage('graphics/menus/mainMenu/selectBack.png'),
     ['selectNext'] = love.graphics.newImage('graphics/menus/mainMenu/selectNext.png'),
     ['selectPrev'] = love.graphics.newImage('graphics/menus/mainMenu/selectPrev.png'),
     ['selectPlay'] = love.graphics.newImage('graphics/menus/mainMenu/selectPlay.png'),
+    ['selectErase'] = love.graphics.newImage('graphics/menus/mainMenu/selectErase.png'),
     ['selectTitle'] = love.graphics.newImage('graphics/menus/mainMenu/selectTitle.png'),
     --pause
     ['pause1'] = love.graphics.newImage('graphics/menus/pauseMenu/pause1.png'),

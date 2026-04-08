@@ -3,9 +3,9 @@ Save = {}
 function Save.load()
     if love.filesystem.getInfo("save.lua") then
         local data = love.filesystem.load("save.lua")()
-        return data.maxChapter or 1
+        return data.maxChapter or 0
     else
-        return 1
+        return 0
     end
 end
 

@@ -1,7 +1,7 @@
 Player = Class{__includes = BaseState}
 Player = Class{__includes = Entity}
 
-function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, introDirection)
+function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unlocksNext, nextChapterNumber, introDirection)
     self.introDirection = introDirection or 'right'
     self.idleAnimation = Animation(gFrames['idleSheet'], 0.2)
     self.walkAnimation = Animation(gFrames['walkSheet'], 0.1)
@@ -46,6 +46,8 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, int
     self.currentLevel = currentLevel or "game"
     self.nextLevel = nextLevel or "game"
     self.nextTransition = nextTransition or nil
+    self.unlocksNext = unlocksNext
+    self.nextChapterNumber = nextChapterNumber
 
     self.slidingDirection = ""
     self.coyoteTime = 0
@@ -63,6 +65,13 @@ end
 function Player:reachGoal()
     SystemTransition.start('cover', function()
         if self.nextTransition then
+            --Save 
+            if self.unlocksNext then
+                if self.nextChapterNumber > Save.load() then
+                    Save.save(self.nextChapterNumber)
+                end
+            end
+
             gStateMachine:change(self.nextTransition.state, self.nextTransition.params)
         else
             gStateMachine:change(self.nextLevel)

@@ -6,12 +6,16 @@ function LevelTemplate:init()
     self.nextTransition = {state = 'transition', params = {transNumber = 1, nextLevel = self.nextLevel}} -- can be nil if needed
     self.triggerRemoved = false
 
+    --Is checkpoint?
+    self.unlocksNext = false
+    self.nextChapterNumber = 1
+
     Level0Map.generate(self)
     SystemDialogue.init(self, Level1Dialogue.get())
     SystemLeaves.init(self)
     SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 78, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, 'right')
+    self.player = Player(-20, 78, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'right')
     self.enemies = {
         -- Enemy(100, 80, self.player, "horizontal"),
         -- Enemy(120, 80, self.player, "vertical"),

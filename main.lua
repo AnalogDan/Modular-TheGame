@@ -4,7 +4,7 @@ require 'src/Dependencies'
 function love.load()
     love.window.setTitle('Jueguito v0.0')
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
-        fullscreen = false,
+        fullscreen = gConfig.fullscreen,
         vsync = true,
         resizable = true,
         canvas = false
@@ -13,6 +13,8 @@ function love.load()
     gStateMachine = StateMachine {
         ['menu'] = function() return StartMenuState() end,
         ['menuChapters'] = function() return ChaptersMenuState() end,
+        ['menuOptions'] = function() return OptionsMenuState() end,
+
         ['game'] = function() return GameState() end,
         ['transition'] = function() return TransitionState() end,
         ['level1'] = function() return Level1() end,
@@ -21,7 +23,7 @@ function love.load()
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
     }
-    gStateMachine:change('menuChapters')
+    gStateMachine:change('menu')
     love.keyboard .keysPressed = {}
 end
 

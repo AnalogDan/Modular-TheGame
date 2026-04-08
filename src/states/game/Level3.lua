@@ -6,12 +6,16 @@ function Level3:init()
     self.nextTransition = {state = 'transition', params = {transNumber = 3, nextLevel = self.nextLevel}}
     self.triggerRemoved = false
 
+    --Is checkpoint?
+    self.unlocksNext = true
+    self.nextChapterNumber = 4
+
     Level3Map.generate(self)
     SystemDialogue.init(self, Level3Dialogue.get())
     SystemLeaves.init(self)
     SystemTransition.start('uncover', function() end)
 
-    self.player = Player(20, -40, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, 'down')
+    self.player = Player(20, -40, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'down')
     self.enemies = {
         --Enemy(24, 8, self.player, "vertical"),
     }
