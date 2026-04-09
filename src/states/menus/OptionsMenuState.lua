@@ -73,6 +73,14 @@ function OptionsMenuState:adjustSlider(direction)
 end
 
 function OptionsMenuState:update(dt)
+    if love.keyboard.wasPressed('o') then
+        Sound.playTrack("children", "music", {fadeIn = 1, fadeOut = 1})
+    elseif love.keyboard.wasPressed ('p') then 
+        Sound.playTrack("faceMusic", "music", {fadeIn = 1, fadeOut = 1})
+    elseif love.keyboard.wasPressed ('i') then 
+        Sound.stop("music")
+    end
+
     SystemTransition.update(dt)
     --freeze when on transitions
     if SystemTransition.active then
