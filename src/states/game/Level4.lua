@@ -48,6 +48,10 @@ function Level4:handleTrigger()
     end
 end
 
+function Level4:canPause()
+    return true
+end
+
 function Level4:update(dt)
     self.player:update(dt)
 

@@ -27,6 +27,8 @@ require 'src/LevelList'
 require 'src/states/menus/OptionsMenuState'
 require 'src/states/menus/StartMenuState'
 require 'src/states/menus/ChaptersMenuState'
+require 'src/states/menus/PauseState'
+require 'src/states/menus/PauseOptionsState'
 
 require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
@@ -68,6 +70,9 @@ require 'src/states/entity/items/TalesState'
 
 gConfig = Config.load()
 
+gPaused = false
+gPauseState = nil
+
 gFonts = {
     ['textBig'] = love.graphics.newFont('fonts/text.ttf', 45),
     ['textNormal'] = love.graphics.newFont('fonts/text.ttf', 35),
@@ -100,36 +105,37 @@ gVideos = {
 }
 
 gSounds = {
-    ['jump'] = love.audio.newSource('sounds/jump.mp3', 'static'),
-    ['grab'] = love.audio.newSource('sounds/grab.mp3', 'static'),
-    ['step'] = love.audio.newSource('sounds/step.mp3', 'static'),
-    ['fall'] = love.audio.newSource('sounds/fall.mp3', 'static'),
-    ['slide'] = love.audio.newSource('sounds/slide.mp3', 'static'),
-    ['electric'] = love.audio.newSource('sounds/electric.mp3', 'static'),
+    ['jump'] = love.audio.newSource('sounds/jump.ogg', 'static'),
+    ['grab'] = love.audio.newSource('sounds/grab.ogg', 'static'),
+    ['step'] = love.audio.newSource('sounds/step.ogg', 'static'),
+    ['fall'] = love.audio.newSource('sounds/fall.ogg', 'static'),
+    ['slide'] = love.audio.newSource('sounds/slide.ogg', 'static'),
+    ['electric'] = love.audio.newSource('sounds/electric.ogg', 'static'),
 
-    ['music1'] = love.audio.newSource('sounds/music1_1.mp3', 'static'),
-    ['ambience1'] = love.audio.newSource('sounds/ambience1.mp3', 'static'),
+    ['music1'] = love.audio.newSource('sounds/music1_1.ogg', 'static'),
+    ['ambience1'] = love.audio.newSource('sounds/ambience1.ogg', 'static'),
 
     --vid1
-    ['vid1'] = love.audio.newSource('sounds/vid1/vid1.mp3', 'static'),
-    ['vid2'] = love.audio.newSource('sounds/vid1/vid2.mp3', 'static'),
-    ['vid3'] = love.audio.newSource('sounds/vid1/vid3.mp3', 'static'),
-    ['vid4'] = love.audio.newSource('sounds/vid1/vid4.mp3', 'static'),
-    ['vid5'] = love.audio.newSource('sounds/vid1/vid5.mp3', 'static'),
-    ['vid6'] = love.audio.newSource('sounds/vid1/vid6.mp3', 'static'),
-    ['children'] = love.audio.newSource('sounds/vid1/children.mp3', 'static'),
-    ['faceMusic'] = love.audio.newSource('sounds/vid1/faceMusic.mp3', 'static'),
+    ['vid1'] = love.audio.newSource('sounds/vid1/vid1.ogg', 'static'),
+    ['vid2'] = love.audio.newSource('sounds/vid1/vid2.ogg', 'static'),
+    ['vid3'] = love.audio.newSource('sounds/vid1/vid3.ogg', 'static'),
+    ['vid4'] = love.audio.newSource('sounds/vid1/vid4.ogg', 'static'),
+    ['vid5'] = love.audio.newSource('sounds/vid1/vid5.ogg', 'static'),
+    ['vid6'] = love.audio.newSource('sounds/vid1/vid6.ogg', 'static'),
+    ['lvl0'] = love.audio.newSource('sounds/vid1/lvl0.mp3', 'static'),
+    ['children'] = love.audio.newSource('sounds/vid1/children.ogg', 'static'),
+    ['faceMusic'] = love.audio.newSource('sounds/vid1/faceMusic.ogg', 'static'),
 
     --voices
     ['teacherBlip'] = {
-        love.audio.newSource('sounds/voices/teacherBlip1.mp3', 'static'),
-        love.audio.newSource('sounds/voices/teacherBlip2.mp3', 'static'),
-        love.audio.newSource('sounds/voices/teacherBlip3.mp3', 'static'),
+        love.audio.newSource('sounds/voices/teacherBlip1.ogg', 'static'),
+        love.audio.newSource('sounds/voices/teacherBlip2.ogg', 'static'),
+        love.audio.newSource('sounds/voices/teacherBlip3.ogg', 'static'),
         },
     ['faceBlip'] = {
-        love.audio.newSource('sounds/voices/faceBlip1.mp3', 'static'),
-        love.audio.newSource('sounds/voices/faceBlip2.mp3', 'static'),
-        love.audio.newSource('sounds/voices/faceBlip3.mp3', 'static'),
+        love.audio.newSource('sounds/voices/faceBlip1.ogg', 'static'),
+        love.audio.newSource('sounds/voices/faceBlip2.ogg', 'static'),
+        love.audio.newSource('sounds/voices/faceBlip3.ogg', 'static'),
         },
 }
 

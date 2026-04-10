@@ -138,7 +138,6 @@ function ChaptersMenuState:update(dt)
         elseif self.selected == 4 then
             local entry = self.levels[self.chapter]
             if self.chapter > self.maxUnlocked then
-                gSounds['grab']:play()
                 return
             end
             if entry then
@@ -175,7 +174,6 @@ function ChaptersMenuState:update(dt)
                 elseif i == 4 then
                     local entry = self.levels[self.chapter]
                     if self.chapter > self.maxUnlocked then
-                        gSounds['grab']:play()
                         return
                     end
                     if entry then

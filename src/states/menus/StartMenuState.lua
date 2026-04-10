@@ -23,8 +23,6 @@ function StartMenuState:update(dt)
     SystemTransition.update(dt)
     --freeze when on transitions
     if SystemTransition.active then
-        self.dx = 0
-        self.dy = 0
         return
     end
 
@@ -107,19 +105,17 @@ function StartMenuState:update(dt)
             my >= option.y and my <= option.y + option.h then
                 
                 if i == 1 then
-                    if i == 1 then
-                        if self.maxUnlocked > 0 then
-                            local entry = self.levels[self.maxUnlocked]
-                            if entry then
-                                SystemTransition.start('cover', function()
-                                    gStateMachine:change(entry.state, entry.params)
-                                end)
-                            end
-                        else
+                    if self.maxUnlocked > 0 then
+                        local entry = self.levels[self.maxUnlocked]
+                        if entry then
                             SystemTransition.start('cover', function()
-                                gStateMachine:change('video')
+                                gStateMachine:change(entry.state, entry.params)
                             end)
                         end
+                    else
+                        SystemTransition.start('cover', function()
+                            gStateMachine:change('video')
+                        end)
                     end
                 elseif i == 2 then
                     SystemTransition.start('cover', function() gStateMachine:change('menuChapters') end)

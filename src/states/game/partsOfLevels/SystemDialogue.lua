@@ -13,6 +13,7 @@ function SystemDialogue.init(self, sequences)
     self.textTimer = 0
     self.visibleChars = 0
     self.textSpeed = 0.03
+    self.blipTimer = 0
     self.pendingPlayerHit = false
     --text processor shit
     self.isAnswering = false
@@ -27,16 +28,6 @@ function SystemDialogue.init(self, sequences)
 end
 
 --Helper functions for dialogue
-
-local function playBlip(blipSetName)
-    local blipSet = gSounds[blipSetName]
-    if not blipSet or #blipSet == 0 then return end
-
-    local blip = blipSet[math.random(#blipSet)]
-    blip:setPitch(0.9 + math.random() * 0.2)
-    blip:stop()
-    blip:play()
-end
 local function trim(s)
     return s:match("^%s*(.-)%s*$")
 end
@@ -72,6 +63,8 @@ function SystemDialogue.textinput(self, text)
 end
 
 function SystemDialogue.update(self, dt)
+    self.blipTimer = math.max(0, self.blipTimer - dt)
+
     --Handle questions input. (Make sure this section and the 'show dialogue' one are at the end of update)
     if self.isAnswering then
         self.cursorTimer = self.cursorTimer + dt
@@ -129,9 +122,20 @@ function SystemDialogue.update(self, dt)
             if self.textTimer >= self.textSpeed then
                 self.textTimer = self.textTimer - self.textSpeed
                 self.visibleChars = self.visibleChars + 1
-                if self.currentBlip then
-                    playBlip(self.currentBlip)
+
+                if self.currentBlip and self.blipTimer <= 0 then -- play blip
+                    local pitch = 0.9 + math.random() * 0.2
+                    Sound.playSFX(self.currentBlip, {
+                        pitch = pitch,
+                        volume = 1
+                    })
+                    local sound = gSounds[self.currentBlip]
+                    if type(sound) == "table" then
+                        sound = sound[1]
+                    end
+                    self.blipTimer = sound:getDuration() / pitch
                 end
+
             end
         end
 

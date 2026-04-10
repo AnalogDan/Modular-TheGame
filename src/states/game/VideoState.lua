@@ -13,7 +13,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
-            sound = gSounds['vid1'],
+            sound = 'vid1',
             dialogue = {
                 "Hey Teo, ven.",
             }
@@ -22,7 +22,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
-            sound = gSounds['vid2'],
+            sound = 'vid2',
             dialogue = {
                 "Mañana es el examen final.",
                 "¿Eres conciente de que si no lo pasas, repites la materia?",
@@ -32,7 +32,7 @@ function VideoState:init()
             portraitStart = gTextures['profesorBig'],
             portraitEnd = gTextures['profesorBigEnd'],
             blipSet = 'teacherBlip',
-            sound = gSounds['vid3'],
+            sound = 'vid3',
             dialogue = {
                 "Debes estudiar todo lo que vimos en el año...",
                 "Mucha suerte.",
@@ -42,8 +42,8 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
-            sound = gSounds['vid4'],
-            loopSound = gSounds['faceMusic'],
+            sound = 'vid4',
+            loopSound = 'faceMusic',
             dialogue = {
                 "¡Hola!",
                 "Parece que estás en aprietos.",
@@ -53,7 +53,7 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
-            sound = gSounds['vid5'],
+            sound = 'vid5',
             dialogue = {
                 "¡Pero no te preocupes!",
                 "Las matemáticas son más fáciles de lo que crees.",
@@ -63,13 +63,15 @@ function VideoState:init()
             portraitStart = gTextures['caraBig'],
             portraitEnd = gTextures['caraBigEnd'],
             blipSet = 'faceBlip',
-            sound = gSounds['vid6'],
+            sound = 'vid6',
             killSound = true,
             dialogue = {
                 "¡Buen viaje!",
             }
         }, 
         {   intro = gVideos['lvl0'], loop = gVideos['blackLoop'], 
+            sound = "lvl0",
+            isEnd = true, 
         }, 
     }
     self.dialogueIndex = 1
@@ -77,12 +79,10 @@ function VideoState:init()
     self.currentPortrait = nil
     self.currentIndex = 1
     self.state = "intro" 
+
     self.sequence[self.currentIndex].intro:play()
-    gSounds['vid1']:play()
-    gSounds['faceMusic']:setVolume(1) 
-    gSounds['children']:setVolume(0.3)
-    gSounds['children']:setLooping(true)
-    gSounds['children']:play()
+    Sound.playSFX('vid1')
+    Sound.playTrack("children", "ambience", { fadeIn = 3, fadeOut = 5, loop = true, volume = 0.3 })
 
     self.cachedFontSize = nil
     self.dynamicFont = nil
@@ -91,17 +91,30 @@ function VideoState:init()
     self.textSpeed = 0.03 
 end
 
+--Blip system
+local blipTimers = {} 
 local function playBlip(blipSetName)
     local blipSet = gSounds[blipSetName]
     if not blipSet or #blipSet == 0 then return end
-
-    local blip = blipSet[math.random(#blipSet)] 
-    blip:setPitch(0.9 + math.random() * 0.2)     
-    blip:stop()                                  
-    blip:play()
+    blipTimers[blipSetName] = blipTimers[blipSetName] or 0
+    if blipTimers[blipSetName] > 0 then
+        return 
+    end
+    local blip = blipSet[math.random(#blipSet)]
+    local pitch = 0.9 + math.random() * 0.2
+    Sound.playSFX(blipSetName, {pitch = pitch})
+    blipTimers[blipSetName] = blip:getDuration()
+end
+local function updateBlipTimers(dt) 
+    for k, v in pairs(blipTimers) do
+        if v > 0 then
+            blipTimers[k] = v - dt
+        end
+    end
 end
 
 function VideoState:update(dt)
+    updateBlipTimers(dt)
     SystemTransition.update(dt)
     --freeze when on transitions
     if SystemTransition.active then
@@ -114,22 +127,34 @@ function VideoState:update(dt)
      local loop = current.loop
 
     if self.state == "intro" then
-        if not current.intro:isPlaying() then
+        if not current.intro:isPlaying() then -- When finishing the sequence
+            if current.isEnd then
+                self.state = "done"
+                SystemTransition.start('cover', function()
+                    gStateMachine:change('level3')
+                    SystemTransition.drawAt1080p = false
+                end)
+                return
+            end
+
             self.state = "loop"
             current.loop:play()
             if current.killSound then
-                gSounds['children']:stop() 
-                gSounds['faceMusic']:stop() 
+                Sound.stop("ambience", 4)
+                Sound.stop("music", 3)
             end
              if current.loopSound then
-                current.loopSound:play()
+                Sound.playTrack(current.loopSound, "music", { loop = true})
             end
             
         end
     elseif self.state == "loop" then
-        if not current.loop:isPlaying() then
-            current.loop:rewind()
-            current.loop:play()
+        if not current.isEnd then
+            if not current.loop:isPlaying() then
+                
+                current.loop:rewind()
+                current.loop:play()
+            end
         end
 
         if current.dialogue then
@@ -143,45 +168,64 @@ function VideoState:update(dt)
                 self.currentPortrait = current.portraitEnd
             end
 
+            
             if love.keyboard.wasPressed("return") then
+
+                local current = self.sequence[self.currentIndex]
+                local line = current.dialogue[self.dialogueIndex]
+
+                -- 🟡 CASE 1: text still typing → finish it instantly
+                if self.visibleChars < #line then
+                    self.visibleChars = #line
+                    self.textTimer = 0
+                    return
+                end
+
+                -- 🟢 CASE 2: move to next line
+                self.dialogueIndex = self.dialogueIndex + 1
                 self.textTimer = 0
                 self.visibleChars = 0
-                self.dialogueIndex = self.dialogueIndex + 1
 
-                if self.dialogueIndex == #current.dialogue then
-                    self.currentPortrait = current.portraitEnd
+                if self.dialogueIndex <= #current.dialogue then
+
+                    if self.dialogueIndex == #current.dialogue then
+                        self.currentPortrait = current.portraitEnd
+                    end
+
+                    return
                 end
 
-                if self.dialogueIndex > #current.dialogue then
-                    self.showDialogue = false
+                -- 🔴 CASE 3: dialogue finished → next sequence
+                self.showDialogue = false
+                self.dialogueIndex = 1
+                loop:pause()
+
+                if current.sound then
+                    Sound.stopSFX(current.sound)
+                end
+
+                self.currentIndex = self.currentIndex + 1
+
+                if self.currentIndex <= #self.sequence then
+                    self.state = "intro"
+
+                    local nextSeq = self.sequence[self.currentIndex]
                     self.dialogueIndex = 1
-                    loop:pause()
+                    self.showDialogue = false
 
-                    if current.sound then
-                        current.sound:stop()
+                    nextSeq.intro:play()
+
+                    if nextSeq.sound then
+                        Sound.playSFX(nextSeq.sound)
                     end
-
-                    self.currentIndex = self.currentIndex + 1
-
-                    if self.currentIndex <= #self.sequence then
-                        self.state = "intro"
-                        self.sequence[self.currentIndex].intro:play()
-                        self.dialogueIndex = 1   
-                        self.showDialogue = false
-                        local nextSeq = self.sequence[self.currentIndex]
-                        nextSeq.intro:play()
-
-                        if nextSeq.sound then
-                            nextSeq.sound:play()
-                        end
-                    else
-                        self.state = "done"
-                        gStateMachine:change('level3')
-                        gSounds['children']:stop()
-                        gSounds['faceMusic']:stop()
-                    end
+                else
+                    self.state = "done"
+                    gStateMachine:change('level3')
+                    Sound.stop("ambience", 4)
+                    Sound.stop("music", 3)
                 end
             end
+
         else
             -- Normal behavior (no dialogue)
             if love.keyboard.wasPressed("return") then
@@ -192,13 +236,13 @@ function VideoState:update(dt)
                     self.state = "intro"
                     self.sequence[self.currentIndex].intro:play()
                 else
-                    self.state = "done"
-                    gSounds['children']:stop()
-                    gSounds['faceMusic']:stop()
-                    SystemTransition.start('cover', function() 
-                        gStateMachine:change('level3') 
-                        SystemTransition.drawAt1080p = false
-                        end)
+                    -- self.state = "done"
+                    -- Sound.stop("ambience", 4)
+                    -- Sound.stop("music", 3)
+                    -- SystemTransition.start('cover', function() 
+                    --     gStateMachine:change('level3') 
+                    --     SystemTransition.drawAt1080p = false
+                    --     end)
                 end
             end
         end

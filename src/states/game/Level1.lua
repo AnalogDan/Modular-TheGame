@@ -50,7 +50,14 @@ function Level1:handleTrigger()
     end
 end
 
+function Level1:canPause()
+    return true
+end
+
 function Level1:update(dt)
+
+    SystemTransition.update(dt)
+
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
@@ -67,7 +74,6 @@ function Level1:update(dt)
     Level1Map.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
-    SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 

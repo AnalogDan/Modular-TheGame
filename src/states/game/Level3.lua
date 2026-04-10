@@ -53,6 +53,10 @@ function Level3:handleTrigger()
     end
 end
 
+function Level3:canPause()
+    return true
+end
+
 function Level3:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do

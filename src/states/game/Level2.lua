@@ -69,6 +69,10 @@ function Level2:handleTrigger()
     end
 end
 
+function Level2:canPause()
+    return true
+end
+
 function Level2:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do

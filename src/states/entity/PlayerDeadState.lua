@@ -15,8 +15,7 @@ function PlayerDeadState:enter()
     self.timer = 0
     self.transitionStarted = false
 
-    gSounds['electric']:setVolume(1)
-    gSounds['electric']:play()
+    Sound.playSFX("electric")
 end
 
 function PlayerDeadState:update(dt)

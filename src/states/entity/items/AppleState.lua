@@ -22,8 +22,6 @@ function AppleState:update(dt)
     if AABB(self.apple.hitX, self.apple.hitY, self.apple.hitWidth, self.apple.hitHeight,
             player.hitX, player.hitY, player.hitWidth, player.hitHeight) then
         self.apple.removed = true
-        gSounds['electric']:setVolume(1)
-        gSounds['electric']:play()
         player.pickedApple = true
     else
     end

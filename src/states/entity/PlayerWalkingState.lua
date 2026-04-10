@@ -11,6 +11,8 @@ function PlayerWalkingState:enter()
     self.player.currentAnimation:reset()
 
     self.soundFlag = false
+    self.stepTimer = 0
+    self.stepInterval = 0.39
 end
 
 local function checkGoalTile(tile)
@@ -20,6 +22,7 @@ end
 function PlayerWalkingState:update(dt)
     local keyLeft = love.keyboard.isDown('left')
     local keyRight = love.keyboard.isDown('right')
+    local isMoving = keyLeft or keyRight
 
     local topLeftX = self.player.x - 1
     local topLeftY = self.player.y
@@ -57,7 +60,6 @@ function PlayerWalkingState:update(dt)
             self.player.x = (topRightCol - 1) * TILE_SIZE - self.player.width
         end
     else
-        gSounds['step']:stop()
         self.player.stateMachine:change('idle')
         self.player.dx = 0
     end
@@ -95,7 +97,6 @@ function PlayerWalkingState:update(dt)
     end
 
     if love.keyboard.wasPressed('space') then
-        gSounds['step']:stop()
         self.player.stateMachine:change('jumping')
     end
 
@@ -105,22 +106,17 @@ function PlayerWalkingState:update(dt)
     end
 
     --sound loop
-    if not gSounds['step']:isPlaying() and not self.soundFlag then
-        self.soundFlag = true
-    elseif not gSounds['step']:isPlaying() and self.soundFlag then
-        self.soundFlag = false
-    end
-    if not self.soundFlag then 
-        local pitch = 0.9 + math.random() * 0.5
-        gSounds['step']:setPitch(pitch)
-        gSounds['step']:setVolume(0.6)
-        gSounds['step']:play()
-    end
-    if self.soundFlag then
-        local pitch = 1 + math.random() * 0.3
-        gSounds['step']:setPitch(pitch)
-        gSounds['step']:setVolume(0.6)
-        gSounds['step']:play()
+    if isMoving and isOnGround then
+        self.stepTimer = self.stepTimer - dt
+        if self.stepTimer <= 0 then
+            self.stepTimer = self.stepInterval
+            Sound.playSFX("step", {
+                pitch = math.random(90, 120) / 100,
+                volume = 0.6
+            })
+        end
+    else
+        self.stepTimer = 0
     end
 end
 

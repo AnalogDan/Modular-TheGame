@@ -49,8 +49,6 @@ function TransitionState:update(dt)
             self.showDot = not self.showDot
             if self.showDot then
                 self.blinkCount = self.blinkCount + 1
-                gSounds['grab']:stop()
-                gSounds['grab']:play()
                 if self.blinkCount >= self.totalBlinks then
                     self.finishedBlinking = true
                     self.showDot = true

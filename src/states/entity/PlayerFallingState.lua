@@ -132,11 +132,7 @@ function PlayerFallingState:update(dt)
         self.player.dy = 0
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         if not self.soundFlag then 
-            local pitch = 0.9 + math.random() * 0.5
-            gSounds['fall']:stop()
-            gSounds['fall']:setPitch(pitch)
-            gSounds['fall']:setVolume(0.3)
-            gSounds['fall']:play()
+            Sound.playSFX("fall", { volume = 0.3, pitch = 0.9 + math.random() * 0.5 })
         end
         self.player.stateMachine:change('idle')
     end

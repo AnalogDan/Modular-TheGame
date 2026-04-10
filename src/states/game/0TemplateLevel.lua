@@ -50,6 +50,10 @@ function LevelTemplate:handleTrigger()
     end
 end
 
+function LevelTemplate:canPause()
+    return true
+end
+
 function LevelTemplate:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do

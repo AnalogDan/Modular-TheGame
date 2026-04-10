@@ -14,8 +14,10 @@ function love.load()
         ['menu'] = function() return StartMenuState() end,
         ['menuChapters'] = function() return ChaptersMenuState() end,
         ['menuOptions'] = function() return OptionsMenuState() end,
+        ['pause'] = function() return PauseState() end,
+        ['pauseOptions'] = function() return PauseOptionsState() end,
 
-        ['game'] = function() return GameState() end,
+        ['game'] = function() return GameState() end, 
         ['transition'] = function() return TransitionState() end,
         ['level1'] = function() return Level1() end,
         ['video'] = function() return VideoState() end,
@@ -23,7 +25,7 @@ function love.load()
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
     }
-    gStateMachine:change('menuOptions')
+    gStateMachine:change('video')
     love.keyboard .keysPressed = {}
 end
 
@@ -32,9 +34,16 @@ function love.resize(w, h)
 end
 
 function love.keypressed(key)
-    if key == 'escape' then
-        love.event.quit()
+    if key == 'escape' then -- Pause the game
+        local current = gStateMachine.current
+        if current and current.canPause and current:canPause() then
+            gStateMachine:push('pause')
+            return
+        elseif current and current.canUnPause and current:canUnPause() then
+            
+        end
     end
+    
     love.keyboard.keysPressed[key] = true
 end
 

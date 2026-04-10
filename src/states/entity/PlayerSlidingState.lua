@@ -18,14 +18,11 @@ function PlayerSlidingState:enter(direction)
     self.player.dy = SLIDE_SPEED
 
     self.soundFlag = false
-    local pitch = 0.9 + math.random() * 0.3
-    gSounds['grab']:stop()
-    gSounds['grab']:setPitch(pitch)
-    gSounds['grab']:setVolume(0.4)
-    gSounds['grab']:play()
+    Sound.playSFX("grab", { volume = 0.4, pitch = 0.9 + math.random() * 0.3 })
 
-    gSounds['slide']:setVolume(0.05)
-    gSounds['slide']:play()
+    local sound = gSounds["slide"]
+    self.slideTimer = 0
+    self.slideInterval = sound:getDuration()
 end
 
 function PlayerSlidingState:update(dt)
@@ -52,13 +49,8 @@ function PlayerSlidingState:update(dt)
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         self.player.currentTexture = gTextures['testPlayer']
         if not self.soundFlag then 
-            local pitch = 0.9 + math.random() * 0.5
-            gSounds['fall']:stop()
-            gSounds['fall']:setPitch(pitch)
-            gSounds['fall']:setVolume(0.3)
-            gSounds['fall']:play()
+            Sound.playSFX("fall", { volume = 0.3, pitch = 0.9 + math.random() * 0.5 })
         end
-        gSounds['slide']:stop()
         self.player.stateMachine:change('idle')
     end
 
@@ -72,33 +64,39 @@ function PlayerSlidingState:update(dt)
     local bottomRightTile = self.player.tileMap[bottomY] and self.player.tileMap[bottomY][rightX]
     local bottomLeftTile = self.player.tileMap[bottomY] and self.player.tileMap[bottomY][leftX]
     if self.direction == 'left' and (not topLeftTile.solid) and (not bottomLeftTile.solid) then 
-        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     elseif self.direction == 'right' and (not topRightTile.solid) and (not bottomRightTile.solid) then 
-        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     end
 
     ----------------Separating from wall
     if self.direction == 'left' and love.keyboard.isDown('right') then 
-        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     elseif self.direction == 'right' and love.keyboard.isDown('left') then
-        gSounds['slide']:stop()
         self.player.stateMachine:change('falling')
     end
 
     ----------------Jumping
     if self.direction == 'left' and self.player.jumpBufferTime > 0 then
         self.player.jumpBufferTime = 0
-        gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'left')
     elseif self.direction == 'right' and self.player.jumpBufferTime > 0 then
         self.player.jumpBufferTime = 0
-        gSounds['slide']:stop()
         self.player.stateMachine:change('wallJump', 'right')
     end
 
+    --Sound loop
+    self.slideTimer = self.slideTimer - dt
+    if self.slideTimer <= 0 then
+        self.slideTimer = self.slideInterval
+        Sound.playSFX("slide", {
+            volume = 0.05,
+        })
+    end
+end
+
+function PlayerSlidingState:exit()
+    Sound.stopSFX('slide')
 end
 
 function PlayerSlidingState:render()
