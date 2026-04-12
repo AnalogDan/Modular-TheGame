@@ -152,6 +152,7 @@ gTextures = {
     ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
     ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
     ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
+    ['skipIcon'] = love.graphics.newImage('graphics/videos/skip-icon.png'),
 
     ['walkSheet'] = love.graphics.newImage('graphics/walk-sheet.png'),
     ['idleSheet'] = love.graphics.newImage('graphics/idle-sheet.png'),

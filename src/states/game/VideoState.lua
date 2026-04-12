@@ -89,6 +89,15 @@ function VideoState:init()
     self.textTimer = 0
     self.visibleChars = 0
     self.textSpeed = 0.03 
+
+    --For skip cutscene 
+    self.skipHoldTime = 0
+    self.skipHoldDuration = 1.7
+    self.skipCooldown = 0
+    self.skipCooldownDuration = 0.5
+    self.skipAlpha = 0
+    self.isHoldingSkip = false
+    self.skipTriggered = false
 end
 
 --Blip system
@@ -113,6 +122,19 @@ local function updateBlipTimers(dt)
     end
 end
 
+function VideoState:skipVideo()
+    --self.state = "done"
+    local current = self.sequence[self.currentIndex]
+    SystemTransition.start('cover', function()
+        gStateMachine:change('level3')
+        SystemTransition.drawAt1080p = false
+        Sound.stopSFX(current.sound)
+        Sound.stop("ambience", 1)
+        Sound.stop("music", 1)
+    end)
+end
+
+
 function VideoState:update(dt)
     updateBlipTimers(dt)
     SystemTransition.update(dt)
@@ -123,6 +145,30 @@ function VideoState:update(dt)
         return
     end
 
+    --skip logic
+    local escape = love.keyboard.isDown("escape")
+    if escape then
+        self.isHoldingSkip = true
+        self.skipCooldown = 0
+        self.skipHoldTime = self.skipHoldTime + dt
+        self.skipAlpha = 1
+        if self.skipHoldTime >= self.skipHoldDuration and not self.skipTriggered then
+            self.skipTriggered = true
+            self:skipVideo() 
+        end
+    else
+        if self.isHoldingSkip then
+            self.isHoldingSkip = false
+            self.skipCooldown = 0
+        end
+        self.skipHoldTime = 0
+        self.skipCooldown = self.skipCooldown + dt
+        if self.skipCooldown >= self.skipCooldownDuration then
+            self.skipAlpha = math.max(0, self.skipAlpha - dt * 2)
+        end
+    end
+
+    --Cutscene logic 
      local current = self.sequence[self.currentIndex]
      local loop = current.loop
 
@@ -169,33 +215,27 @@ function VideoState:update(dt)
             end
 
             
-            if love.keyboard.wasPressed("return") then
+            if love.keyboard.wasPressed("return") then -- Next dialogue or sequence
 
                 local current = self.sequence[self.currentIndex]
                 local line = current.dialogue[self.dialogueIndex]
 
-                -- 🟡 CASE 1: text still typing → finish it instantly
                 if self.visibleChars < #line then
                     self.visibleChars = #line
                     self.textTimer = 0
                     return
                 end
 
-                -- 🟢 CASE 2: move to next line
                 self.dialogueIndex = self.dialogueIndex + 1
                 self.textTimer = 0
                 self.visibleChars = 0
-
                 if self.dialogueIndex <= #current.dialogue then
-
                     if self.dialogueIndex == #current.dialogue then
                         self.currentPortrait = current.portraitEnd
                     end
-
                     return
                 end
 
-                -- 🔴 CASE 3: dialogue finished → next sequence
                 self.showDialogue = false
                 self.dialogueIndex = 1
                 loop:pause()
@@ -221,6 +261,7 @@ function VideoState:update(dt)
                 else
                     self.state = "done"
                     gStateMachine:change('level3')
+                    SystemTransition.drawAt1080p = false
                     Sound.stop("ambience", 4)
                     Sound.stop("music", 3)
                 end
@@ -311,5 +352,19 @@ function VideoState:render()
         end
     end
 
+    --Skip icon
+    local icon = gTextures["skipIcon"]
+    local iconW, iconH = 105, 113
+    local margin = 35
+    local x = offsetX + (videoW * scale) - iconW - margin
+    local y = offsetY + (videoH * scale) - iconH - margin
+    love.graphics.setColor(1, 1, 1, self.skipAlpha)
+    love.graphics.draw(icon, x, y)
+    local progress = math.min(self.skipHoldTime / self.skipHoldDuration, 1)
+    local barWidth = iconW * progress
+    local barHeight = 12
+    love.graphics.setColor(1, 0, 0, self.skipAlpha)
+    love.graphics.rectangle("fill", x, y + iconH + 5, barWidth, barHeight)
+    love.graphics.setColor(1, 1, 1, 1)
     SystemTransition.render()
 end
