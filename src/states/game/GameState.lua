@@ -33,6 +33,10 @@ function GameState:handleTrigger()
     end
 end
 
+function GameState:canPause()
+    return true
+end
+
 function GameState:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do

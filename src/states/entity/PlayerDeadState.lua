@@ -5,17 +5,28 @@ function PlayerDeadState:init(player)
     self.currentLevel = player.currentLevel
 end
 
-function PlayerDeadState:enter()
+function PlayerDeadState:enter(cause)
     self.player.directionLocked = true
+    self.timer = 0
     self.player.dx = 0 
-    self.player.dy = FALL_SPEED - 30
-    self.player.currentAnimation = self.player.rootDeathAnimation
+
+    if cause == 'spiked' then
+        self.player.dy = 0
+        self.player.currentAnimation = self.player.spikeDeathAnimation
+    elseif cause == 'electricGround' then
+        self.player.dy = 0
+        self.player.currentAnimation = self.player.electricDeathAnimation
+        Sound.playSFX("electric")
+    elseif cause == 'electricSky' then
+        self.player.dy = 0
+        self.player.currentAnimation = self.player.electricSkyDeathAnimation
+    end
+
+    
     self.player.currentAnimation:reset()
     self.player.stateString = "dead"
-    self.timer = 0
     self.transitionStarted = false
-
-    Sound.playSFX("electric")
+    self.cause = cause
 end
 
 function PlayerDeadState:update(dt)
@@ -30,28 +41,30 @@ function PlayerDeadState:update(dt)
         return
     end
 
-    ---------Check bottom collision
-    local bottomLeftX2  = self.player.x
-    local bottomCenterX2 = self.player.x + (self.player.width/2)
-    local bottomRightX2 = self.player.x + self.player.width - 1
+    -- if self.cause == 'electricGround' then
+    --     ---------Check bottom collision
+    --     local bottomLeftX2  = self.player.x
+    --     local bottomCenterX2 = self.player.x + (self.player.width/2)
+    --     local bottomRightX2 = self.player.x + self.player.width - 1
 
-    local bottomY2 = self.player.y + self.player.height + math.ceil(self.player.dy * dt)
+    --     local bottomY2 = self.player.y + self.player.height + math.ceil(self.player.dy * dt)
 
-    local bottomLeftCol2  = math.floor(bottomLeftX2 / TILE_SIZE) + 1
-    local bottomCenterCol2 = math.floor(bottomCenterX2 / TILE_SIZE) + 1
-    local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
-    local bottomYRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
+    --     local bottomLeftCol2  = math.floor(bottomLeftX2 / TILE_SIZE) + 1
+    --     local bottomCenterCol2 = math.floor(bottomCenterX2 / TILE_SIZE) + 1
+    --     local bottomRightCol2 = math.floor(bottomRightX2 / TILE_SIZE) + 1
+    --     local bottomYRow2      = math.floor(bottomY2 / TILE_SIZE) + 1
 
-    local bottomLeftTile2  = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomLeftCol2]
-    local bottomCenterTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomCenterCol2]
-    local bottomRightTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomRightCol2]
+    --     local bottomLeftTile2  = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomLeftCol2]
+    --     local bottomCenterTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomCenterCol2]
+    --     local bottomRightTile2 = self.player.tileMap[bottomYRow2] and self.player.tileMap[bottomYRow2][bottomRightCol2]
 
-    if (bottomLeftTile2  and bottomLeftTile2  ~= 0 and bottomLeftTile2.solid) or
-       (bottomCenterTile2 and bottomCenterTile2 ~= 0 and bottomCenterTile2.solid) or
-       (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
-        self.player.dy = 0
-        self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
-    end
+    --     if (bottomLeftTile2  and bottomLeftTile2  ~= 0 and bottomLeftTile2.solid) or
+    --     (bottomCenterTile2 and bottomCenterTile2 ~= 0 and bottomCenterTile2.solid) or
+    --     (bottomRightTile2 and bottomRightTile2 ~= 0 and bottomRightTile2.solid) then
+    --         self.player.dy = 0
+    --         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
+    --     end
+    -- end
     
 end
 

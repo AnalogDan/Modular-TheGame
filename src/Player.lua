@@ -9,7 +9,9 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unl
     self.jumpAnimation = Animation(gFrames['jumpSheet'], 0.05, false)
     self.slideAnimation = Animation(gFrames['slideSheet'], 0.5)
     self.wJumpAnimation = Animation(gFrames['wJumpSheet'], 0.1, false)
-    self.rootDeathAnimation = Animation(gFrames['rootDeathSheet'], 0.1, false)
+    self.electricDeathAnimation = Animation(gFrames['rootDeathSheet'], 0.1, false)
+    self.spikeDeathAnimation = Animation(gFrames['spikeDeathSheet'], 0.08, false)
+    self.electricSkyDeathAnimation = Animation(gFrames['electricSkyDeathSheet'], 0.07, false)
     self.currentAnimation = self.wJumpAnimation
     self.animTextures = {
         [self.idleAnimation] = gTextures['idleSheet'],
@@ -18,7 +20,9 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unl
         [self.jumpAnimation] = gTextures['jumpSheet'],
         [self.slideAnimation] = gTextures['slideSheet'],
         [self.wJumpAnimation] = gTextures['wJumpSheet'],
-        [self.rootDeathAnimation] = gTextures['rootDeathSheet'],
+        [self.electricDeathAnimation] = gTextures['rootDeathSheet'],
+        [self.spikeDeathAnimation] = gTextures['spikeDeathSheet'],
+        [self.electricSkyDeathAnimation] = gTextures['electricSkyDeathSheet'],
     }
     self.direction  = "right"
     self.directionLocked = false
@@ -85,7 +89,23 @@ function Player:reachPit()
 end
 
 function Player:gotHit()
-    self.stateMachine:change('dead')
+    if self.stateString == 'alive' then
+        local state = self.stateMachine.currentStateName
+        local cause
+        if state == 'walking' or state == 'idle' then
+            cause = 'electricGround'
+        else
+            cause = 'electricSky'
+        end
+
+        self.stateMachine:change('dead', cause)
+    end
+end
+
+function Player:gotSpiked()
+    if self.stateString == 'alive' then
+        self.stateMachine:change('dead', 'spiked')
+    end
 end
 
 function Player:update(dt)
@@ -129,6 +149,10 @@ function Player:update(dt)
     --If collided with trigger
     if self:collidesWithType('trigger') then
         self.touchedTrigger = true
+    end
+
+    if self:collidesWithType('spikes') then
+        self:gotSpiked()
     end
 
     --Jumping input buffer
@@ -194,7 +218,7 @@ function Player:render()
 
     --Debug text
     -- local debugText = "Debug1: "
-    -- love.graphics.print(debugText .. tostring(self.debug1), 10, 20)
+    -- love.graphics.print(debugText .. tostring(self.stateString), 10, 20)
 
 
     -- ----Draw hitbox 

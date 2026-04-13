@@ -56,13 +56,66 @@ function Level0Map.generate(self)
         end
     end
     --goal
-    for y = 3, 16 do
+    for y = 7, 7 do
         for x = 58, 60 do
             self.tileMap[y][x] = {
                 type = 'goal',
                 solid = false,
                 texture = gTextures['testGoal'],
                 quad = nil,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    --spikes
+    for y = 7, 7 do
+        for x = 12, 54 do
+            local randomQuad = (gFrames['spikeSheet1'][math.random(#gFrames['spikeSheet1'])])
+            self.tileMap[y][x] = {
+                type = 'spikes',
+                solid = false,
+                texture = gTextures['spikeSheet1'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    for y = 9, 9 do
+        for x = 12, 14 do
+            local randomQuad = (gFrames['spikeSheet1Down'][math.random(#gFrames['spikeSheet1Down'])])
+            self.tileMap[y][x] = {
+                type = 'spikes',
+                solid = false,
+                texture = gTextures['spikeSheet1Down'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    for y = 7, 7 do
+        for x = 15, 16 do
+            local randomQuad = (gFrames['spikeSheet1Right'][math.random(#gFrames['spikeSheet1Right'])])
+            self.tileMap[y][x] = {
+                type = 'spikes',
+                solid = false,
+                texture = gTextures['spikeSheet1Right'],
+                quad = randomQuad,
+                x = (x - 1) * tileSize,
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+    for y = 9, 9 do
+        for x = 15, 16 do
+            local randomQuad = (gFrames['spikeSheet1Left'][math.random(#gFrames['spikeSheet1Left'])])
+            self.tileMap[y][x] = {
+                type = 'spikes',
+                solid = false,
+                texture = gTextures['spikeSheet1Left'],
+                quad = randomQuad,
                 x = (x - 1) * tileSize,
                 y = (y - 1) * tileSize,
             }

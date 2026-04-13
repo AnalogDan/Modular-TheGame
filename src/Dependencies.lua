@@ -149,6 +149,7 @@ gTextures = {
     ['testWJumpRight'] = love.graphics.newImage('graphics/test-wJump-left.png'),
     ['testEnemy'] = love.graphics.newImage('graphics/test-enemy.png'),
     ['triggerTile'] = love.graphics.newImage('graphics/trigger-tile.png'),
+    ['missingTexture'] = love.graphics.newImage('graphics/trigger-tile.png'),
     ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
     ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
     ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
@@ -161,6 +162,8 @@ gTextures = {
     ['slideSheet'] = love.graphics.newImage('graphics/slide-sheet.png'),
     ['wJumpSheet'] = love.graphics.newImage('graphics/wJump-sheet.png'),
     ['rootDeathSheet'] = love.graphics.newImage('graphics/root-death-sheet.png'),
+    ['electricSkyDeathSheet'] = love.graphics.newImage('graphics/electricSky-death-sheet.png'),
+    ['spikeDeathSheet'] = love.graphics.newImage('graphics/spike-death-sheet.png'),
 
     ['appleSheet'] = love.graphics.newImage('graphics/apple-sheet.png'),
     ['doorSheet'] = love.graphics.newImage('graphics/door-sheet.png'),
@@ -181,6 +184,12 @@ gTextures = {
 
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
     ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
+
+    --spikes
+    ['spikeSheet1'] = love.graphics.newImage('graphics/tiles/spikes1.png'),
+    ['spikeSheet1Down'] = love.graphics.newImage('graphics/tiles/spikes1-down.png'),
+    ['spikeSheet1Left'] = love.graphics.newImage('graphics/tiles/spikes1-left.png'),
+    ['spikeSheet1Right'] = love.graphics.newImage('graphics/tiles/spikes1-right.png'),
 
     --Menus
     ['main1'] = love.graphics.newImage('graphics/menus/mainMenu/main1.png'),
@@ -263,6 +272,8 @@ gFrames = {
     ['slideSheet'] = GenerateQuads(gTextures['slideSheet'], 10, 10),
     ['wJumpSheet'] = GenerateQuads(gTextures['wJumpSheet'], 10, 10),
     ['rootDeathSheet'] = GenerateQuads(gTextures['rootDeathSheet'], 10, 10),
+    ['electricSkyDeathSheet'] = GenerateQuadsMaxFrames(gTextures['electricSkyDeathSheet'], 10, 10, 27),
+    ['spikeDeathSheet'] = GenerateQuadsMaxFrames(gTextures['spikeDeathSheet'], 10, 10, 22),
     ['leaves'] = GenerateQuads(gTextures['leaves'], 7, 7),
     ['coverSheet'] = GenerateQuadsMaxFrames(gTextures['coverSheet'], 256, 144, 22),
     ['uncoverSheet'] = GenerateQuadsMaxFrames(gTextures['uncoverSheet'], 256, 144, 25),
@@ -282,4 +293,9 @@ gFrames = {
     ['edgeOuterCorner1'] = GenerateQuads(gTextures['edgeOuterCorner1'], 8, 8),
     ['edgeInnerCorner1'] = GenerateQuads(gTextures['edgeInnerCorner1'], 8, 8),
     ['foreProps1'] = GenerateQuads(gTextures['foreProps1'], 8, 8),
+    --spikes
+    ['spikeSheet1'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1'], 8, 8, 8),
+    ['spikeSheet1Down'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Down'], 8, 8, 8),
+    ['spikeSheet1Right'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Right'], 8, 8, 8),
+    ['spikeSheet1Left'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Left'], 8, 8, 8),
 }
