@@ -5,19 +5,18 @@ function LevelList.get()
         [0] = { state = 'video' },
         [1] = {
             state = 'transition',
-            params = { transNumber = 1, nextLevel = 'level1' }
+            params = { transNumber = 1, nextLevel = 'level5' }
         },
         [2] = {
             state = 'transition',
-            params = { transNumber = 2, nextLevel = 'level2' }
+            params = { transNumber = 2, nextLevel = 'level4_0' }
         },
         [3] = {
             state = 'transition',
-            params = { transNumber = 3, nextLevel = 'level3' }
+            params = { transNumber = 3, nextLevel = 'level1' }
         },
         [4] = {
-            state = 'transition',
-            params = { transNumber = 4, nextLevel = 'level4' }
+            state = 'level1',
         },
         [5] = { state = 'level1' },
         [6] = { state = 'level1' },
@@ -27,3 +26,5 @@ function LevelList.get()
         [10] = { state = 'level1' },
     }
 end
+
+--Route of game saves = C:\Users\jonasbroders\AppData\Roaming\LOVE\TheGame

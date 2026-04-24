@@ -55,11 +55,12 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unl
 
     self.slidingDirection = ""
     self.coyoteTime = 0
-    self.coyoteMax = 0.15
+    self.coyoteMax = 0.08
     self.jumpBufferTime = 0
     self.jumpBufferMax = 0.15
     self.pickedApple = false
     self.touchedTrigger = false
+    self.touchedTrigger2 = false
     self.prevCanControl = true
     self.canControl = true
     self.enteredRoom = false
@@ -92,7 +93,7 @@ function Player:gotHit()
     if self.stateString == 'alive' then
         local state = self.stateMachine.currentStateName
         local cause
-        if state == 'walking' or state == 'idle' then
+        if state == 'walking' or state == 'idle' or state == 'dialogue' then
             cause = 'electricGround'
         else
             cause = 'electricSky'
@@ -149,6 +150,9 @@ function Player:update(dt)
     --If collided with trigger
     if self:collidesWithType('trigger') then
         self.touchedTrigger = true
+    end
+    if self:collidesWithType('trigger2') then
+        self.touchedTrigger2 = true
     end
 
     if self:collidesWithType('spikes') then

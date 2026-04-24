@@ -36,7 +36,9 @@ require 'src/states/game/TransitionState'
 require 'src/states/game/Level1'
 require 'src/states/game/Level2'
 require 'src/states/game/Level3'
+require 'src/states/game/Level4_0'
 require 'src/states/game/Level4'
+require 'src/states/game/Level5'
 
 require 'src/states/game/partsOfLevels/Camera'
 require 'src/states/game/partsOfLevels/SystemLeaves'
@@ -51,6 +53,10 @@ require 'src/states/game/partsOfLevels/Level3Dialogue'
 require 'src/states/game/partsOfLevels/Level3Map'
 require 'src/states/game/partsOfLevels/Level4Dialogue'
 require 'src/states/game/partsOfLevels/Level4Map'
+require 'src/states/game/partsOfLevels/Level4_0Dialogue'
+require 'src/states/game/partsOfLevels/Level4_0Map'
+require 'src/states/game/partsOfLevels/Level5Dialogue'
+require 'src/states/game/partsOfLevels/Level5Map'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -181,6 +187,8 @@ gTextures = {
     ['edgeTileSheet1Right'] = love.graphics.newImage('graphics/edge-tilesheet-1-right.png'),
     ['edgeOuterCorner1'] = love.graphics.newImage('graphics/edge-outer-corner1.png'),
     ['edgeInnerCorner1'] = love.graphics.newImage('graphics/edge-inner-corner1.png'),
+    ['edgeTileThin1'] = love.graphics.newImage('graphics/edge-tilesheet-thin-1.png'),
+    ['edgeCornerThin1'] = love.graphics.newImage('graphics/edge-outer-corner-thin1.png'),
 
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
     ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
@@ -292,6 +300,8 @@ gFrames = {
     ['edgeTileSheet1Right'] = GenerateQuads(gTextures['edgeTileSheet1Right'], 8, 8),
     ['edgeOuterCorner1'] = GenerateQuads(gTextures['edgeOuterCorner1'], 8, 8),
     ['edgeInnerCorner1'] = GenerateQuads(gTextures['edgeInnerCorner1'], 8, 8),
+    ['edgeTileThin1'] = GenerateQuads(gTextures['edgeTileThin1'], 8, 8),
+    ['edgeCornerThin1'] = GenerateQuads(gTextures['edgeCornerThin1'], 8, 8),
     ['foreProps1'] = GenerateQuads(gTextures['foreProps1'], 8, 8),
     --spikes
     ['spikeSheet1'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1'], 8, 8, 8),

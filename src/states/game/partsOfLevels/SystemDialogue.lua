@@ -99,6 +99,7 @@ function SystemDialogue.update(self, dt)
 
         if love.keyboard.wasPressed('return') and trim(self.playerInput) ~= "" then
             local entry = self.activeSequence[self.sequenceIndex]
+            --If correct answer, else incorrect answer
             if trim(self.playerInput) == trim(entry.answer) then
                 SystemDialogue.startSequence(self, entry.successSequence)
             else
@@ -112,7 +113,8 @@ function SystemDialogue.update(self, dt)
         return
     end
     if self.pendingPlayerHit then
-        self.player:gotHit()
+        --self.player:gotHit()
+        self.player.stateMachine:change('dead', 'electricGround')
         self.pendingPlayerHit = false
     end
     --Show dialogue

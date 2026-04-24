@@ -46,7 +46,7 @@ function TemplateMap.generate(self)
     -----Decorate level
     -------Create empty decorative canvas
     self.decorativeTiles = {}
-    local mapWidth = 32
+    local mapWidth = self.totalMapWidth
     local mapHeight = 19
     local tileSize = 8
     for y = 1, mapHeight do
@@ -64,8 +64,8 @@ function TemplateMap.generate(self)
     --Foreground decoration
     ------Create empty fore-decorative canvas
     self.foreDecorativeTiles = {}
-    local mapWidth = 32
-    local mapHeight = 19
+    local mapWidth = self.totalMapWidth
+    local mapHeight = 22
     local tileSize = 8
     for y = 1, mapHeight do
         self.foreDecorativeTiles[y] = {}
@@ -84,7 +84,7 @@ function TemplateMap:update(dt)
     self.camera:update(dt, self.player, self.totalMapWidth)
 end
 
-function TemplateMap.render(self)
+function TemplateMap.renderBeforeCamera(self)
     --draw bg tileMap
     for y = 1, #self.backgroundTileMap do
         for x = 1, #self.backgroundTileMap[y] do
@@ -98,6 +98,9 @@ function TemplateMap.render(self)
             end
         end
     end
+end
+
+function TemplateMap.render(self)
     --draw bg Art
     love.graphics.draw(self.bgArt, 0, 0)
      

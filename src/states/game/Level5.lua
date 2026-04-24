@@ -1,39 +1,38 @@
-Level3 = Class{__includes = BaseState}
+Level5 = Class{__includes = BaseState}
 
-function Level3:init()
-    self.currentLevel = 'level3'
-    self.nextLevel = 'level5'
-    self.nextTransition = {state = 'transition', params = {transNumber = 1, nextLevel = self.nextLevel}}
+function Level5:init()
+    self.currentLevel = 'level5'
+    self.nextLevel = 'level4_0'
+    self.nextTransition = {state = 'transition', params = {transNumber = 2, nextLevel = self.nextLevel}} -- can be nil if needed
     self.triggerRemoved = false
 
     --Is checkpoint?
     self.unlocksNext = true
-    self.nextChapterNumber = 1
+    self.nextChapterNumber = 2
 
-    Level3Map.generate(self)
-    SystemDialogue.init(self, Level3Dialogue.get())
+    Level5Map.generate(self)
+    SystemDialogue.init(self, Level5Dialogue.get())
     SystemLeaves.init(self)
     SystemTransition.start('uncover', function() end)
 
-    self.player = Player(20, -40, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'down')
+    self.player = Player(-20, 70, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'right')
     self.enemies = {
-        --Enemy(24, 8, self.player, "vertical"),
+        -- Enemy(100, 80, self.player, "horizontal"),
+        -- Enemy(120, 80, self.player, "vertical"),
+        -- Enemy(190, 80, self.player, "still")
     }
     self.items = {
-        Item(16, -1, self.player, "entrance"),
-        Item(24, -5, self.player, "entrance"),
-        Item(32, 0, self.player, "entrance"),
-        Item(40, -7, self.player, "entrance"),
-        Item(240, 104, self.player, "door"),
-        Item(152, 88, self.player, "apple"),
+        Item(0, 64, self.player, "entrance"),
+        Item(728, 96, self.player, "door"),
+        Item(593, 17, self.player, "apple"),
     }
 end
 
-function Level3:textinput(text)
+function Level5:textinput(text)
     SystemDialogue.textinput(self, text)
 end
 
-function Level3:handleTrigger()
+function Level5:handleTrigger()
     -- if love.keyboard.wasPressed('o') then
     --     SystemDialogue.startSequence(self, "sequence")
     -- end
@@ -49,15 +48,15 @@ function Level3:handleTrigger()
             end
         end
 
-        SystemDialogue.startSequence(self, "intro")
+        SystemDialogue.startSequence(self, "sequence")
     end
 end
 
-function Level3:canPause()
+function Level5:canPause()
     return true
 end
 
-function Level3:update(dt)
+function Level5:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
@@ -71,20 +70,21 @@ function Level3:update(dt)
             table.remove(self.items, i)
         end
     end
-    Level3Map.update(self, dt)
+    Level5Map.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
     SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 
-function Level3:render()
+function Level5:render()
+    Level5Map.renderBeforeCamera(self)
     self.camera:apply()
-    Level3Map.render(self)
+    Level5Map.render(self)
 
     self.player:render()
 
-    Level3Map.renderAfterPlayer(self)
+    Level5Map.renderAfterPlayer(self)
 
     for _, enemy in ipairs(self.enemies) do
         enemy:render()
@@ -96,7 +96,7 @@ function Level3:render()
     SystemLeaves.render(self)
     self.camera:clear()
 
-    SystemTransition.render()
     SystemDialogue.render(self)
+    SystemTransition.render()
 end
 

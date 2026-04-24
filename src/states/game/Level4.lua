@@ -2,14 +2,15 @@ Level4 = Class{__includes = BaseState}
 local utf8 = require("utf8")
 
 function Level4:init()
-    self.currentLevel = 'level4'
+    self.currentLevel = 'level4_0'
     self.nextLevel = 'level1'
-    self.nextTransition = {state = 'transition', params = {transNumber = 4, nextLevel = self.nextLevel}}
+    self.nextTransition = {state = 'transition', params = {transNumber = 3, nextLevel = self.nextLevel}}
     self.triggerRemoved = false
+    self.triggerRemoved2 = false
 
     --Is checkpoint?
-    self.unlocksNext = false
-    self.nextChapterNumber = 5
+    self.unlocksNext = true
+    self.nextChapterNumber = 3
 
     Level4Map.generate(self)
     SystemDialogue.init(self, Level4Dialogue.get())
@@ -34,7 +35,6 @@ end
 function Level4:handleTrigger()
     if self.player.touchedTrigger and not self.triggerRemoved then
         self.triggerRemoved = true
-
         for y, row in pairs(self.tileMap) do
             for x, tile in pairs(row) do
                 if tile.type == "trigger" then
@@ -43,7 +43,19 @@ function Level4:handleTrigger()
                 end
             end
         end
+        SystemDialogue.startSequence(self, "cara")
+    end
 
+    if self.player.touchedTrigger2 and not self.triggerRemoved2 then
+        self.triggerRemoved2 = true
+        for y, row in pairs(self.tileMap) do
+            for x, tile in pairs(row) do
+                if tile.type == "trigger2" then
+                    tile.type = "empty"
+                    tile.texture = nil
+                end
+            end
+        end
         SystemDialogue.startSequence(self, "sequence")
     end
 end

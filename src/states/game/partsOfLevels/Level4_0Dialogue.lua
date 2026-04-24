@@ -1,11 +1,11 @@
-TemplateDialogue = {}
+Level4_0Dialogue = {}
 
-function TemplateDialogue.get()
+function Level4_0Dialogue.get()
     ---Max lenght of the text: "Ah, there you are. I’ve been been been waiting waiting waiting. What are we, but waiting people?"
     return {
         sequence = {
             {
-                text = "asada asada asada asada",
+                text = "kk d va k",
                 portrait = gTextures.tales,
                 blip = "faceBlip"
             },

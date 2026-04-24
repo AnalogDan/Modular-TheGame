@@ -23,6 +23,9 @@ function LevelTemplate:init()
     }
     self.items = {
         -- Item(144, 80, self.player, "tales"),
+        -- Item(0, 64, self.player, "entrance"),
+        -- Item(728, 96, self.player, "door"),
+        -- Item(593, 17, self.player, "apple"),
     }
 end
 
@@ -76,6 +79,7 @@ function LevelTemplate:update(dt)
 end
 
 function LevelTemplate:render()
+    Level0Map.renderBeforeCamera(self)
     self.camera:apply()
     Level0Map.render(self)
 
