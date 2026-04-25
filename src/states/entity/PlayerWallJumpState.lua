@@ -29,6 +29,7 @@ function PlayerWallJumpState:enter(direction)
     
     self.soundFlag = false
     Sound.playSFX("jump", { volume = 0.9, pitch = 1.2 + math.random() * 0.5 })
+    
 end
 
 local function checkGoalTile(tile)
@@ -42,6 +43,7 @@ function PlayerWallJumpState:update(dt)
     Timer.update(dt)
     local keyLeft = love.keyboard.isDown('left')
     local keyRight = love.keyboard.isDown('right')
+    Sound.stopSFX("slide")
     
     --------controling jumping and falling
     if love.keyboard.isDown('space') and self.player.dy < 0 then

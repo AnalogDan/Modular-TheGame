@@ -25,9 +25,10 @@ function love.load()
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
         ['level4_0'] = function() return Level4_0() end, 
+        ['level4Real'] = function() return Level4Real() end, 
         ['level5'] = function() return Level5() end, 
     }
-    gStateMachine:change('level4')
+    gStateMachine:change('level4Real')
     love.keyboard .keysPressed = {}
 end
 

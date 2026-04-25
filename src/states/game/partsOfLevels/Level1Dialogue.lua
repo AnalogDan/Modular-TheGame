@@ -5,31 +5,40 @@ function Level1Dialogue.get()
     return {
         sequence = {
             {
-                text = "kk d va k",
-                portrait = gTextures.tales,
+                text = "Un salto normal no será suficiente para cruzar esto.",
+                portrait = gTextures.cara,
                 blip = "faceBlip"
             },
             {
-                type = "question",
-                text = "Cuanto es 2 + 2?",
-                portrait = gTextures.tales,
-                blip = "faceBlip",
-                answer = "4",
-                successSequence = "success",
-                fail = "death",
+                text = "¡Lo bueno es que sabes parkour!",
+                portrait = gTextures.cara,
+                blip = "faceBlip"
             },
             {
-                text = "Pinche puto",
-                portrait = gTextures.talesEnd,
+                text = "Debes saltar de pared en pared.",
+                portrait = gTextures.cara,
+                blip = "faceBlip"
+            },
+            {
+                text = "Presiona “espacio” mientras te deslizas para saltar desde la pared.",
+                portrait = gTextures.cara,
+                blip = "faceBlip"
+            },
+            {
+                text = "Incluso puedes presionar “espacio” poco antes de tocar la pared,",
+                portrait = gTextures.cara,
+                blip = "faceBlip"
+            },
+            {
+                text = "así saltas de forma automática, sin deslizarte antes.",
+                portrait = gTextures.cara,
+                blip = "faceBlip"
+            },
+            {
+                text = "También puedes controlar la distancia de los saltos desde la pared.",
+                portrait = gTextures.caraEnd,
                 blip = "faceBlip"
             }
         },
-        success = {
-            {
-                text = "Correcto...",
-                portrait = gTextures.tales,
-                blip = "faceBlip"
-            }
-        }
     }
 end

@@ -2,7 +2,7 @@ Level1 = Class{__includes = BaseState}
 
 function Level1:init()
     self.currentLevel = 'level1'
-    self.nextLevel = 'level1'
+    self.nextLevel = 'level4Real'
     self.nextTransition = {state = 'transition', params = {transNumber = 4, nextLevel = self.nextLevel}}
     self.triggerRemoved = false
 
@@ -17,12 +17,13 @@ function Level1:init()
 
     self.player = Player(-20, 94, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber)
     self.enemies = {
-        -- Enemy(100, 80, self.player, "horizontal"),
-        -- Enemy(120, 80, self.player, "vertical"),
-        -- Enemy(190, 80, self.player, "still")
     }
     self.items = {
         Item(0, 88, self.player, "entrance"),
+        Item(224, -1, self.player, "door"),
+        Item(232, -5, self.player, "door"),
+        Item(240, 0, self.player, "door"),
+        Item(153, 9, self.player, "apple"),
     }
 end
 
@@ -31,9 +32,7 @@ function Level1:textinput(text)
 end
 
 function Level1:handleTrigger()
-    -- if love.keyboard.wasPressed('o') then
-    --     SystemDialogue.startSequence(self, "sequence")
-    -- end
+
     if self.player.touchedTrigger and not self.triggerRemoved then
         self.triggerRemoved = true
 

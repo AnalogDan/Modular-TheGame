@@ -31,14 +31,26 @@ end
 
 function PlayerDeadState:update(dt)
     self.timer = self.timer + dt
-    if self.timer > 2.5 and not self.transitionStarted then
-        self.transitionStarted = true 
-        self.player.directionLocked = false
+    if self.cause == 'spiked' then
+        if self.timer > 1.7 and not self.transitionStarted then
+            self.transitionStarted = true 
+            self.player.directionLocked = false
 
-        SystemTransition.start('cover', function()
-            gStateMachine:change(self.currentLevel)
-        end)
-        return
+            SystemTransition.start('cover', function()
+                gStateMachine:change(self.currentLevel)
+            end)
+            return
+        end
+    else
+        if self.timer > 2.5 and not self.transitionStarted then
+            self.transitionStarted = true 
+            self.player.directionLocked = false
+
+            SystemTransition.start('cover', function()
+                gStateMachine:change(self.currentLevel)
+            end)
+            return
+        end
     end
 
     -- if self.cause == 'electricGround' then
