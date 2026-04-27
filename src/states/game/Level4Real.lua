@@ -2,7 +2,7 @@ Level4Real = Class{__includes = BaseState}
 
 function Level4Real:init()
     self.currentLevel = 'level4Real'
-    self.nextLevel = 'level4Real'
+    self.nextLevel = 'level2'
     self.nextTransition = {state = 'transition', params = {transNumber = 5, nextLevel = self.nextLevel}} -- can be nil if needed
     self.triggerRemoved = false
     self.triggerRemoved2 = false
@@ -21,7 +21,7 @@ function Level4Real:init()
 
     }
     self.items = {
-        Item(432, 80, self.player, "tales"),
+        Item(432, 80, self.player, "pitagoras"),
         Item(0, 8, self.player, "entrance"),
         Item(328, 48, self.player, "door"),
         Item(265, 25, self.player, "apple"),

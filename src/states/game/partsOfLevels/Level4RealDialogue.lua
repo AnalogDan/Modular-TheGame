@@ -52,7 +52,7 @@ function Level4RealDialogue.get()
                 blip = "teacherBlip"
             },
             {
-                text = "la siguiente fórmula describe sus lados “a^2 + b^2 = c^2",
+                text = "la siguiente fórmula describe sus lados \"a² + b² = c²\"",
                 portrait = gTextures.tales,
                 blip = "teacherBlip"
             },
@@ -108,7 +108,7 @@ function Level4RealDialogue.get()
             },
             {
                 type = "question",
-                text = "Recuerda el teorema: a^2 + b^2 = c^2… a = 5, b = 12, c = ?",
+                text = "Recuerda el teorema: \"a² + b² = c²\"… Responde: a = 5, b = 12, c = ?",
                 portrait = gTextures.tales,
                 blip = "teacherBlip",
                 answer = "13",

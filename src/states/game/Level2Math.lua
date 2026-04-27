@@ -1,39 +1,34 @@
-LevelTemplate = Class{__includes = BaseState}
+Level2Math = Class{__includes = BaseState}
 
-function LevelTemplate:init()
-    self.currentLevel = 'level1' --Used for spawning after death
-    self.nextLevel = 'level1'
-    self.nextTransition = {state = 'transition', params = {transNumber = 1, nextLevel = self.nextLevel}} -- can be nil if needed
+function Level2Math:init()
+    self.currentLevel = 'level2' -- Used for spawning after death
+    self.nextLevel = 'level2Math'
+    self.nextTransition = {state = 'transition', params = {transNumber = 6, nextLevel = self.nextLevel}} -- can be nil if needed
     self.triggerRemoved = false
 
     --Is checkpoint?
-    self.unlocksNext = false
-    self.nextChapterNumber = 1
+    self.unlocksNext = true
+    self.nextChapterNumber = 6
 
-    Level0Map.generate(self)
-    SystemDialogue.init(self, Level1Dialogue.get())
+    Level2MathMap.generate(self)
+    SystemDialogue.init(self, Level2MathDialogue.get())
     SystemLeaves.init(self)
     SystemTransition.start('uncover', function() end)
 
-    self.player = Player(-20, 78, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'right')
+    self.player = Player(-20, 70, self.tileMap, self.currentLevel, self.nextLevel, self.nextTransition, self.unlocksNext, self.nextChapterNumber, 'right')
     self.enemies = {
-        -- Enemy(100, 80, self.player, "horizontal"),
-        -- Enemy(120, 80, self.player, "vertical"),
-        -- Enemy(190, 80, self.player, "still")
     }
     self.items = {
-        -- Item(144, 80, self.player, "tales"),
-        -- Item(0, 64, self.player, "entrance"),
-        -- Item(728, 96, self.player, "door"),
-        -- Item(593, 17, self.player, "apple"),
+        Item(128, 80, self.player, "arquimedes"),
+        Item(0, 64, self.player, "entrance"),
     }
 end
 
-function LevelTemplate:textinput(text)
+function Level2Math:textinput(text)
     SystemDialogue.textinput(self, text)
 end
 
-function LevelTemplate:handleTrigger()
+function Level2Math:handleTrigger()
     -- if love.keyboard.wasPressed('o') then
     --     SystemDialogue.startSequence(self, "sequence")
     -- end
@@ -53,11 +48,11 @@ function LevelTemplate:handleTrigger()
     end
 end
 
-function LevelTemplate:canPause()
+function Level2Math:canPause()
     return true
 end
 
-function LevelTemplate:update(dt)
+function Level2Math:update(dt)
     self.player:update(dt)
     for _, enemy in ipairs(self.enemies) do
         enemy:update(dt)
@@ -71,21 +66,21 @@ function LevelTemplate:update(dt)
             table.remove(self.items, i)
         end
     end
-    Level0Map.update(self, dt)
+    Level2MathMap.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
     SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
 
-function LevelTemplate:render()
-    Level0Map.renderBeforeCamera(self)
+function Level2Math:render()
+    Level2MathMap.renderBeforeCamera(self)
     self.camera:apply()
-    Level0Map.render(self)
+    Level2MathMap.render(self)
 
     self.player:render()
 
-    Level0Map.renderAfterPlayer(self)
+    Level2MathMap.renderAfterPlayer(self)
 
     for _, enemy in ipairs(self.enemies) do
         enemy:render()

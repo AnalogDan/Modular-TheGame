@@ -35,6 +35,7 @@ require 'src/states/game/VideoState'
 require 'src/states/game/TransitionState'
 require 'src/states/game/Level1'
 require 'src/states/game/Level2'
+require 'src/states/game/Level2Math'
 require 'src/states/game/Level3'
 require 'src/states/game/Level4_0'
 require 'src/states/game/Level4'
@@ -50,6 +51,8 @@ require 'src/states/game/partsOfLevels/Level1Dialogue'
 require 'src/states/game/partsOfLevels/Level1Map'
 require 'src/states/game/partsOfLevels/Level2Dialogue'
 require 'src/states/game/partsOfLevels/Level2Map'
+require 'src/states/game/partsOfLevels/Level2MathDialogue'
+require 'src/states/game/partsOfLevels/Level2MathMap'
 require 'src/states/game/partsOfLevels/Level3Dialogue'
 require 'src/states/game/partsOfLevels/Level3Map'
 require 'src/states/game/partsOfLevels/Level4Dialogue'
@@ -75,7 +78,9 @@ require 'src/states/entity/enemy/EnemyMovingState'
 require 'src/states/entity/items/AppleState'
 require 'src/states/entity/items/DoorState'
 require 'src/states/entity/items/EntranceState'
-require 'src/states/entity/items/TalesState'
+require 'src/states/entity/items/npcs/TalesState'
+require 'src/states/entity/items/npcs/PitagorasState'
+require 'src/states/entity/items/npcs/ArquimedesState'
 
 gConfig = Config.load()
 
@@ -174,9 +179,12 @@ gTextures = {
     ['electricSkyDeathSheet'] = love.graphics.newImage('graphics/electricSky-death-sheet.png'),
     ['spikeDeathSheet'] = love.graphics.newImage('graphics/spike-death-sheet.png'),
 
+    --items
     ['appleSheet'] = love.graphics.newImage('graphics/apple-sheet.png'),
     ['doorSheet'] = love.graphics.newImage('graphics/door-sheet.png'),
     ['talesIdleSheet'] = love.graphics.newImage('graphics/npcs/tales-idle-sheet.png'),
+    ['pitagorasIdleSheet'] = love.graphics.newImage('graphics/npcs/pitagoras-idle-sheet.png'),
+    ['arquimedesIdleSheet'] = love.graphics.newImage('graphics/npcs/arquimedes-idle-sheet.png'),
 
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
@@ -289,9 +297,13 @@ gFrames = {
     ['coverSheet'] = GenerateQuadsMaxFrames(gTextures['coverSheet'], 256, 144, 22),
     ['uncoverSheet'] = GenerateQuadsMaxFrames(gTextures['uncoverSheet'], 256, 144, 25),
 
+    --items
     ['appleSheet'] = GenerateQuadsMaxFrames(gTextures['appleSheet'], 5, 6, 10),
     ['doorSheet'] = GenerateQuadsMaxFrames(gTextures['doorSheet'], 8, 16, 16),
+    --npcs
     ['talesIdleSheet'] = GenerateQuadsMaxFrames(gTextures['talesIdleSheet'], 10, 13, 24),
+    ['pitagorasIdleSheet'] = GenerateQuadsMaxFrames(gTextures['pitagorasIdleSheet'], 10, 13, 25),
+    ['arquimedesIdleSheet'] = GenerateQuadsMaxFrames(gTextures['arquimedesIdleSheet'], 10, 13, 25),
 
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 

@@ -19,9 +19,11 @@ function love.load()
 
         ['game'] = function() return GameState() end, 
         ['transition'] = function() return TransitionState() end,
-        ['level1'] = function() return Level1() end,
         ['video'] = function() return VideoState() end,
+
+        ['level1'] = function() return Level1() end,
         ['level2'] = function() return Level2() end, 
+        ['level2Math'] = function() return Level2Math() end, 
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
         ['level4_0'] = function() return Level4_0() end, 

@@ -69,6 +69,21 @@ function Level2Map.generate(self)
             }
         end
     end
+
+    --trigger
+    for y = 1, 18 do
+        for x = 5, 5 do
+            self.tileMap[y][x] = {
+                type = 'trigger',
+                solid = false,
+                --texture = gTextures['triggerTile'],
+                quad = nil,
+                x = ((x - 1) * tileSize),
+                y = (y - 1) * tileSize,
+            }
+        end
+    end
+
     --1
     for y = 1, 1 do
         for x = 1, 32 do

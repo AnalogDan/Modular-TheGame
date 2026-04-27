@@ -2,13 +2,13 @@ Level2 = Class{__includes = BaseState}
 
 function Level2:init()
     self.currentLevel = 'level2'
-    self.nextLevel = 'level3'
-    self.nextTransition = {state = 'transition', params = {transNumber = 2, nextLevel = self.nextLevel}}
+    self.nextLevel = 'level2Math'
+    self.nextTransition = nil
     self.triggerRemoved = false
 
     --Is checkpoint?
-    self.unlocksNext = true
-    self.nextChapterNumber = 3
+    self.unlocksNext = false
+    self.nextChapterNumber = nil
 
     Level2Map.generate(self)
     SystemDialogue.init(self, Level2Dialogue.get())

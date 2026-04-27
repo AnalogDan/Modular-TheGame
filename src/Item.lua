@@ -33,6 +33,20 @@ function Item:init(x, y, player, type)
             [self.talesAnimation] = gTextures['talesIdleSheet'],
         }
         self.currentAnimation = self.talesAnimation
+    elseif self.type == "pitagoras" then
+        self.useAnimation = true
+        self.pitagorasAnimation = Animation(gFrames['pitagorasIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.pitagorasAnimation] = gTextures['pitagorasIdleSheet'],
+        }
+        self.currentAnimation = self.pitagorasAnimation
+    elseif self.type == "arquimedes" then
+        self.useAnimation = true
+        self.arquimedesAnimation = Animation(gFrames['arquimedesIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.arquimedesAnimation] = gTextures['arquimedesIdleSheet'],
+        }
+        self.currentAnimation = self.arquimedesAnimation
     end 
 
     self.player = player
@@ -51,6 +65,8 @@ function Item:init(x, y, player, type)
         ['door'] = function() return DoorState(self) end,
         ['entrance'] = function() return EntranceState(self) end,
         ['tales'] = function() return TalesState(self) end,
+        ['pitagoras'] = function() return PitagorasState(self) end,
+        ['arquimedes'] = function() return ArquimedesState(self) end,
     }
 
     self.stateMachine:change(self.type)
@@ -65,7 +81,7 @@ function Item:update(dt)
 end
 
 function Item:render()
-    if self.type == 'tales' or self.type == 'entrance' then
+    if self.type == 'tales' or self.type == 'arquimedes' or self.type == 'pitagoras' or self.type == 'entrance' then
         self.stateMachine.current:render()
         return
     end

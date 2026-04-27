@@ -5,31 +5,15 @@ function Level2Dialogue.get()
     return {
         sequence = {
             {
-                text = "kk d va k",
-                portrait = gTextures.tales,
+                text = "Wow, hay muchas raíces cuadradas salvajes aquí.",
+                portrait = gTextures.cara,
                 blip = "faceBlip"
             },
             {
-                type = "question",
-                text = "Cuanto es 2 + 2?",
-                portrait = gTextures.tales,
-                blip = "faceBlip",
-                answer = "4",
-                successSequence = "success",
-                fail = "death",
-            },
-            {
-                text = "Pinche puto",
-                portrait = gTextures.talesEnd,
+                text = "No las toques, son peligrosas.",
+                portrait = gTextures.caraEnd,
                 blip = "faceBlip"
-            }
+            },
         },
-        success = {
-            {
-                text = "Correcto...",
-                portrait = gTextures.tales,
-                blip = "faceBlip"
-            }
-        }
     }
 end
