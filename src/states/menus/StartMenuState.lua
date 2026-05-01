@@ -17,6 +17,12 @@ function StartMenuState:init()
     }
 
     self.levels = LevelList.get()
+
+    if not MENUMUSICSTARTED then
+        MENUMUSICSTARTED = true
+        Sound.playTrack("menuMusic", "music", { fadeIn = 2, fadeOut = 3, loop = true, volume = 0.7 })
+    end
+    
 end
 
 function StartMenuState:update(dt)
@@ -107,6 +113,19 @@ function StartMenuState:update(dt)
                 if i == 1 then
                     if self.maxUnlocked > 0 then
                         local entry = self.levels[self.maxUnlocked]
+
+                        --Switch to correct music before changing level
+                        MENUMUSICSTARTED = false
+                        if self.maxUnlocked >= 1 and self.maxUnlocked <= 5 then
+                            Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
+                        elseif self.maxUnlocked >= 6 and self.maxUnlocked <= 7 then
+                            Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
+                        elseif self.maxUnlocked >= 8 or self.maxUnlocked <= 9 then
+                            Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
+                        elseif self.maxUnlocked == 10 then
+                            Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
+                        end
+
                         if entry then
                             SystemTransition.start('cover', function()
                                 gStateMachine:change(entry.state, entry.params)

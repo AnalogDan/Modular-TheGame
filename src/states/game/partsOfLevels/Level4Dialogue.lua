@@ -7,68 +7,68 @@ function Level4Dialogue.get()
             {
                 text = "¿Quién eres tú? Nunca te había visto por aquí.",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "...",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "No pareces ser alguien de muchas palabras.",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Yo soy Tales de Mileto, y he estado observando las figuras geométricas.",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "¿Sabías que un círculo queda dividido perfectamente en dos por su diámetro?",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "¿O que los ángulos en la base de un triángulo isósceles son iguales?",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Si dos triángulos tienen la misma forma, ¡sus lados guardan proporción!",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "¿Puedes creerlo? ¡Guardan proporción!",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Imagina un triángulo con lados de 100, 200, y 150 centímetros.",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Ahora imagina uno con la misma forma, pero más pequeño, de 20, 40, y…",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Y no conocemos la medida de uno de sus lados. Tienes que calcularla.",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "Si respondes mal no te podré dejar pasar, ¡y tendré que matarte!",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 type = "question",
                 text = "El triángulo grande tiene 100, 200 y 150, el pequeño 20, 40 y…",
                 portrait = gTextures.tales,
-                blip = "teacherBlip",
+                blip = "talesBlip",
                 answer = "30",
                 successSequence = "success",
                 fail = "death",
@@ -78,12 +78,12 @@ function Level4Dialogue.get()
             {
                 text = "¡Treinta, treinta, treinta! Puedes seguir adelante, y recuerda,",
                 portrait = gTextures.tales,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
             {
                 text = "la suma de los ángulos interiores de un triángulo es 180°.",
                 portrait = gTextures.talesEnd,
-                blip = "teacherBlip"
+                blip = "talesBlip"
             },
         },
 

@@ -81,6 +81,11 @@ require 'src/states/entity/items/EntranceState'
 require 'src/states/entity/items/npcs/TalesState'
 require 'src/states/entity/items/npcs/PitagorasState'
 require 'src/states/entity/items/npcs/ArquimedesState'
+require 'src/states/entity/items/npcs/JuarismiState'
+require 'src/states/entity/items/npcs/FibonacciState'
+require 'src/states/entity/items/npcs/EinsteinState'
+require 'src/states/entity/items/npcs/TuringState'
+
 
 gConfig = Config.load()
 
@@ -119,15 +124,21 @@ gVideos = {
 }
 
 gSounds = {
-    ['jump'] = love.audio.newSource('sounds/jump.ogg', 'static'),
+    ['jump'] = love.audio.newSource('sounds/jump.wav', 'static'),
     ['grab'] = love.audio.newSource('sounds/grab.ogg', 'static'),
     ['step'] = love.audio.newSource('sounds/step.ogg', 'static'),
     ['fall'] = love.audio.newSource('sounds/fall.ogg', 'static'),
     ['slide'] = love.audio.newSource('sounds/slide.ogg', 'static'),
     ['electric'] = love.audio.newSource('sounds/electric.ogg', 'static'),
 
+    --Music
     ['music1'] = love.audio.newSource('sounds/music1_1.ogg', 'static'),
     ['ambience1'] = love.audio.newSource('sounds/ambience1.ogg', 'static'),
+    ['menuMusic'] = love.audio.newSource('sounds/music/menuMusic.wav', 'static'),
+    ['forestMusic'] = love.audio.newSource('sounds/music/forestMusic.wav', 'static'),
+    ['desertMusic'] = love.audio.newSource('sounds/music/desertMusic.wav', 'static'),
+    ['cityMusic'] = love.audio.newSource('sounds/music/cityMusic.wav', 'static'),
+    ['bossMusic'] = love.audio.newSource('sounds/music/bossMusic.wav', 'static'),
 
     --vid1
     ['vid1'] = love.audio.newSource('sounds/vid1/vid1.ogg', 'static'),
@@ -151,6 +162,48 @@ gSounds = {
         love.audio.newSource('sounds/voices/faceBlip2.ogg', 'static'),
         love.audio.newSource('sounds/voices/faceBlip3.ogg', 'static'),
         },
+    ['talesBlip'] = {
+        love.audio.newSource('sounds/voices/talesBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/talesBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/talesBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/talesBlip4.wav', 'static'),
+        },
+    ['pitagorasBlip'] = {
+        love.audio.newSource('sounds/voices/pitagorasBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/pitagorasBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/pitagorasBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/pitagorasBlip4.wav', 'static'),
+        },
+    ['arquimedesBlip'] = {
+        love.audio.newSource('sounds/voices/arquimedesBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/arquimedesBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/arquimedesBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/arquimedesBlip4.wav', 'static'),
+        },
+    ['fibonacciBlip'] = {
+        love.audio.newSource('sounds/voices/fibonacciBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/fibonacciBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/fibonacciBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/fibonacciBlip4.wav', 'static'),
+        },
+    ['einsteinBlip'] = {
+        love.audio.newSource('sounds/voices/einsteinBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/einsteinBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/einsteinBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/einsteinBlip4.wav', 'static'),
+        },
+    ['turingBlip'] = {
+        love.audio.newSource('sounds/voices/turingBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/turingBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/turingBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/turingBlip4.wav', 'static'),
+        },
+    -- ['talesBlip'] = {
+    --     love.audio.newSource('sounds/voices/talesBlip1.wav', 'static'),
+    --     love.audio.newSource('sounds/voices/talesBlip2.wav', 'static'),
+    --     love.audio.newSource('sounds/voices/talesBlip3.wav', 'static'),
+    --     love.audio.newSource('sounds/voices/talesBlip4.wav', 'static'),
+    --     },
 }
 
 gTextures = {
@@ -182,9 +235,14 @@ gTextures = {
     --items
     ['appleSheet'] = love.graphics.newImage('graphics/apple-sheet.png'),
     ['doorSheet'] = love.graphics.newImage('graphics/door-sheet.png'),
+    --npcs
     ['talesIdleSheet'] = love.graphics.newImage('graphics/npcs/tales-idle-sheet.png'),
     ['pitagorasIdleSheet'] = love.graphics.newImage('graphics/npcs/pitagoras-idle-sheet.png'),
     ['arquimedesIdleSheet'] = love.graphics.newImage('graphics/npcs/arquimedes-idle-sheet.png'),
+    ['juarismiIdleSheet'] = love.graphics.newImage('graphics/npcs/juarismi-idle-sheet.png'),
+    ['fibonacciIdleSheet'] = love.graphics.newImage('graphics/npcs/fibonacci-idle-sheet.png'),
+    ['einsteinIdleSheet'] = love.graphics.newImage('graphics/npcs/einstein-idle-sheet.png'),
+    ['turingIdleSheet'] = love.graphics.newImage('graphics/npcs/turing-idle-sheet.png'),
 
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
@@ -203,6 +261,34 @@ gTextures = {
 
     ['foreProps1'] = love.graphics.newImage('graphics/fore-props-sheet1.png'),
     ['bgArt1'] = love.graphics.newImage('graphics/background-art1.png'),
+
+    --tileSets 
+    --Desert
+    ['backgroundTile2'] = love.graphics.newImage('graphics/desertTiles/skyDesert.png'),
+    ['fillTile2'] = love.graphics.newImage('graphics/desertTiles/fill-tile-2.png'),
+    ['infillTileSheet2'] = love.graphics.newImage('graphics/desertTiles/infill-tilesheet-2.png'),
+    ['edgeTileSheet2'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-2.png'),
+    ['edgeTileSheet2Down'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-2-down.png'),
+    ['edgeTileSheet2Left'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-2-left.png'),
+    ['edgeTileSheet2Right'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-2-right.png'),
+    ['edgeOuterCorner2'] = love.graphics.newImage('graphics/desertTiles/edge-outer-corner2.png'),
+    ['edgeInnerCorner2'] = love.graphics.newImage('graphics/desertTiles/edge-inner-corner2.png'),
+    ['edgeTileThin2'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-thin-2.png'),
+    ['edgeCornerThin2'] = love.graphics.newImage('graphics/desertTiles/edge-outer-corner-thin2.png'),
+    ['foreProps2'] = love.graphics.newImage('graphics/desertTiles/fore-props-sheet2.png'),
+
+    --City
+    ['backgroundTile3'] = love.graphics.newImage('graphics/cityTiles/skyCity.png'),
+    ['fillTile3'] = love.graphics.newImage('graphics/cityTiles/fill-tile-3.png'),
+    ['infillTileSheet3'] = love.graphics.newImage('graphics/cityTiles/infill-tilesheet-3.png'),
+    ['edgeTileSheet3'] = love.graphics.newImage('graphics/cityTiles/edge-tilesheet-3.png'),
+    ['edgeTileSheet3Down'] = love.graphics.newImage('graphics/cityTiles/edge-tilesheet-3-down.png'),
+    ['edgeTileSheet3Left'] = love.graphics.newImage('graphics/cityTiles/edge-tilesheet-3-left.png'),
+    ['edgeTileSheet3Right'] = love.graphics.newImage('graphics/cityTiles/edge-tilesheet-3-right.png'),
+    ['edgeOuterCorner3'] = love.graphics.newImage('graphics/cityTiles/edge-outer-corner3.png'),
+    ['edgeInnerCorner3'] = love.graphics.newImage('graphics/cityTiles/edge-inner-corner3.png'),
+    ['edgeTileThin3'] = love.graphics.newImage('graphics/cityTiles/edge-tilesheet-thin-3.png'),
+    ['edgeCornerThin3'] = love.graphics.newImage('graphics/cityTiles/edge-outer-corner-thin3.png'),
 
     --spikes
     ['spikeSheet1'] = love.graphics.newImage('graphics/tiles/spikes1.png'),
@@ -251,12 +337,16 @@ gTextures = {
     ['log'] = love.graphics.newImage('graphics/levels/level2/log.png'),
     ['smallLog'] = love.graphics.newImage('graphics/levels/level2/smallLog.png'),
     ['bgArt2'] = love.graphics.newImage('graphics/levels/level2/bg-art2.png'),
+    ['bgArt2Math'] = love.graphics.newImage('graphics/levels/level2/bg-art2Math.png'),
 
     --Level3
     ['bgArt3'] = love.graphics.newImage('graphics/levels/level3/bg-art3.png'),
 
     --Level4
     ['bgArt4'] = love.graphics.newImage('graphics/levels/level4/bg-art4.png'),
+    ['bgArt4_0'] = love.graphics.newImage('graphics/levels/bg-art4_0.png'),
+    ['bgArt4Real'] = love.graphics.newImage('graphics/levels/bg-art4Real.png'),
+    ['bgArt5'] = love.graphics.newImage('graphics/levels/bg-art5.png'),
 
     --Transitions
     ['trans1'] = love.graphics.newImage('graphics/transitions/1-trans.png'),
@@ -265,12 +355,20 @@ gTextures = {
     ['trans4'] = love.graphics.newImage('graphics/transitions/4-trans.png'),
     ['trans5'] = love.graphics.newImage('graphics/transitions/5-trans.png'),
     ['trans6'] = love.graphics.newImage('graphics/transitions/6-trans.png'),
+    ['trans7'] = love.graphics.newImage('graphics/transitions/7-trans.png'),
+    ['trans8'] = love.graphics.newImage('graphics/transitions/8-trans.png'),
+    ['trans9'] = love.graphics.newImage('graphics/transitions/9-trans.png'),
+    ['trans10'] = love.graphics.newImage('graphics/transitions/10-trans.png'),
     ['dot1'] = love.graphics.newImage('graphics/transitions/1-dot.png'),
     ['dot2'] = love.graphics.newImage('graphics/transitions/2-dot.png'),
     ['dot3'] = love.graphics.newImage('graphics/transitions/3-dot.png'),
     ['dot4'] = love.graphics.newImage('graphics/transitions/4-dot.png'),
     ['dot5'] = love.graphics.newImage('graphics/transitions/5-dot.png'),
     ['dot6'] = love.graphics.newImage('graphics/transitions/6-dot.png'),
+    ['dot7'] = love.graphics.newImage('graphics/transitions/7-dot.png'),
+    ['dot8'] = love.graphics.newImage('graphics/transitions/8-dot.png'),
+    ['dot9'] = love.graphics.newImage('graphics/transitions/9-dot.png'),
+    ['dot10'] = love.graphics.newImage('graphics/transitions/10-dot.png'),
 
     --portraits
     ['caraBig'] = love.graphics.newImage('graphics/portraits/caraBig.png'),
@@ -281,6 +379,18 @@ gTextures = {
     ['caraEnd'] = love.graphics.newImage('graphics/portraits/cara-end.png'),
     ['tales'] = love.graphics.newImage('graphics/portraits/tales.png'),
     ['talesEnd'] = love.graphics.newImage('graphics/portraits/tales-end.png'),
+    ['pitagoras'] = love.graphics.newImage('graphics/portraits/pitagoras.png'),
+    ['pitagorasEnd'] = love.graphics.newImage('graphics/portraits/pitagoras-end.png'),
+    ['arquimedes'] = love.graphics.newImage('graphics/portraits/arquimedes.png'),
+    ['arquimedesEnd'] = love.graphics.newImage('graphics/portraits/arquimedes-end.png'),
+    ['juarismi'] = love.graphics.newImage('graphics/portraits/al-juarismi.png'),
+    ['juarismiEnd'] = love.graphics.newImage('graphics/portraits/al-juarismi-end.png'),
+    ['fibonacci'] = love.graphics.newImage('graphics/portraits/fibonacci.png'),
+    ['fibonacciEnd'] = love.graphics.newImage('graphics/portraits/fibonacci-end.png'),
+    ['einstein'] = love.graphics.newImage('graphics/portraits/einstein.png'),
+    ['einsteinEnd'] = love.graphics.newImage('graphics/portraits/einstein-end.png'),
+    ['turing'] = love.graphics.newImage('graphics/portraits/turing.png'),
+    ['turingEnd'] = love.graphics.newImage('graphics/portraits/turing-end.png'),
 }
 
 gFrames = {
@@ -304,6 +414,12 @@ gFrames = {
     ['talesIdleSheet'] = GenerateQuadsMaxFrames(gTextures['talesIdleSheet'], 10, 13, 24),
     ['pitagorasIdleSheet'] = GenerateQuadsMaxFrames(gTextures['pitagorasIdleSheet'], 10, 13, 25),
     ['arquimedesIdleSheet'] = GenerateQuadsMaxFrames(gTextures['arquimedesIdleSheet'], 10, 13, 25),
+    ['juarismiIdleSheet'] = GenerateQuadsMaxFrames(gTextures['juarismiIdleSheet'], 10, 13, 25),
+    ['fibonacciIdleSheet'] = GenerateQuadsMaxFrames(gTextures['fibonacciIdleSheet'], 10, 13, 23),
+    ['einsteinIdleSheet'] = GenerateQuadsMaxFrames(gTextures['einsteinIdleSheet'], 10, 13, 24),
+    ['turingIdleSheet'] = GenerateQuadsMaxFrames(gTextures['turingIdleSheet'], 10, 13, 22),
+    
+    
 
     ['enemySheet'] = GenerateQuads(gTextures['enemySheet'], 16, 16),
 
@@ -318,6 +434,30 @@ gFrames = {
     ['edgeTileThin1'] = GenerateQuads(gTextures['edgeTileThin1'], 8, 8),
     ['edgeCornerThin1'] = GenerateQuads(gTextures['edgeCornerThin1'], 8, 8),
     ['foreProps1'] = GenerateQuads(gTextures['foreProps1'], 8, 8),
+
+    --tileSets 
+    --Desert
+    ['infillTileSheet2'] = GenerateQuads(gTextures['infillTileSheet2'], 8, 8),
+    ['edgeTileSheet2'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet2'], 8, 8, 5),
+    ['edgeTileSheet2Down'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet2Down'], 8, 8, 5),
+    ['edgeTileSheet2Left'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet2Left'], 8, 8, 5),
+    ['edgeTileSheet2Right'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet2Right'], 8, 8, 5),
+    ['edgeOuterCorner2'] = GenerateQuads(gTextures['edgeOuterCorner2'], 8, 8),
+    ['edgeInnerCorner2'] = GenerateQuads(gTextures['edgeInnerCorner2'], 8, 8),
+    ['edgeTileThin2'] = GenerateQuads(gTextures['edgeTileThin2'], 8, 8),
+    ['edgeCornerThin2'] = GenerateQuads(gTextures['edgeCornerThin2'], 8, 8),
+    ['foreProps2'] = GenerateQuadsMaxFrames(gTextures['foreProps1'], 8, 8, 5),
+    --City
+    ['infillTileSheet3'] = GenerateQuads(gTextures['infillTileSheet3'], 8, 8),
+    ['edgeTileSheet3'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet3'], 8, 8, 1),
+    ['edgeTileSheet3Down'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet3Down'], 8, 8, 1),
+    ['edgeTileSheet3Left'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet3Left'], 8, 8, 1),
+    ['edgeTileSheet3Right'] = GenerateQuadsMaxFrames(gTextures['edgeTileSheet3Right'], 8, 8, 1),
+    ['edgeOuterCorner3'] = GenerateQuads(gTextures['edgeOuterCorner3'], 8, 8),
+    ['edgeInnerCorner3'] = GenerateQuads(gTextures['edgeInnerCorner3'], 8, 8),
+    ['edgeTileThin3'] = GenerateQuads(gTextures['edgeTileThin3'], 8, 8),
+    ['edgeCornerThin3'] = GenerateQuads(gTextures['edgeCornerThin3'], 8, 8),
+
     --spikes
     ['spikeSheet1'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1'], 8, 8, 8),
     ['spikeSheet1Down'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Down'], 8, 8, 8),

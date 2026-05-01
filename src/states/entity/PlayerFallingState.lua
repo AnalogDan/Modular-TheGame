@@ -24,6 +24,7 @@ local function checkPitTile(tile)
 end
 
 function PlayerFallingState:update(dt)
+    Sound.stopSFX("slide")
     local keyLeft = love.keyboard.isDown('left')
     local keyRight = love.keyboard.isDown('right')
 

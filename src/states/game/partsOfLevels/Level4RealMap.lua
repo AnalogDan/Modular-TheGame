@@ -4,7 +4,7 @@ function Level4RealMap.generate(self)
     self.camera = Camera
     self.camera:init()
     math.randomseed(0)
-    self.bgArt = gTextures['bgArt1']
+    self.bgArt = gTextures['bgArt4Real']
 
     ----Create background 
     self.backgroundTileMap = {}
@@ -1637,7 +1637,7 @@ function Level4RealMap.generate(self)
     end
     --2
     for y = 16, 16 do
-        for x = 10, 13 do
+        for x = 13, 13 do
             self.foreDecorativeTiles[y][x] = {
                 texture = gTextures['foreProps1'],
                 quad = (gFrames['foreProps1'][math.random(#gFrames['foreProps1'])]),

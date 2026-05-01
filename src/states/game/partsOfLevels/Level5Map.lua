@@ -4,7 +4,7 @@ function Level5Map.generate(self)
     self.camera = Camera
     self.camera:init()
     math.randomseed(0)
-    self.bgArt = gTextures['bgArt1']
+    self.bgArt = gTextures['bgArt5']
 
     ----Create background 
     self.backgroundTileMap = {}
@@ -1134,7 +1134,7 @@ end
 
 function Level5Map.render(self)
     --draw bg Art
-    --love.graphics.draw(self.bgArt, 0, 0)
+    love.graphics.draw(self.bgArt, 0, 0)
      
     --draw graybox tileMap
     for y, row in pairs(self.tileMap) do

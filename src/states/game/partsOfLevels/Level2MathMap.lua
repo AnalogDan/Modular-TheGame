@@ -4,7 +4,7 @@ function Level2MathMap.generate(self)
     self.camera = Camera
     self.camera:init()
     math.randomseed(0)
-    self.bgArt = gTextures['bgArt1']
+    self.bgArt = gTextures['bgArt2Math']
 
     ----Create background 
     self.backgroundTileMap = {}

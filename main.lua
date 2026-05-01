@@ -23,16 +23,31 @@ function love.load()
 
         ['level1'] = function() return Level1() end,
         ['level2'] = function() return Level2() end, 
-        ['level2Math'] = function() return Level2Math() end, 
+        ['level2Math'] = function() return Level2Math() end,
         ['level3'] = function() return Level3() end, 
         ['level4'] = function() return Level4() end, 
         ['level4_0'] = function() return Level4_0() end, 
         ['level4Real'] = function() return Level4Real() end, 
         ['level5'] = function() return Level5() end, 
     }
-    gStateMachine:change('level4Real')
+    gStateMachine:change('menu')
     love.keyboard .keysPressed = {}
 end
+
+--Para acabar Jueves 30 aunque sea a media madrugada:
+
+--Sonidos que faltan:
+--Sonidos movimiento en menu principal
+--Sonido movimiento en pause
+--Musica menu, 3 mundos diferentes, boss final 
+--Sonido abrir puerta con manzana 
+--Sonido morir con picos
+--Sonido electrocutarse aire  
+
+--Guión 6 - 10
+
+--Nivel 6
+
 
 function love.resize(w, h)
     push:resize(w, h)

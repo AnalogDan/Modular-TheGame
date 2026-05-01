@@ -28,89 +28,89 @@ function Level4RealDialogue.get()
         sequence2 = {
             {
                 text = "Muy buenas tardes, caballero. ¿Conoces los triángulos?",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Formulé un teorema que sirve para calcular distancias cuando hay un ángulo recto.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Es conocido como el teorema de pitágoras.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "En un triángulo rectángulo, donde el lado a y b forman el ángulo recto,",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "y el c la hipotenusa,",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "la siguiente fórmula describe sus lados \"a² + b² = c²\"",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Tendrás que calcular la longitud de la hipotenusa usando mi teorema.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Necesitarás usar un poco de razonamiento numérico. Si respondes mal…",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Te mueres.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Y si respondes correctamente…",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "También te mueres.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Ya sabes lo que dicen, el orden de los factores no altera el producto.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "...",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Era broma.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Si me dices el número correcto, te dejo pasar.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 text = "Si no, definitivamente mueres.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip"
             },
             {
                 type = "question",
                 text = "Recuerda el teorema: \"a² + b² = c²\"… Responde: a = 5, b = 12, c = ?",
-                portrait = gTextures.tales,
-                blip = "teacherBlip",
+                portrait = gTextures.pitagoras,
+                blip = "pitagorasBlip",
                 answer = "13",
                 successSequence = "success",
                 fail = "death",
@@ -119,8 +119,8 @@ function Level4RealDialogue.get()
         success = {
             {
                 text = "Felicidades, pequeño Pitagorito. Puedes pasar.",
-                portrait = gTextures.tales,
-                blip = "teacherBlip"
+                portrait = gTextures.pitagorasEnd,
+                blip = "pitagorasBlip"
             }
         }
     }

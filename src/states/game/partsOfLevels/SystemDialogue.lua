@@ -129,7 +129,7 @@ function SystemDialogue.update(self, dt)
                     local pitch = 0.9 + math.random() * 0.2
                     Sound.playSFX(self.currentBlip, {
                         pitch = pitch,
-                        volume = 1
+                        volume = 0.5
                     })
                     local sound = gSounds[self.currentBlip]
                     if type(sound) == "table" then

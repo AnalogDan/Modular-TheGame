@@ -47,6 +47,34 @@ function Item:init(x, y, player, type)
             [self.arquimedesAnimation] = gTextures['arquimedesIdleSheet'],
         }
         self.currentAnimation = self.arquimedesAnimation
+    elseif self.type == "juarismi" then
+        self.useAnimation = true
+        self.juarismiAnimation = Animation(gFrames['juarismiIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.juarismiAnimation] = gTextures['juarismiIdleSheet'],
+        }
+        self.currentAnimation = self.juarismiAnimation
+    elseif self.type == "fibonacci" then
+        self.useAnimation = true
+        self.fibonacciAnimation = Animation(gFrames['fibonacciIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.fibonacciAnimation] = gTextures['fibonacciIdleSheet'],
+        }
+        self.currentAnimation = self.fibonacciAnimation
+    elseif self.type == "einstein" then
+        self.useAnimation = true
+        self.einsteinAnimation = Animation(gFrames['einsteinIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.einsteinAnimation] = gTextures['einsteinIdleSheet'],
+        }
+        self.currentAnimation = self.einsteinAnimation
+    elseif self.type == "turing" then
+        self.useAnimation = true
+        self.turingAnimation = Animation(gFrames['turingIdleSheet'], 0.2)
+        self.animTextures = {
+            [self.turingAnimation] = gTextures['turingIdleSheet'],
+        }
+        self.currentAnimation = self.turingAnimation
     end 
 
     self.player = player
@@ -67,6 +95,10 @@ function Item:init(x, y, player, type)
         ['tales'] = function() return TalesState(self) end,
         ['pitagoras'] = function() return PitagorasState(self) end,
         ['arquimedes'] = function() return ArquimedesState(self) end,
+        ['juarismi'] = function() return JuarismiState(self) end,
+        ['fibonacci'] = function() return FibonacciState(self) end,
+        ['einstein'] = function() return EinsteinState(self) end,
+        ['turing'] = function() return TuringState(self) end,
     }
 
     self.stateMachine:change(self.type)
@@ -81,7 +113,8 @@ function Item:update(dt)
 end
 
 function Item:render()
-    if self.type == 'tales' or self.type == 'arquimedes' or self.type == 'pitagoras' or self.type == 'entrance' then
+    if self.type == 'tales' or self.type == 'arquimedes' or self.type == 'pitagoras' or self.type == 'entrance'
+       or self.type == 'juarismi' or self.type == 'fibonacci' or self.type == 'einstein' or self.type == 'turing' then
         self.stateMachine.current:render()
         return
     end
