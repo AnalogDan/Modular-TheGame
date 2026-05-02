@@ -112,7 +112,7 @@ function PlayerWalkingState:update(dt)
             self.stepTimer = self.stepInterval
             Sound.playSFX("step", {
                 pitch = math.random(90, 120) / 100,
-                volume = 0.6
+                volume = 1
             })
         end
     else

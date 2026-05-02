@@ -12,7 +12,7 @@ function PlayerJumpingState:enter()
     self.player.dy = self.jumpSpeed
     self.player.jumpBufferTime = 0
 
-    Sound.playSFX("jump", { volume = 0.9, pitch = 0.9 + math.random() * 0.3 })
+    Sound.playSFX("jump", { volume = 0.7, pitch = 0.9 + math.random() * 0.3 })
 end
 
 local function checkGoalTile(tile)

@@ -2,7 +2,7 @@ Level2Math = Class{__includes = BaseState}
 
 function Level2Math:init()
     self.currentLevel = 'level2' -- Used for spawning after death
-    self.nextLevel = 'level2Math'
+    self.nextLevel = 'level6'
     self.nextTransition = {state = 'transition', params = {transNumber = 6, nextLevel = self.nextLevel}} -- can be nil if needed
     self.triggerRemoved = false
 

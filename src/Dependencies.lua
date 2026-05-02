@@ -41,9 +41,11 @@ require 'src/states/game/Level4_0'
 require 'src/states/game/Level4'
 require 'src/states/game/Level4Real'
 require 'src/states/game/Level5'
+require 'src/states/game/Level6'
 
 require 'src/states/game/partsOfLevels/Camera'
 require 'src/states/game/partsOfLevels/SystemLeaves'
+require 'src/states/game/partsOfLevels/SystemSand'
 require 'src/states/game/partsOfLevels/SystemDialogue'
 require 'src/states/game/partsOfLevels/SystemTransition'
 require 'src/states/game/partsOfLevels/Level0Map'
@@ -63,6 +65,8 @@ require 'src/states/game/partsOfLevels/Level4RealDialogue'
 require 'src/states/game/partsOfLevels/Level4RealMap'
 require 'src/states/game/partsOfLevels/Level5Dialogue'
 require 'src/states/game/partsOfLevels/Level5Map'
+require 'src/states/game/partsOfLevels/Level6Dialogue'
+require 'src/states/game/partsOfLevels/Level6Map'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -130,6 +134,9 @@ gSounds = {
     ['fall'] = love.audio.newSource('sounds/fall.ogg', 'static'),
     ['slide'] = love.audio.newSource('sounds/slide.ogg', 'static'),
     ['electric'] = love.audio.newSource('sounds/electric.ogg', 'static'),
+    ['electricWind'] = love.audio.newSource('sounds/electricWind.wav', 'static'),
+    ['apple'] = love.audio.newSource('sounds/apple.wav', 'static'),
+    ['spikes'] = love.audio.newSource('sounds/spikes.wav', 'static'),
 
     --Music
     ['music1'] = love.audio.newSource('sounds/music1_1.ogg', 'static'),
@@ -180,6 +187,12 @@ gSounds = {
         love.audio.newSource('sounds/voices/arquimedesBlip3.wav', 'static'),
         love.audio.newSource('sounds/voices/arquimedesBlip4.wav', 'static'),
         },
+    ['juarismiBlip'] = {
+        love.audio.newSource('sounds/voices/juarismiBlip1.wav', 'static'),
+        love.audio.newSource('sounds/voices/juarismiBlip2.wav', 'static'),
+        love.audio.newSource('sounds/voices/juarismiBlip3.wav', 'static'),
+        love.audio.newSource('sounds/voices/juarismiBlip4.wav', 'static'),
+        },
     ['fibonacciBlip'] = {
         love.audio.newSource('sounds/voices/fibonacciBlip1.wav', 'static'),
         love.audio.newSource('sounds/voices/fibonacciBlip2.wav', 'static'),
@@ -198,12 +211,15 @@ gSounds = {
         love.audio.newSource('sounds/voices/turingBlip3.wav', 'static'),
         love.audio.newSource('sounds/voices/turingBlip4.wav', 'static'),
         },
-    -- ['talesBlip'] = {
-    --     love.audio.newSource('sounds/voices/talesBlip1.wav', 'static'),
-    --     love.audio.newSource('sounds/voices/talesBlip2.wav', 'static'),
-    --     love.audio.newSource('sounds/voices/talesBlip3.wav', 'static'),
-    --     love.audio.newSource('sounds/voices/talesBlip4.wav', 'static'),
-    --     },
+    
+    --Menus
+    ['boardBlip'] = {
+        love.audio.newSource('sounds/menus/boardBlip1.wav', 'static'),
+        love.audio.newSource('sounds/menus/boardBlip2.wav', 'static'),
+        love.audio.newSource('sounds/menus/boardBlip3.wav', 'static'),
+        },
+    ['menuClick'] = love.audio.newSource('sounds/menus/menuClick.wav', 'static'),
+    ['paperFast'] = love.audio.newSource('sounds/menus/paperFast.wav', 'static'),
 }
 
 gTextures = {
@@ -218,6 +234,7 @@ gTextures = {
     ['triggerTile'] = love.graphics.newImage('graphics/trigger-tile.png'),
     ['missingTexture'] = love.graphics.newImage('graphics/trigger-tile.png'),
     ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
+    ['sand'] = love.graphics.newImage('graphics/sand.png'),
     ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
     ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
     ['skipIcon'] = love.graphics.newImage('graphics/videos/skip-icon.png'),
@@ -347,6 +364,7 @@ gTextures = {
     ['bgArt4_0'] = love.graphics.newImage('graphics/levels/bg-art4_0.png'),
     ['bgArt4Real'] = love.graphics.newImage('graphics/levels/bg-art4Real.png'),
     ['bgArt5'] = love.graphics.newImage('graphics/levels/bg-art5.png'),
+    ['bgArt6'] = love.graphics.newImage('graphics/levels/bg-art6.png'),
 
     --Transitions
     ['trans1'] = love.graphics.newImage('graphics/transitions/1-trans.png'),
@@ -404,6 +422,7 @@ gFrames = {
     ['electricSkyDeathSheet'] = GenerateQuadsMaxFrames(gTextures['electricSkyDeathSheet'], 10, 10, 27),
     ['spikeDeathSheet'] = GenerateQuadsMaxFrames(gTextures['spikeDeathSheet'], 10, 10, 22),
     ['leaves'] = GenerateQuads(gTextures['leaves'], 7, 7),
+    ['sand'] = GenerateQuads(gTextures['sand'], 2, 2),
     ['coverSheet'] = GenerateQuadsMaxFrames(gTextures['coverSheet'], 256, 144, 22),
     ['uncoverSheet'] = GenerateQuadsMaxFrames(gTextures['uncoverSheet'], 256, 144, 25),
 

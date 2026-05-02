@@ -13,6 +13,7 @@ function PlayerDeadState:enter(cause)
     if cause == 'spiked' then
         self.player.dy = 0
         self.player.currentAnimation = self.player.spikeDeathAnimation
+        Sound.playSFX("spikes", {volume = 0.7})
     elseif cause == 'electricGround' then
         self.player.dy = 0
         self.player.currentAnimation = self.player.electricDeathAnimation
@@ -20,6 +21,7 @@ function PlayerDeadState:enter(cause)
     elseif cause == 'electricSky' then
         self.player.dy = 0
         self.player.currentAnimation = self.player.electricSkyDeathAnimation
+        Sound.playSFX("electricWind")
     end
 
     

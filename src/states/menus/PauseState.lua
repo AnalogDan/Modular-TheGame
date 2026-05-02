@@ -42,6 +42,7 @@ function PauseState:enter(params)
         self.rotation = 0
         self.overlayAlpha = 0.5
     end
+    Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
 end
 
 function PauseState:canUnPause()
@@ -96,6 +97,7 @@ function PauseState:update(dt)
 
     --unpause
     if love.keyboard.wasPressed('escape') then
+        Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
         self.exiting = true
         self.animTime = 0
         self.canControl = false
@@ -154,6 +156,7 @@ function PauseState:update(dt)
     --Trigger keyboard
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('space') then
         if self.selected == 1 then
+            Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
             self.exiting = true
             self.animTime = 0
             self.canControl = false
@@ -161,9 +164,11 @@ function PauseState:update(dt)
             self.startRotation = self.rotation 
             self.startAlpha = self.overlayAlpha
         elseif self.selected == 2 then
+            Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
             gStateMachine:pop()
             gStateMachine:push('pauseOptions')
         elseif self.selected == 3 then 
+            Sound.playSFX("boardBlip", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
             SystemTransition.start('cover', function() gStateMachine:change('menu') end)
             Sound.stop("ambience", 2)
             Sound.stop("music", 2)
@@ -179,6 +184,7 @@ function PauseState:update(dt)
             my >= option.y and my <= option.y + option.h then
                 
                 if i == 1 then
+                    Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
                     self.exiting = true
                     self.animTime = 0
                     self.canControl = false
@@ -186,10 +192,12 @@ function PauseState:update(dt)
                     self.startRotation = self.rotation 
                     self.startAlpha = self.overlayAlpha
                 elseif i == 2 then
+                    Sound.playSFX("paperFast", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
                     gStateMachine:pop()
                     gStateMachine:push('pauseOptions')
                     return
                 elseif i == 3 then
+                    Sound.playSFX("boardBlip", { pitch = 0.8 + math.random() * 0.3, volume = 1 }) 
                     SystemTransition.start('cover', function() gStateMachine:change('menu') end)
                     Sound.stop("ambience", 2)
                     Sound.stop("music", 2)

@@ -82,7 +82,7 @@ function VideoState:init()
 
     self.sequence[self.currentIndex].intro:play()
     Sound.playSFX('vid1')
-    Sound.playTrack("children", "ambience", { fadeIn = 3, fadeOut = 5, loop = true, volume = 0.3 })
+    Sound.playTrack("children", "ambience", { fadeIn = 3, fadeOut = 5, loop = true, volume = 0.4 })
 
     self.cachedFontSize = nil
     self.dynamicFont = nil
@@ -130,7 +130,7 @@ function VideoState:skipVideo()
         SystemTransition.drawAt1080p = false
         Sound.stopSFX(current.sound)
         Sound.stop("ambience", 1)
-        Sound.stop("music", 1)
+        Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
     end)
 end
 
@@ -176,6 +176,7 @@ function VideoState:update(dt)
         if not current.intro:isPlaying() then -- When finishing the sequence
             if current.isEnd then
                 self.state = "done"
+                Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
                 SystemTransition.start('cover', function()
                     gStateMachine:change('level3')
                     SystemTransition.drawAt1080p = false
@@ -263,7 +264,7 @@ function VideoState:update(dt)
                     gStateMachine:change('level3')
                     SystemTransition.drawAt1080p = false
                     Sound.stop("ambience", 4)
-                    Sound.stop("music", 3)
+                    Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
                 end
             end
 
@@ -277,13 +278,6 @@ function VideoState:update(dt)
                     self.state = "intro"
                     self.sequence[self.currentIndex].intro:play()
                 else
-                    -- self.state = "done"
-                    -- Sound.stop("ambience", 4)
-                    -- Sound.stop("music", 3)
-                    -- SystemTransition.start('cover', function() 
-                    --     gStateMachine:change('level3') 
-                    --     SystemTransition.drawAt1080p = false
-                    --     end)
                 end
             end
         end

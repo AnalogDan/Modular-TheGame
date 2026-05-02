@@ -128,12 +128,18 @@ function PauseOptionsState:update(dt)
         self.keyHoldTime = 0
         self.keyRepeatTimer = 0
         self:adjustSlider(-1)
+        if self.selected == 2 then
+            Sound.playSFX("menuClick", { volume = 1 }) 
+        end
     end
     if love.keyboard.wasPressed('right') then
         self.holdingKey = 'right'
         self.keyHoldTime = 0
         self.keyRepeatTimer = 0
         self:adjustSlider(1)
+        if self.selected == 2 then
+            Sound.playSFX("menuClick", { volume = 1 }) 
+        end
     end
     if self.holdingKey and love.keyboard.isDown(self.holdingKey) then
         self.keyHoldTime = self.keyHoldTime + dt
@@ -143,9 +149,14 @@ function PauseOptionsState:update(dt)
                 self.keyRepeatTimer = 0
                 if self.holdingKey == 'left' then
                     self:adjustSlider(-1)
+                    if self.selected == 2 then
+                        Sound.playSFX("menuClick", { volume = 1 }) 
+                    end
                 elseif self.holdingKey == 'right' then
                     self:adjustSlider(1)
-                    
+                    if self.selected == 2 then
+                        Sound.playSFX("menuClick", { volume = 1 }) 
+                    end
                 end
             end
         end
@@ -176,6 +187,13 @@ function PauseOptionsState:update(dt)
     if self.draggingSFX then
         self.sfxVolume = self.sfxVolume + dx / self.options[2].w
         self.sfxVolume = math.max(0, math.min(1, self.sfxVolume))
+
+        local step = math.floor(self.sfxVolume * 20)--sound shit, make click
+        if step ~= self.lastSFXStep then
+            self.lastSFXStep = step
+            Sound.playSFX("menuClick", { volume = 1 })
+        end
+
         Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
         self.sfxDisplayTimer = self.displayDuration + self.fadeDuration
     end

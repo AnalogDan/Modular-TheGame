@@ -18,7 +18,7 @@ function PlayerSlidingState:enter(direction)
     self.player.dy = SLIDE_SPEED
 
     self.soundFlag = false
-    Sound.playSFX("grab", { volume = 0.4, pitch = 0.9 + math.random() * 0.3 })
+    Sound.playSFX("grab", { volume = 0.8, pitch = 0.9 + math.random() * 0.3 })
 
     local sound = gSounds["slide"]
     self.slideTimer = 0
@@ -49,7 +49,7 @@ function PlayerSlidingState:update(dt)
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         self.player.currentTexture = gTextures['testPlayer']
         if not self.soundFlag then 
-            Sound.playSFX("fall", { volume = 0.3, pitch = 0.9 + math.random() * 0.5 })
+            Sound.playSFX("fall", { volume = 0.7, pitch = 0.9 + math.random() * 0.5 })
         end
         self.player.stateMachine:change('idle')
     end
@@ -90,7 +90,7 @@ function PlayerSlidingState:update(dt)
     if self.slideTimer <= 0 then
         self.slideTimer = self.slideInterval
         Sound.playSFX("slide", {
-            volume = 0.05,
+            volume = 0.1,
         })
     end
 end

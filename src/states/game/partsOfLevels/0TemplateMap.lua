@@ -8,16 +8,16 @@ function TemplateMap.generate(self)
 
     ----Create background 
     self.backgroundTileMap = {}
-    local bgWidth = 26
-    local bgHeight = 15
-    local bgTileSize = 10
+    local bgWidth = 2
+    local bgHeight = 1
+    local bgTileSize = 256
     for y = 1, bgHeight do
         self.backgroundTileMap[y] = {}
         for x = 1, bgWidth do
             self.backgroundTileMap[y][x] = {
                 type = 'background',
                 solid = false,
-                texture = gTextures['backgroundTile1'],
+                texture = gTextures['backgroundTile2'],
                 x = (x - 1) * bgTileSize,
                 y = (y - 1) * bgTileSize
             }

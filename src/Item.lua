@@ -87,6 +87,7 @@ function Item:init(x, y, player, type)
     self.hitX = x -1
     self.hitY = y -1
     self.removed = false
+    self.alpha = 1
     Entity.init(self, x, y, self.width, self.height)
     self.stateMachine = StateMachine {
         ['apple'] = function() return AppleState(self) end,
@@ -110,9 +111,20 @@ function Item:update(dt)
     if self.useAnimation then
         self.currentAnimation:update(dt)
     end
+
+    if self.player and self.player.showmanshipFlag then -- showmanship (make npc fade)
+        self.alpha = math.max(0, self.alpha - 1 * dt)
+    else
+        self.alpha = math.min(1, self.alpha + 1 * dt)
+    end
 end
 
 function Item:render()
+    if self.type == 'juarismi' then 
+        local alpha = self.alpha or 1
+        love.graphics.setColor(1, 1, 1, alpha)
+    end
+
     if self.type == 'tales' or self.type == 'arquimedes' or self.type == 'pitagoras' or self.type == 'entrance'
        or self.type == 'juarismi' or self.type == 'fibonacci' or self.type == 'einstein' or self.type == 'turing' then
         self.stateMachine.current:render()
@@ -135,4 +147,6 @@ function Item:render()
         scaleX,    
         1          
     )
+
+    love.graphics.setColor(1, 1, 1, 1)
 end

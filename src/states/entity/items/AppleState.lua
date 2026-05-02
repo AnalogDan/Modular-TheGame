@@ -23,6 +23,7 @@ function AppleState:update(dt)
             player.hitX, player.hitY, player.hitWidth, player.hitHeight) then
         self.apple.removed = true
         player.pickedApple = true
+        Sound.playSFX("apple", { volume = 1 }) 
     else
     end
 end

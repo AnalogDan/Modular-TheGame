@@ -9,7 +9,7 @@ function ChaptersMenuState:init()
     self.maxOptions = 5
 
     self.minChapter = 0
-    self.maxChapter = 20
+    self.maxChapter = 10
     self.maxUnlocked = Save.load()
     self.chapter = self.maxUnlocked
 
@@ -76,6 +76,12 @@ function ChaptersMenuState:update(dt)
         self.isHoldingErase = true
         self.eraseHoldTime = self.eraseHoldTime + dt
         if self.eraseHoldTime >= self.eraseHoldDuration then
+            --Make selected sound
+            local pitch = 0.8 + math.random() * 0.3
+            Sound.playSFX("boardBlip", {
+                pitch = pitch,
+                volume = 0.7
+            })
             if love.filesystem.getInfo("save.lua") then
                 Save.save(0)
             end
@@ -122,15 +128,23 @@ function ChaptersMenuState:update(dt)
     --Trigger keyboard
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('space') then
         if self.selected == 1 then
+            --Make selected sound
+            local pitch = 0.8 + math.random() * 0.3
+            Sound.playSFX("boardBlip", {
+                pitch = pitch,
+                volume = 0.7
+            })
            SystemTransition.start('cover', function() gStateMachine:change('menu') end)
         elseif self.selected == 2 then
             --decrease chapter
+            Sound.playSFX("menuClick")
             self.chapter = self.chapter - 1
             if self.chapter < self.minChapter then
                 self.chapter = self.maxChapter
             end
         elseif self.selected == 3 then 
             --increase chapter
+            Sound.playSFX("menuClick")
             self.chapter = self.chapter + 1
             if self.chapter > self.maxChapter then
                 self.chapter = self.minChapter
@@ -141,6 +155,28 @@ function ChaptersMenuState:update(dt)
                 return
             end
             if entry then
+                --Make selected sound
+                local pitch = 0.8 + math.random() * 0.3
+                Sound.playSFX("boardBlip", {
+                    pitch = pitch,
+                    volume = 0.7
+                })
+
+                -- Play level music
+                MENUMUSICSTARTED = false
+                local lvl = self.chapter
+                if lvl == 0 then
+                    Sound.stop("music", 2)
+                elseif lvl <= 5 then
+                    Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                elseif lvl <= 7 then
+                    Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                elseif lvl <= 9 then
+                    Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                elseif lvl == 10 then
+                    Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                end
+
                 SystemTransition.start('cover', function()
                     gStateMachine:change(entry.state, entry.params)
                 end)
@@ -158,15 +194,23 @@ function ChaptersMenuState:update(dt)
             my >= option.y and my <= option.y + option.h then
                 
                 if i == 1 then
+                    --Make selected sound
+                    local pitch = 0.8 + math.random() * 0.3
+                    Sound.playSFX("boardBlip", {
+                        pitch = pitch,
+                        volume = 0.7
+                    })
                     SystemTransition.start('cover', function() gStateMachine:change('menu') end)
                 elseif i == 2 then
                     --decrease chapter
+                    Sound.playSFX("menuClick")
                     self.chapter = self.chapter - 1
                     if self.chapter < self.minChapter then
                         self.chapter = self.maxChapter
                     end
                 elseif i == 3 then
                     --increase chapter
+                    Sound.playSFX("menuClick")
                     self.chapter = self.chapter + 1
                     if self.chapter > self.maxChapter then
                         self.chapter = self.minChapter
@@ -177,6 +221,31 @@ function ChaptersMenuState:update(dt)
                         return
                     end
                     if entry then
+                        --Make selected sound
+                        local pitch = 0.8 + math.random() * 0.3
+                        Sound.playSFX("boardBlip", {
+                            pitch = pitch,
+                            volume = 0.7
+                        })
+
+                        -- Play level music
+                        MENUMUSICSTARTED = false
+                        local lvl = self.chapter
+                        if lvl == 0 then
+                            Sound.stop("music", 2)
+                        elseif lvl <= 5 then
+                            Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                        elseif lvl <= 7 then
+                            Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                        elseif lvl <= 9 then
+                            Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                        elseif lvl == 10 then
+                            Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                        end
+
+                        SystemTransition.start('cover', function()
+                            gStateMachine:change(entry.state, entry.params)
+                        end)
                         SystemTransition.start('cover', function()
                             gStateMachine:change(entry.state, entry.params)
                         end)

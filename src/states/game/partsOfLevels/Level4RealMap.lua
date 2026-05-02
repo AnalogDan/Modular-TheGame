@@ -43,7 +43,7 @@ function Level4RealMap.generate(self)
         end
     end
 
-     --goal
+    --goal
     for y = 4, 11 do
         for x = 64, 64 do
             self.tileMap[y][x] = {

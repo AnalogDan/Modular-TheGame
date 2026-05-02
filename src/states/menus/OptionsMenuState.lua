@@ -137,12 +137,18 @@ function OptionsMenuState:update(dt)
         self.keyHoldTime = 0
         self.keyRepeatTimer = 0
         self:adjustSlider(-1)
+        if self.selected == 2 then
+           Sound.playSFX("menuClick", { volume = 1 }) 
+        end
     end
     if love.keyboard.wasPressed('right') then
         self.holdingKey = 'right'
         self.keyHoldTime = 0
         self.keyRepeatTimer = 0
         self:adjustSlider(1)
+        if self.selected == 2 then
+           Sound.playSFX("menuClick", { volume = 1 }) 
+        end
     end
     if self.holdingKey and love.keyboard.isDown(self.holdingKey) then
         self.keyHoldTime = self.keyHoldTime + dt
@@ -152,9 +158,14 @@ function OptionsMenuState:update(dt)
                 self.keyRepeatTimer = 0
                 if self.holdingKey == 'left' then
                     self:adjustSlider(-1)
+                    if self.selected == 2 then
+                        Sound.playSFX("menuClick", { volume = 1 }) 
+                    end
                 elseif self.holdingKey == 'right' then
                     self:adjustSlider(1)
-                    
+                    if self.selected == 2 then
+                        Sound.playSFX("menuClick", { volume = 1 }) 
+                    end
                 end
             end
         end
@@ -164,6 +175,12 @@ function OptionsMenuState:update(dt)
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('space') then
         if self.selected == 1 then
+            --Make selected sound
+            local pitch = 0.8 + math.random() * 0.3
+            Sound.playSFX("boardBlip", {
+                pitch = pitch,
+                volume = 0.7
+            })
             SystemTransition.start('cover', function() gStateMachine:change('menu') end)
         elseif self.selected == 4 then
             self.fullscreen = not self.fullscreen
@@ -177,6 +194,13 @@ function OptionsMenuState:update(dt)
     if self.draggingSFX then
         self.sfxVolume = self.sfxVolume + dx / self.options[2].w
         self.sfxVolume = math.max(0, math.min(1, self.sfxVolume))
+
+        local step = math.floor(self.sfxVolume * 20)--sound shit, make click
+        if step ~= self.lastSFXStep then
+            self.lastSFXStep = step
+            Sound.playSFX("menuClick", { volume = 1 })
+        end
+
         Config.update(self.sfxVolume, self.musicVolume, self.fullscreen)
         self.sfxDisplayTimer = self.displayDuration + self.fadeDuration
     end
@@ -196,6 +220,12 @@ function OptionsMenuState:update(dt)
             my >= option.y and my <= option.y + option.h then
                 
                 if i == 1 then
+                    --Make selected sound
+                    local pitch = 0.8 + math.random() * 0.3
+                    Sound.playSFX("boardBlip", {
+                        pitch = pitch,
+                        volume = 0.7
+                    })
                     SystemTransition.start('cover', function() gStateMachine:change('menu') end)
                 elseif i == 4 then
                     self.fullscreen = not self.fullscreen

@@ -64,6 +64,7 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unl
     self.prevCanControl = true
     self.canControl = true
     self.enteredRoom = false
+    self.showmanshipFlag = false
     self.stateMachine:change('introduction')
 end
 
@@ -75,6 +76,15 @@ function Player:reachGoal()
                 if self.nextChapterNumber > Save.load() then
                     Save.save(self.nextChapterNumber)
                 end
+            end
+
+            --Play music
+            if self.nextChapterNumber == 6 then 
+                Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                --Sound.playTrack("desertAmbience", "ambience", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+            elseif self.nextChapterNumber == 8 then
+                Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                --Sound.playTrack("cityAmbience", "ambience", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
             end
 
             gStateMachine:change(self.nextTransition.state, self.nextTransition.params)

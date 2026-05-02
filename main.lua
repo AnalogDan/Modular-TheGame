@@ -29,24 +29,18 @@ function love.load()
         ['level4_0'] = function() return Level4_0() end, 
         ['level4Real'] = function() return Level4Real() end, 
         ['level5'] = function() return Level5() end, 
+        ['level6'] = function() return Level6() end, 
     }
-    gStateMachine:change('menu')
+    gStateMachine:change('level2Math')
     love.keyboard .keysPressed = {}
 end
 
---Para acabar Jueves 30 aunque sea a media madrugada:
 
---Sonidos que faltan:
---Sonidos movimiento en menu principal
---Sonido movimiento en pause
---Musica menu, 3 mundos diferentes, boss final 
---Sonido abrir puerta con manzana 
---Sonido morir con picos
---Sonido electrocutarse aire  
-
---Guión 6 - 10
-
---Nivel 6
+-- Viernes - Nivel 6 
+-- Sabado - 7 y 8
+-- Domingo - nivel 9 y 10
+-- Lunes - video
+-- Martes hacer ejecutable, grabar modular, entregar 
 
 
 function love.resize(w, h)

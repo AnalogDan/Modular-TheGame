@@ -28,7 +28,7 @@ function PlayerWallJumpState:enter(direction)
     end)
     
     self.soundFlag = false
-    Sound.playSFX("jump", { volume = 0.9, pitch = 1.2 + math.random() * 0.5 })
+    Sound.playSFX("jump", { volume = 0.7, pitch = 1.2 + math.random() * 0.5 })
     
 end
 
@@ -172,7 +172,7 @@ function PlayerWallJumpState:update(dt)
         self.player.dy = 0
         self.player.y = (bottomYRow2 - 1) * TILE_SIZE - self.player.height
         if not self.soundFlag then 
-            Sound.playSFX("fall", { volume = 0.3, pitch = 0.9 + math.random() * 0.5 })
+            Sound.playSFX("fall", { volume = 0.7, pitch = 0.9 + math.random() * 0.5 })
         end
         self.player.stateMachine:change('idle')
     end

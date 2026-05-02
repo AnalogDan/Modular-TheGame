@@ -20,7 +20,7 @@ function StartMenuState:init()
 
     if not MENUMUSICSTARTED then
         MENUMUSICSTARTED = true
-        Sound.playTrack("menuMusic", "music", { fadeIn = 2, fadeOut = 3, loop = true, volume = 0.7 })
+        Sound.playTrack("menuMusic", "music", { fadeIn = 2, fadeOut = 3, loop = true, volume = 0.8 })
     end
     
 end
@@ -30,6 +30,16 @@ function StartMenuState:update(dt)
     --freeze when on transitions
     if SystemTransition.active then
         return
+    end
+
+    --Make sound when changing selected 
+    local prevSelected = self.selected
+    if self.selected ~= prevSelected and self.selected ~= nil then
+        local pitch = 0.7 + math.random() * 0.3
+        Sound.playSFX("boardBlip", {
+            pitch = pitch,
+            volume = 0.7
+        })
     end
 
     --Mouse detection
@@ -81,7 +91,28 @@ function StartMenuState:update(dt)
 
     --Trigger keyboard
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('space') then
+        --Make selected sound
+        local pitch = 0.8 + math.random() * 0.3
+        Sound.playSFX("boardBlip", {
+            pitch = pitch,
+            volume = 0.7
+        })
+
         if self.selected == 1 then
+            --Switch to correct music before changing level
+            MENUMUSICSTARTED = false
+            if self.maxUnlocked == 0 then
+                Sound.stop("music", 2)
+            elseif self.maxUnlocked >= 1 and self.maxUnlocked <= 5 then
+                Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+            elseif self.maxUnlocked >= 6 and self.maxUnlocked <= 7 then
+                Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+            elseif self.maxUnlocked >= 8 and self.maxUnlocked <= 9 then
+                Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+            elseif self.maxUnlocked == 10 then
+                Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+            end
+
             if self.maxUnlocked > 0 then
                 local entry = self.levels[self.maxUnlocked]
                 if entry then
@@ -104,27 +135,37 @@ function StartMenuState:update(dt)
     end
     --Trigger mouse
     if love.mouse.wasPressed(1) then
+        
         local mx, my = love.mouse.getPosition()
         mx, my = push:toGame(mx, my)
         for i, option in ipairs(self.options) do
             if mx >= option.x and mx <= option.x + option.w and
             my >= option.y and my <= option.y + option.h then
-                
+
+                --Make selected sound
+                local pitch = 0.8 + math.random() * 0.3
+                Sound.playSFX("boardBlip", {
+                    pitch = pitch,
+                    volume = 0.7
+                })
+
                 if i == 1 then
+                    --Switch to correct music before changing level
+                    MENUMUSICSTARTED = false
+                    if self.maxUnlocked == 0 then
+                        Sound.stop("music", 2)
+                    elseif self.maxUnlocked >= 1 and self.maxUnlocked <= 5 then
+                        Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                    elseif self.maxUnlocked >= 6 and self.maxUnlocked <= 7 then
+                        Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                    elseif self.maxUnlocked >= 8 and self.maxUnlocked <= 9 then
+                        Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                    elseif self.maxUnlocked == 10 then
+                        Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                    end
+
                     if self.maxUnlocked > 0 then
                         local entry = self.levels[self.maxUnlocked]
-
-                        --Switch to correct music before changing level
-                        MENUMUSICSTARTED = false
-                        if self.maxUnlocked >= 1 and self.maxUnlocked <= 5 then
-                            Sound.playTrack("forestMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
-                        elseif self.maxUnlocked >= 6 and self.maxUnlocked <= 7 then
-                            Sound.playTrack("desertMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
-                        elseif self.maxUnlocked >= 8 or self.maxUnlocked <= 9 then
-                            Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
-                        elseif self.maxUnlocked == 10 then
-                            Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.2 })
-                        end
 
                         if entry then
                             SystemTransition.start('cover', function()
