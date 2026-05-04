@@ -13,6 +13,7 @@ function LevelTemplate:init()
     Level0Map.generate(self)
     SystemDialogue.init(self, Level1Dialogue.get())
     SystemLeaves.init(self)
+    --self.fog = SystemFog(self.totalMapWidth * 8)
     SystemTransition.start('uncover', function() end)
 
     local playerY = 1
@@ -95,6 +96,7 @@ function LevelTemplate:update(dt)
     Level0Map.update(self, dt)
     self:handleTrigger()
     SystemLeaves.update(self, dt)
+    --self.fog:update(dt)
     SystemTransition.update(dt)
     SystemDialogue.update(self, dt)
 end
@@ -116,6 +118,7 @@ function LevelTemplate:render()
     end
 
     SystemLeaves.render(self)
+    --self.fog:render()
     self.camera:clear()
 
     SystemDialogue.render(self)

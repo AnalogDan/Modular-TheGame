@@ -29,19 +29,19 @@ function LevelList.get()
         },
         [7] = { 
             state = 'transition',
-            params = { transNumber = 7, nextLevel = 'level1' }
+            params = { transNumber = 7, nextLevel = 'level7' }
         },
         [8] = { 
             state = 'transition',
-            params = { transNumber = 8, nextLevel = 'level1' }
+            params = { transNumber = 8, nextLevel = 'level8' }
         },
         [9] = { 
             state = 'transition',
-            params = { transNumber = 9, nextLevel = 'level1' }
+            params = { transNumber = 9, nextLevel = 'level9' }
         },
         [10] = { 
             state = 'transition',
-            params = { transNumber = 10, nextLevel = 'level1' }
+            params = { transNumber = 10, nextLevel = 'level10' }
         },
     }
 end

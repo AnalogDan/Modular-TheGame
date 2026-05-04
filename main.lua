@@ -30,16 +30,21 @@ function love.load()
         ['level4Real'] = function() return Level4Real() end, 
         ['level5'] = function() return Level5() end, 
         ['level6'] = function() return Level6() end, 
+        ['level7'] = function() return Level7() end, 
+        ['level8'] = function() return Level8() end, 
+        ['level9'] = function() return Level9() end, 
+        ['level10'] = function() return Level10() end, 
     }
-    gStateMachine:change('level2Math')
+    gStateMachine:change('level10')
     love.keyboard .keysPressed = {}
 end
 
 
--- Viernes - Nivel 6 
--- Sabado - 7 y 8
--- Domingo - nivel 9 y 10
--- Lunes - video
+--face evil portrait
+--face dying animation
+--trigger all animations by switching items
+--fade to white and begin videostate
+-- Lunes - level10 - video
 -- Martes hacer ejecutable, grabar modular, entregar 
 
 

@@ -17,7 +17,7 @@ function TemplateMap.generate(self)
             self.backgroundTileMap[y][x] = {
                 type = 'background',
                 solid = false,
-                texture = gTextures['backgroundTile2'],
+                texture = gTextures['backgroundTile3'],
                 x = (x - 1) * bgTileSize,
                 y = (y - 1) * bgTileSize
             }

@@ -64,7 +64,7 @@ function Player:init(x, y, tileMap, currentLevel, nextLevel, nextTransition, unl
     self.prevCanControl = true
     self.canControl = true
     self.enteredRoom = false
-    self.showmanshipFlag = false
+    --self.showmanshipFlag = false
     self.stateMachine:change('introduction')
 end
 

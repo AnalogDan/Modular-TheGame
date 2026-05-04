@@ -46,11 +46,13 @@ function SystemDialogue.loadCurrentLine(self)
     self.currentText = entry.text
     self.currentPortrait = entry.portrait
     self.currentBlip = entry.blip
+    self.currentAction = entry.action
 
     self.textTimer = 0
     self.visibleChars = 0
 
     self.isAnswering = false
+    self.actionExecuted = false
 end
 function SystemDialogue.textinput(self, text)
     self.cursorVisible = true
@@ -61,6 +63,17 @@ function SystemDialogue.textinput(self, text)
         end
     end
 end
+
+--Actions
+local DialogueActions = {
+    mathGuys = function(self)
+        self.itemsFadingIn = true
+    end,
+
+    fadeJuarismi = function(self)
+        self.itemsFadingOut = true
+    end,
+}
 
 function SystemDialogue.update(self, dt)
     self.blipTimer = math.max(0, self.blipTimer - dt)
@@ -141,6 +154,15 @@ function SystemDialogue.update(self, dt)
             end
         end
 
+        -- When text is fully shown
+        if self.visibleChars >= #self.currentText and self.currentAction and not self.actionExecuted then
+            local actionFunc = DialogueActions[self.currentAction]
+            if actionFunc then
+                actionFunc(self)
+            end
+            self.actionExecuted = true
+        end
+
         local entry = self.activeSequence[self.sequenceIndex]
         if love.keyboard.wasPressed("return") then
             if self.visibleChars < #self.currentText then
@@ -155,7 +177,7 @@ function SystemDialogue.update(self, dt)
                     self.showDialogue = false
                     self.activeSequence = nil
                     self.player.canControl = true
-                    self.player.showmanshipFlag = true
+                    --self.player.showmanshipFlag = true
                 else
                     SystemDialogue.loadCurrentLine(self)
                 end

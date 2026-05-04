@@ -42,10 +42,15 @@ require 'src/states/game/Level4'
 require 'src/states/game/Level4Real'
 require 'src/states/game/Level5'
 require 'src/states/game/Level6'
+require 'src/states/game/Level7'
+require 'src/states/game/Level8'
+require 'src/states/game/Level9'
+require 'src/states/game/Level10'
 
 require 'src/states/game/partsOfLevels/Camera'
 require 'src/states/game/partsOfLevels/SystemLeaves'
 require 'src/states/game/partsOfLevels/SystemSand'
+require 'src/states/game/partsOfLevels/SystemFog'
 require 'src/states/game/partsOfLevels/SystemDialogue'
 require 'src/states/game/partsOfLevels/SystemTransition'
 require 'src/states/game/partsOfLevels/Level0Map'
@@ -67,6 +72,14 @@ require 'src/states/game/partsOfLevels/Level5Dialogue'
 require 'src/states/game/partsOfLevels/Level5Map'
 require 'src/states/game/partsOfLevels/Level6Dialogue'
 require 'src/states/game/partsOfLevels/Level6Map'
+require 'src/states/game/partsOfLevels/Level7Dialogue'
+require 'src/states/game/partsOfLevels/Level7Map'
+require 'src/states/game/partsOfLevels/Level8Dialogue'
+require 'src/states/game/partsOfLevels/Level8Map'
+require 'src/states/game/partsOfLevels/Level9Dialogue'
+require 'src/states/game/partsOfLevels/Level9Map'
+require 'src/states/game/partsOfLevels/Level10Dialogue'
+require 'src/states/game/partsOfLevels/Level10Map'
 
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpingState'
@@ -89,6 +102,7 @@ require 'src/states/entity/items/npcs/JuarismiState'
 require 'src/states/entity/items/npcs/FibonacciState'
 require 'src/states/entity/items/npcs/EinsteinState'
 require 'src/states/entity/items/npcs/TuringState'
+require 'src/states/entity/items/npcs/FaceState'
 
 
 gConfig = Config.load()
@@ -235,6 +249,7 @@ gTextures = {
     ['missingTexture'] = love.graphics.newImage('graphics/trigger-tile.png'),
     ['leaves'] = love.graphics.newImage('graphics/leaves.png'),
     ['sand'] = love.graphics.newImage('graphics/sand.png'),
+    ['fog'] = love.graphics.newImage('graphics/fog.png'),
     ['coverSheet'] = love.graphics.newImage('graphics/cover-sheet.png'),
     ['uncoverSheet'] = love.graphics.newImage('graphics/uncover-sheet.png'),
     ['skipIcon'] = love.graphics.newImage('graphics/videos/skip-icon.png'),
@@ -260,6 +275,9 @@ gTextures = {
     ['fibonacciIdleSheet'] = love.graphics.newImage('graphics/npcs/fibonacci-idle-sheet.png'),
     ['einsteinIdleSheet'] = love.graphics.newImage('graphics/npcs/einstein-idle-sheet.png'),
     ['turingIdleSheet'] = love.graphics.newImage('graphics/npcs/turing-idle-sheet.png'),
+    ['faceSheet'] = love.graphics.newImage('graphics/npcs/face-sheet.png'),
+    ['faceEvilSheet'] = love.graphics.newImage('graphics/npcs/face-evil-sheet.png'),
+    ['faceDyingSheet'] = love.graphics.newImage('graphics/npcs/face-sheet.png'), -- add dying-
 
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
@@ -292,6 +310,8 @@ gTextures = {
     ['edgeInnerCorner2'] = love.graphics.newImage('graphics/desertTiles/edge-inner-corner2.png'),
     ['edgeTileThin2'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-thin-2.png'),
     ['edgeCornerThin2'] = love.graphics.newImage('graphics/desertTiles/edge-outer-corner-thin2.png'),
+    ['edgeTileThin2Down'] = love.graphics.newImage('graphics/desertTiles/edge-tilesheet-thin-down2.png'),
+    ['edgeCornerThin2Down'] = love.graphics.newImage('graphics/desertTiles/edge-outer-corner-thin-down2.png'),
     ['foreProps2'] = love.graphics.newImage('graphics/desertTiles/fore-props-sheet2.png'),
 
     --City
@@ -312,6 +332,10 @@ gTextures = {
     ['spikeSheet1Down'] = love.graphics.newImage('graphics/tiles/spikes1-down.png'),
     ['spikeSheet1Left'] = love.graphics.newImage('graphics/tiles/spikes1-left.png'),
     ['spikeSheet1Right'] = love.graphics.newImage('graphics/tiles/spikes1-right.png'),
+    ['spikeSheet2'] = love.graphics.newImage('graphics/tiles/spikes2.png'),
+    ['spikeSheet2Down'] = love.graphics.newImage('graphics/tiles/spikes2-down.png'),
+    ['spikeSheet2Left'] = love.graphics.newImage('graphics/tiles/spikes2-left.png'),
+    ['spikeSheet2Right'] = love.graphics.newImage('graphics/tiles/spikes2-right.png'),
 
     --Menus
     ['main1'] = love.graphics.newImage('graphics/menus/mainMenu/main1.png'),
@@ -359,12 +383,16 @@ gTextures = {
     --Level3
     ['bgArt3'] = love.graphics.newImage('graphics/levels/level3/bg-art3.png'),
 
-    --Level4
+    --Level4 onwards
     ['bgArt4'] = love.graphics.newImage('graphics/levels/level4/bg-art4.png'),
     ['bgArt4_0'] = love.graphics.newImage('graphics/levels/bg-art4_0.png'),
     ['bgArt4Real'] = love.graphics.newImage('graphics/levels/bg-art4Real.png'),
     ['bgArt5'] = love.graphics.newImage('graphics/levels/bg-art5.png'),
     ['bgArt6'] = love.graphics.newImage('graphics/levels/bg-art6.png'),
+    ['bgArt7'] = love.graphics.newImage('graphics/levels/bg-art7.png'),
+    ['bgArt8'] = love.graphics.newImage('graphics/levels/bg-art8.png'),
+    ['bgArt9'] = love.graphics.newImage('graphics/levels/bg-art9.png'),
+    ['bgArt10'] = love.graphics.newImage('graphics/levels/bg-art10.png'),
 
     --Transitions
     ['trans1'] = love.graphics.newImage('graphics/transitions/1-trans.png'),
@@ -395,6 +423,7 @@ gTextures = {
     ['profesorBigEnd'] = love.graphics.newImage('graphics/portraits/profesorBig-end.png'),
     ['cara'] = love.graphics.newImage('graphics/portraits/cara.png'),
     ['caraEnd'] = love.graphics.newImage('graphics/portraits/cara-end.png'),
+    ['caraEvil'] = love.graphics.newImage('graphics/portraits/cara.png'), -- add Evil
     ['tales'] = love.graphics.newImage('graphics/portraits/tales.png'),
     ['talesEnd'] = love.graphics.newImage('graphics/portraits/tales-end.png'),
     ['pitagoras'] = love.graphics.newImage('graphics/portraits/pitagoras.png'),
@@ -423,6 +452,7 @@ gFrames = {
     ['spikeDeathSheet'] = GenerateQuadsMaxFrames(gTextures['spikeDeathSheet'], 10, 10, 22),
     ['leaves'] = GenerateQuads(gTextures['leaves'], 7, 7),
     ['sand'] = GenerateQuads(gTextures['sand'], 2, 2),
+    ['fog'] = GenerateQuads(gTextures['fog'], 300, 200),
     ['coverSheet'] = GenerateQuadsMaxFrames(gTextures['coverSheet'], 256, 144, 22),
     ['uncoverSheet'] = GenerateQuadsMaxFrames(gTextures['uncoverSheet'], 256, 144, 25),
 
@@ -437,6 +467,9 @@ gFrames = {
     ['fibonacciIdleSheet'] = GenerateQuadsMaxFrames(gTextures['fibonacciIdleSheet'], 10, 13, 23),
     ['einsteinIdleSheet'] = GenerateQuadsMaxFrames(gTextures['einsteinIdleSheet'], 10, 13, 24),
     ['turingIdleSheet'] = GenerateQuadsMaxFrames(gTextures['turingIdleSheet'], 10, 13, 22),
+    ['faceSheet'] = GenerateQuadsMaxFrames(gTextures['faceSheet'], 256, 144, 14),
+    ['faceEvilSheet'] = GenerateQuadsMaxFrames(gTextures['faceEvilSheet'], 256, 144, 10),
+    ['faceDyingSheet'] = GenerateQuadsMaxFrames(gTextures['faceDyingSheet'], 256, 144, 14),
     
     
 
@@ -465,6 +498,8 @@ gFrames = {
     ['edgeInnerCorner2'] = GenerateQuads(gTextures['edgeInnerCorner2'], 8, 8),
     ['edgeTileThin2'] = GenerateQuads(gTextures['edgeTileThin2'], 8, 8),
     ['edgeCornerThin2'] = GenerateQuads(gTextures['edgeCornerThin2'], 8, 8),
+    ['edgeTileThin2Down'] = GenerateQuads(gTextures['edgeTileThin2Down'], 8, 8),
+    ['edgeCornerThin2Down'] = GenerateQuads(gTextures['edgeCornerThin2Down'], 8, 8),
     ['foreProps2'] = GenerateQuadsMaxFrames(gTextures['foreProps1'], 8, 8, 5),
     --City
     ['infillTileSheet3'] = GenerateQuads(gTextures['infillTileSheet3'], 8, 8),
@@ -482,4 +517,8 @@ gFrames = {
     ['spikeSheet1Down'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Down'], 8, 8, 8),
     ['spikeSheet1Right'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Right'], 8, 8, 8),
     ['spikeSheet1Left'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Left'], 8, 8, 8),
+    ['spikeSheet2'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1'], 8, 8, 8),
+    ['spikeSheet2Down'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Down'], 8, 8, 8),
+    ['spikeSheet2Right'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Right'], 8, 8, 8),
+    ['spikeSheet2Left'] = GenerateQuadsMaxFrames(gTextures['spikeSheet1Left'], 8, 8, 8),
 }

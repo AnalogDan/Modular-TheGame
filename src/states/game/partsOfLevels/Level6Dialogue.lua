@@ -88,7 +88,8 @@ function Level6Dialogue.get()
             {
                 text = "Pero no creo que me puedas encontrar a mi… *desaparece*",
                 portrait = gTextures.juarismiEnd,
-                blip = "juarismiBlip"
+                blip = "juarismiBlip",
+                action = "fadeJuarismi"
             }
         }
     }

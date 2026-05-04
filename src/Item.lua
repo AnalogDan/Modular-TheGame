@@ -75,7 +75,28 @@ function Item:init(x, y, player, type)
             [self.turingAnimation] = gTextures['turingIdleSheet'],
         }
         self.currentAnimation = self.turingAnimation
-    end 
+    elseif self.type == "face" then
+        self.useAnimation = true
+        self.faceAnimation = Animation(gFrames['faceSheet'], 0.13)
+        self.animTextures = {
+            [self.faceAnimation] = gTextures['faceSheet'],
+        }
+        self.currentAnimation = self.faceAnimation
+    elseif self.type == "faceEvil" then
+        self.useAnimation = true
+        self.faceEvilAnimation = Animation(gFrames['faceEvilSheet'], 0.2)
+        self.animTextures = {
+            [self.faceEvilAnimation] = gTextures['faceEvilSheet'],
+        }
+        self.currentAnimation = self.faceEvilAnimation
+    elseif self.type == "faceDying" then
+        self.useAnimation = true
+        self.faceDyingAnimation = Animation(gFrames['faceDyingSheet'], 0.2)
+        self.animTextures = {
+            [self.faceDyingAnimation] = gTextures['faceDyingSheet'],
+        }
+        self.currentAnimation = self.faceDyingAnimation
+    end  
 
     self.player = player
     self.x = x
@@ -100,6 +121,9 @@ function Item:init(x, y, player, type)
         ['fibonacci'] = function() return FibonacciState(self) end,
         ['einstein'] = function() return EinsteinState(self) end,
         ['turing'] = function() return TuringState(self) end,
+        ['face'] = function() return FaceState(self) end,
+        ['faceEvil'] = function() return FaceState(self) end,
+        ['faceDying'] = function() return FaceState(self) end,
     }
 
     self.stateMachine:change(self.type)
@@ -111,19 +135,9 @@ function Item:update(dt)
     if self.useAnimation then
         self.currentAnimation:update(dt)
     end
-
-    if self.player and self.player.showmanshipFlag then -- showmanship (make npc fade)
-        self.alpha = math.max(0, self.alpha - 1 * dt)
-    else
-        self.alpha = math.min(1, self.alpha + 1 * dt)
-    end
 end
 
 function Item:render()
-    if self.type == 'juarismi' then 
-        local alpha = self.alpha or 1
-        love.graphics.setColor(1, 1, 1, alpha)
-    end
 
     if self.type == 'tales' or self.type == 'arquimedes' or self.type == 'pitagoras' or self.type == 'entrance'
        or self.type == 'juarismi' or self.type == 'fibonacci' or self.type == 'einstein' or self.type == 'turing' then
@@ -147,6 +161,4 @@ function Item:render()
         scaleX,    
         1          
     )
-
-    love.graphics.setColor(1, 1, 1, 1)
 end

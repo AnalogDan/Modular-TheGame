@@ -110,7 +110,7 @@ function StartMenuState:update(dt)
             elseif self.maxUnlocked >= 8 and self.maxUnlocked <= 9 then
                 Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
             elseif self.maxUnlocked == 10 then
-                Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
             end
 
             if self.maxUnlocked > 0 then
@@ -161,7 +161,7 @@ function StartMenuState:update(dt)
                     elseif self.maxUnlocked >= 8 and self.maxUnlocked <= 9 then
                         Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
                     elseif self.maxUnlocked == 10 then
-                        Sound.playTrack("bossMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
+                        Sound.playTrack("cityMusic", "music", { fadeIn = 2, fadeOut = 2, loop = true, volume = 0.4 })
                     end
 
                     if self.maxUnlocked > 0 then
