@@ -2,7 +2,7 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 require 'src/Dependencies'
 
 function love.load()
-    love.window.setTitle('Jueguito v0.0')
+    love.window.setTitle('MathQuest')
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = gConfig.fullscreen,
         vsync = true,

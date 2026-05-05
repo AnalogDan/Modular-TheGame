@@ -162,11 +162,11 @@ gSounds = {
     --Music
     ['music1'] = love.audio.newSource('sounds/music1_1.ogg', 'static'),
     ['ambience1'] = love.audio.newSource('sounds/ambience1.ogg', 'static'),
-    ['menuMusic'] = love.audio.newSource('sounds/music/menuMusic.wav', 'static'),
-    ['forestMusic'] = love.audio.newSource('sounds/music/forestMusic.wav', 'static'),
-    ['desertMusic'] = love.audio.newSource('sounds/music/desertMusic.wav', 'static'),
-    ['cityMusic'] = love.audio.newSource('sounds/music/cityMusic.wav', 'static'),
-    ['bossMusic'] = love.audio.newSource('sounds/music/bossMusic.wav', 'static'),
+    ['menuMusic'] = love.audio.newSource('sounds/music/menuMusic.ogg', 'static'),
+    ['forestMusic'] = love.audio.newSource('sounds/music/forestMusic.ogg', 'static'),
+    ['desertMusic'] = love.audio.newSource('sounds/music/desertMusic.ogg', 'static'),
+    ['cityMusic'] = love.audio.newSource('sounds/music/cityMusic.ogg', 'static'),
+    ['bossMusic'] = love.audio.newSource('sounds/music/bossMusic.ogg', 'static'),
 
     --vid1
     ['vid1'] = love.audio.newSource('sounds/vid1/vid1.ogg', 'static'),
