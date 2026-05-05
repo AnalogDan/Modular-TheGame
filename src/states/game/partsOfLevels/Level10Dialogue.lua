@@ -22,42 +22,42 @@ function Level10Dialogue.get()
             {
                 text = "...",
                 portrait = gTextures.cara,
-                blip = "faceBlip"
+                blip = "faceBlip",
+                action = "bossMusic"
             },
             {
                 text = "¡Porque acabaré contigo! Hahahahahaha.",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
                 text = "HAHAHAHAHAHAHAHAHA",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
                 text = "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
                 text = "¿Creías que podías regresar a tu escuela? Pues estás equivocado.",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
                 text = "Este lugar es infinito, y no tiene salida.",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
                 text = "Te echaré a las raíces cuadradas para que te radicalicen por la eternidad.",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip",
-                action = "fadeJuarismi"
             },
             {
                 text = "HAHAHAHAHAHAHAHAHAHA",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip",
                 action = "mathGuys"
             },
@@ -83,7 +83,7 @@ function Level10Dialogue.get()
             },
             {
                 text = "¿Ustedes quiénes creen que son?",
-                portrait = gTextures.cara,
+                portrait = gTextures.caraEvil,
                 blip = "faceBlip"
             },
             {
@@ -114,7 +114,8 @@ function Level10Dialogue.get()
             {
                 text = "¡Por el poder de las matemáticas!",
                 portrait = gTextures.juarismiEnd,
-                blip = "juarismiBlip"
+                blip = "juarismiBlip",
+                action = "killFace"
             },
         },
         success = {

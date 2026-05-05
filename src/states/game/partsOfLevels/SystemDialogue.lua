@@ -73,6 +73,15 @@ local DialogueActions = {
     fadeJuarismi = function(self)
         self.itemsFadingOut = true
     end,
+
+    bossMusic = function(self)
+        Sound.playTrack("bossMusic", "music", { fadeIn = 0, fadeOut = 6, loop = true, volume = 0.5 })
+        self.angryFace = true
+    end,
+
+    killFace = function(self)
+        self.killFace = true
+    end,
 }
 
 function SystemDialogue.update(self, dt)

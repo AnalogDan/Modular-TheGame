@@ -15,12 +15,17 @@ function Level8Dialogue.get()
                 blip = "einsteinBlip"
             },
             {
-                text = "”E” son Joules (equivalentes a newton por metro).",
+                text = "”E” son Joules.",
                 portrait = gTextures.einstein,
                 blip = "einsteinBlip"
             },
             {
-                text = "”m” es la masa en kg, y “c” es la velocidad en m/s.",
+                text = "”m” es la masa en kg, y “c” es la velocidad de la luz en m/s.",
+                portrait = gTextures.einstein,
+                blip = "einsteinBlip"
+            },
+            {
+                text = "La velocidad de la luz es 300,000,000 m/s.",
                 portrait = gTextures.einstein,
                 blip = "einsteinBlip"
             },
@@ -71,7 +76,7 @@ function Level8Dialogue.get()
                 blip = "einsteinBlip"
             },
             {
-                text = "Pero beno, te dejaré pasar, ya fué suficiente sermoneo. ",
+                text = "Pero bueno, te dejaré pasar, ya fué suficiente sermoneo.",
                 portrait = gTextures.einsteinEnd,
                 blip = "einsteinBlip"
             },

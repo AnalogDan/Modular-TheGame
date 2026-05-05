@@ -2,7 +2,7 @@ Level10 = Class{__includes = BaseState}
 
 function Level10:init()
     self.currentLevel = 'level10' --Used for spawning after death
-    self.nextLevel = 'video'
+    self.nextLevel = 'videoLast'
     self.nextTransition = nil -- can be nil if needed
     self.triggerRemoved = false
 
@@ -70,6 +70,15 @@ function Level10:init()
     self.itemsFadeAlpha = 0
     self.itemsFadingIn = false
     self.itemsFadeSpeed = 0.5
+
+    self.angryFace = false
+    self.faceChanged = false
+    self.killFace = false
+    self.faceKilled = false
+    self.deathTimer = 0
+    self.startDeathSequence = false
+    self.fadeAlpha = 0
+    self.fading = false
 end
 
 function Level10:textinput(text)
@@ -143,6 +152,37 @@ function Level10:update(dt)
             table.remove(self.itemsFace, i)
         end
     end
+
+    --Modify face
+    if self.angryFace and not self.faceChanged then
+        self.faceChanged = true
+        table.remove(self.itemsFace, 1)
+        table.insert(self.itemsFace, Item( 1, 1, self.player, "faceEvil"))
+    end
+    if self.killFace and not self.faceKilled then
+        self.faceKilled = true
+        table.remove(self.itemsFace, 1)
+        table.insert(self.itemsFace, Item( 1, 1, self.player, "faceDying"))
+        self.startDeathSequence = true
+        self.deathTimer = 0
+        Sound.stop("music", 5);
+        Sound.playSFX('faceDying')
+    end
+    if self.startDeathSequence then
+    self.deathTimer = self.deathTimer + dt
+
+    --timer and fade to white logic
+    if self.deathTimer >= 5 then
+            self.fading = true
+        end
+    end
+    if self.fading then
+        self.fadeAlpha = math.min(self.fadeAlpha + dt * 0.5, 1)
+        if self.fadeAlpha >= 1 then
+            gStateMachine:change("videoLast")
+        end
+    end
+
     Level10Map.update(self, dt)
     self:handleTrigger()
     self.fog:update(dt)
@@ -187,6 +227,13 @@ function Level10:render()
 
     SystemDialogue.render(self)
     SystemTransition.render()
+
+    --draw white rectangle seconds after faceDying
+    if self.fadeAlpha > 0 then
+        love.graphics.setColor(1, 1, 1, self.fadeAlpha)
+        love.graphics.rectangle("fill", 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        love.graphics.setColor(1, 1, 1, 1)
+    end
 
     --Debug text
     -- local debugText = "Debug1: "

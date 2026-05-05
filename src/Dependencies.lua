@@ -32,6 +32,7 @@ require 'src/states/menus/PauseOptionsState'
 
 require 'src/states/game/GameState'
 require 'src/states/game/VideoState'
+require 'src/states/game/VideoLastState'
 require 'src/states/game/TransitionState'
 require 'src/states/game/Level1'
 require 'src/states/game/Level2'
@@ -137,6 +138,11 @@ gVideos = {
     ['loop6'] = love.graphics.newVideo('graphics/videos/1/loop6.ogv'),
     ['blackLoop'] = love.graphics.newVideo('graphics/videos/1/blackLoop.ogv'),
 
+    --cinematic 2
+    ['vid11'] = love.graphics.newVideo('graphics/videos/2/vid1.ogv'),
+    ['vid22'] = love.graphics.newVideo('graphics/videos/2/vid2.ogv'),
+    ['loop11'] = love.graphics.newVideo('graphics/videos/2/loop1.ogv'),
+
     --level transitions
     ['lvl0'] = love.graphics.newVideo('graphics/videos/lvl0.ogv'),
 }
@@ -151,6 +157,7 @@ gSounds = {
     ['electricWind'] = love.audio.newSource('sounds/electricWind.wav', 'static'),
     ['apple'] = love.audio.newSource('sounds/apple.wav', 'static'),
     ['spikes'] = love.audio.newSource('sounds/spikes.wav', 'static'),
+    ['faceDying'] = love.audio.newSource('sounds/faceDying.wav', 'static'),
 
     --Music
     ['music1'] = love.audio.newSource('sounds/music1_1.ogg', 'static'),
@@ -171,6 +178,8 @@ gSounds = {
     ['lvl0'] = love.audio.newSource('sounds/vid1/lvl0.mp3', 'static'),
     ['children'] = love.audio.newSource('sounds/vid1/children.ogg', 'static'),
     ['faceMusic'] = love.audio.newSource('sounds/vid1/faceMusic.ogg', 'static'),
+    ['vid11'] = love.audio.newSource('sounds/vid2/vid1.wav', 'static'),
+    ['vid22'] = love.audio.newSource('sounds/vid2/vid2.wav', 'static'),
 
     --voices
     ['teacherBlip'] = {
@@ -277,7 +286,7 @@ gTextures = {
     ['turingIdleSheet'] = love.graphics.newImage('graphics/npcs/turing-idle-sheet.png'),
     ['faceSheet'] = love.graphics.newImage('graphics/npcs/face-sheet.png'),
     ['faceEvilSheet'] = love.graphics.newImage('graphics/npcs/face-evil-sheet.png'),
-    ['faceDyingSheet'] = love.graphics.newImage('graphics/npcs/face-sheet.png'), -- add dying-
+    ['faceDyingSheet'] = love.graphics.newImage('graphics/npcs/face-dying-sheet.png'), 
 
     ['enemySheet'] = love.graphics.newImage('graphics/enemy-sheet.png'),
 
@@ -423,7 +432,7 @@ gTextures = {
     ['profesorBigEnd'] = love.graphics.newImage('graphics/portraits/profesorBig-end.png'),
     ['cara'] = love.graphics.newImage('graphics/portraits/cara.png'),
     ['caraEnd'] = love.graphics.newImage('graphics/portraits/cara-end.png'),
-    ['caraEvil'] = love.graphics.newImage('graphics/portraits/cara.png'), -- add Evil
+    ['caraEvil'] = love.graphics.newImage('graphics/portraits/caraEvil.png'),
     ['tales'] = love.graphics.newImage('graphics/portraits/tales.png'),
     ['talesEnd'] = love.graphics.newImage('graphics/portraits/tales-end.png'),
     ['pitagoras'] = love.graphics.newImage('graphics/portraits/pitagoras.png'),
@@ -469,7 +478,7 @@ gFrames = {
     ['turingIdleSheet'] = GenerateQuadsMaxFrames(gTextures['turingIdleSheet'], 10, 13, 22),
     ['faceSheet'] = GenerateQuadsMaxFrames(gTextures['faceSheet'], 256, 144, 14),
     ['faceEvilSheet'] = GenerateQuadsMaxFrames(gTextures['faceEvilSheet'], 256, 144, 10),
-    ['faceDyingSheet'] = GenerateQuadsMaxFrames(gTextures['faceDyingSheet'], 256, 144, 14),
+    ['faceDyingSheet'] = GenerateQuadsMaxFrames(gTextures['faceDyingSheet'], 256, 144, 9),
     
     
 

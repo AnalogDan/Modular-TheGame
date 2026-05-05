@@ -20,6 +20,7 @@ function love.load()
         ['game'] = function() return GameState() end, 
         ['transition'] = function() return TransitionState() end,
         ['video'] = function() return VideoState() end,
+        ['videoLast'] = function() return VideoLastState() end,
 
         ['level1'] = function() return Level1() end,
         ['level2'] = function() return Level2() end, 
@@ -35,17 +36,9 @@ function love.load()
         ['level9'] = function() return Level9() end, 
         ['level10'] = function() return Level10() end, 
     }
-    gStateMachine:change('level10')
+    gStateMachine:change('menu')
     love.keyboard .keysPressed = {}
 end
-
-
---face evil portrait
---face dying animation
---trigger all animations by switching items
---fade to white and begin videostate
--- Lunes - level10 - video
--- Martes hacer ejecutable, grabar modular, entregar 
 
 
 function love.resize(w, h)
@@ -93,7 +86,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    if gStateMachine.current.__index == VideoState then
+    if gStateMachine.current.__index == VideoState or gStateMachine.current.__index == VideoLastState then
         gStateMachine:render()
     else
         push:start()

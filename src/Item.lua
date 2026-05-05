@@ -84,14 +84,14 @@ function Item:init(x, y, player, type)
         self.currentAnimation = self.faceAnimation
     elseif self.type == "faceEvil" then
         self.useAnimation = true
-        self.faceEvilAnimation = Animation(gFrames['faceEvilSheet'], 0.2)
+        self.faceEvilAnimation = Animation(gFrames['faceEvilSheet'], 0.13)
         self.animTextures = {
             [self.faceEvilAnimation] = gTextures['faceEvilSheet'],
         }
         self.currentAnimation = self.faceEvilAnimation
     elseif self.type == "faceDying" then
         self.useAnimation = true
-        self.faceDyingAnimation = Animation(gFrames['faceDyingSheet'], 0.2)
+        self.faceDyingAnimation = Animation(gFrames['faceDyingSheet'], 0.13)
         self.animTextures = {
             [self.faceDyingAnimation] = gTextures['faceDyingSheet'],
         }
